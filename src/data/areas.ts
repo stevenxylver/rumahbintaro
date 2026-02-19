@@ -26,6 +26,8 @@ export interface Area {
     slug: string
     image: string
     hot?: boolean
+    virtualRoomUrl?: string
+    brosurUrl?: string
     products: Product[]
 }
 
@@ -35,6 +37,8 @@ export const areas: Area[] = [
         slug: 'dharmawangsa',
         image: '/images/products/dharmawangsa2.png',
         hot: true,
+        virtualRoomUrl: 'https://my.matterport.com/show/?m=EjSqZsjM5j3',
+        brosurUrl: 'https://drive.google.com/uc?export=download&id=YOUR_FILE_ID_DHARMAWANGSA',
         products: [
             {
                 type: 'Tipe 170/248',
@@ -131,6 +135,7 @@ export const areas: Area[] = [
         slug: 'montana',
         image: '/images/products/montana2.png',
         hot: true,
+        virtualRoomUrl: 'https://my.matterport.com/show/?m=montana',
         products: [
             {
                 type: 'Tipe 135/168',
@@ -182,6 +187,7 @@ export const areas: Area[] = [
         name: 'Azura',
         slug: 'azura',
         image: '/images/products/azzuramain.png',
+        virtualRoomUrl: 'https://my.matterport.com/show/?m=azura',
         products: [
             {
                 type: 'Tipe 136/186',

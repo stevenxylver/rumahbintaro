@@ -64,6 +64,7 @@ export function PropertyDetailClient({ area }: Props) {
                                         🔥 HOT
                                     </div>
                                 )}
+
                                 {/* Click to zoom hint */}
                                 <div className="absolute bottom-4 left-4 px-3 py-1 bg-black/50 text-white text-sm rounded-full flex items-center gap-2">
                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -123,7 +124,22 @@ export function PropertyDetailClient({ area }: Props) {
                             )}
 
                             {/* Title */}
-                            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">{area.name}</h1>
+                            <div className="flex items-center mb-2">
+                                <h1 className="text-3xl md:text-4xl font-bold text-gray-900">{area.name}</h1>
+                                {area.virtualRoomUrl && (
+                                    <a
+                                        href={area.virtualRoomUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="ml-auto inline-flex items-center gap-1.5 px-3 py-2 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white text-sm font-semibold rounded-full shadow-md transition-all hover:shadow-lg flex-shrink-0"
+                                    >
+                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.069A1 1 0 0121 8.882v6.236a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                        </svg>
+                                        Virtual Room
+                                    </a>
+                                )}
+                            </div>
                             <p className="text-xl text-blue-600 font-semibold mb-6">{selectedProduct.type}</p>
 
                             {/* Features Grid */}
@@ -350,6 +366,19 @@ export function PropertyDetailClient({ area }: Props) {
                                         </svg>
                                         Hubungi Kami
                                     </button>
+                                    {area.brosurUrl && (
+                                        <a
+                                            href={area.brosurUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex items-center justify-center gap-2 w-full py-3 bg-blue-50 border border-blue-200 text-blue-700 rounded-xl font-semibold hover:bg-blue-100 transition-all"
+                                        >
+                                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                            </svg>
+                                            Download Brosur
+                                        </a>
+                                    )}
                                 </div>
 
                                 {/* Back Link */}
