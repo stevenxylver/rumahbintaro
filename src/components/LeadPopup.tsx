@@ -113,11 +113,11 @@ export function LeadPopup({ open, onClose }: LeadPopupProps) {
                     <div className="px-6 py-5">
                         <h3 className="text-lg font-bold text-gray-900 mb-4">Dapatkan Promo Menarik 🎁</h3>
                         <form onSubmit={handleSubmit} className="space-y-3">
-                            <input type="text" required value={name} onChange={e => setName(e.target.value)} placeholder="Nama Lengkap"
+                            <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="Nama Lengkap"
                                 className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition" />
-                            <input type="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder="Email"
+                            <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email"
                                 className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition" />
-                            <input type="tel" required value={phone} onChange={e => setPhone(e.target.value)} placeholder="Nomor WhatsApp"
+                            <input type="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder="Nomor WhatsApp"
                                 className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition" />
                             {error && <p className="text-red-500 text-xs">{error}</p>}
                             <button type="submit" disabled={loading}
@@ -148,17 +148,17 @@ export function LeadPopup({ open, onClose }: LeadPopupProps) {
                             <form onSubmit={handleSubmit} className="space-y-4">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
-                                    <input type="text" required value={name} onChange={e => setName(e.target.value)} placeholder="Contoh: Budi Santoso"
+                                    <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="Contoh: Budi Santoso"
                                         className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition" />
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                                    <input type="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder="email@anda.com"
+                                    <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="email@anda.com"
                                         className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition" />
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-1">Nomor Telepon / WhatsApp</label>
-                                    <input type="tel" required value={phone} onChange={e => setPhone(e.target.value)} placeholder="08xx-xxxx-xxxx"
+                                    <input type="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder="08xx-xxxx-xxxx"
                                         className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition" />
                                 </div>
                                 {error && <p className="text-red-500 text-sm">{error}</p>}

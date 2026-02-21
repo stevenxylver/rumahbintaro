@@ -4,8 +4,8 @@ import nodemailer from 'nodemailer'
 export async function POST(req: NextRequest) {
     const { name, email, phone } = await req.json()
 
-    if (!name || !email || !phone) {
-        return NextResponse.json({ error: 'Semua field wajib diisi' }, { status: 400 })
+    if (!name && !email && !phone) {
+        return NextResponse.json({ error: 'Isi minimal satu field' }, { status: 400 })
     }
 
     const transporter = nodemailer.createTransport({
