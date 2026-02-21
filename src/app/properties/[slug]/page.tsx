@@ -3,6 +3,7 @@ import { areas } from '@/data/areas'
 import type { Metadata } from 'next'
 import { PropertyDetailClient } from '@/components/PropertyDetailClient'
 import { GoogleMapSection } from '@/components/GoogleMapSection'
+import { Ctaformpromo } from '@/components/CtaFormPromo'
 
 interface Props {
     params: Promise<{ slug: string }>
@@ -47,6 +48,7 @@ export default async function PropertyDetailPage({ params }: Props) {
     return (
         <>
             <PropertyDetailClient area={area} />
+            <Ctaformpromo />
             <GoogleMapSection />
         </>
     )
