@@ -5,6 +5,7 @@ import { FacilitiesSection } from '@/components/FacilitiesSection'
 import { PartnerBank } from '@/components/PartnerBank'
 import { KavlingSection } from '@/components/KavlingSection'
 import { IconLinkSection } from '@/components/IconLinkSection'
+import { Ctaformpromo } from '@/components/CtaFormPromo'
 
 export default function HomePage() {
   return (
@@ -17,6 +18,7 @@ export default function HomePage() {
 
       {/* Popular Areas */}
       <PopularAreas />
+      <Ctaformpromo />
 
       {/* Kavling Section */}
       <KavlingSection />
