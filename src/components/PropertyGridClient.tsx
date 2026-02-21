@@ -25,16 +25,13 @@ export function PropertyGridClient({ properties }: { properties: Area[] }) {
     useEffect(() => {
         const handleScroll = () => {
             if (!sectionRef.current) return
-
             const rect = sectionRef.current.getBoundingClientRect()
             const windowHeight = window.innerHeight
-
             if (rect.top < windowHeight && rect.bottom > 0) {
                 const progress = Math.min(1, Math.max(0, (windowHeight - rect.top) / (windowHeight * 0.5)))
                 setScrollProgress(progress)
             }
         }
-
         window.addEventListener('scroll', handleScroll, { passive: true })
         handleScroll()
         return () => window.removeEventListener('scroll', handleScroll)
@@ -47,13 +44,11 @@ export function PropertyGridClient({ properties }: { properties: Area[] }) {
         <section ref={sectionRef} className="py-20 bg-white overflow-hidden">
             <div
                 className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
-                style={{
-                    transform: `translateY(${Math.max(0, 50 - scrollProgress * 50)}px)`,
-                }}
+                style={{ transform: `translateY(${Math.max(0, 50 - scrollProgress * 50)}px)` }}
             >
                 {/* Title */}
                 <div
-                    className="text-center mb-16"
+                    className="text-center mb-8 md:mb-16"
                     style={{
                         transform: `translateY(${Math.max(0, 30 - scrollProgress * 60)}px)`,
                         opacity: Math.min(1, scrollProgress * 1.5)
@@ -76,8 +71,8 @@ export function PropertyGridClient({ properties }: { properties: Area[] }) {
                     </p>
                 </div>
 
-                {/* Grid: 2 cols mobile, 3 cols tablet, 5 cols desktop */}
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
+                {/* Grid: 1 col mobile, 3 cols tablet, 5 cols desktop */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
                     {currentProperties.map((property, index) => (
                         <Link
                             key={property.slug}
@@ -88,25 +83,18 @@ export function PropertyGridClient({ properties }: { properties: Area[] }) {
                                 transform: `translateY(${Math.max(0, 20 - scrollProgress * 40)}px)`
                             }}
                         >
-                            {/* Hot Badge */}
                             {property.hot && (
                                 <div className="absolute top-2 left-2 z-10 px-2 py-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-[10px] md:text-xs font-bold rounded-full shadow-lg">
                                     🔥 HOT
                                 </div>
                             )}
-
-                            {/* Background Image */}
                             <Image
                                 src={property.image}
                                 alt={property.name}
                                 fill
                                 className="object-cover transition-transform duration-500 group-hover:scale-110"
                             />
-
-                            {/* Gradient Overlay */}
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-
-                            {/* Content */}
                             <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-2">
                                 <h3 className="text-white font-bold text-sm md:text-base lg:text-lg uppercase tracking-wide">
                                     {property.name}
@@ -135,7 +123,6 @@ export function PropertyGridClient({ properties }: { properties: Area[] }) {
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                             </svg>
                         </button>
-
                         {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
                             <button
                                 key={page}
@@ -148,7 +135,6 @@ export function PropertyGridClient({ properties }: { properties: Area[] }) {
                                 {page}
                             </button>
                         ))}
-
                         <button
                             onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
                             disabled={currentPage === totalPages}

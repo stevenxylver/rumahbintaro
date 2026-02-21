@@ -42,7 +42,7 @@ export function KavlingGridClient({ kavlings }: { kavlings: Kavling[] }) {
             >
                 {/* Title */}
                 <div
-                    className="text-center mb-16"
+                    className="text-center mb-8 md:mb-16"
                     style={{
                         transform: `translateY(${Math.max(0, 30 - scrollProgress * 60)}px)`,
                         opacity: Math.min(1, scrollProgress * 1.5)
@@ -66,7 +66,7 @@ export function KavlingGridClient({ kavlings }: { kavlings: Kavling[] }) {
                 </div>
 
                 {/* Grid */}
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
                     {currentKavlings.map((kavling, index) => (
                         <Link
                             key={kavling.slug}
