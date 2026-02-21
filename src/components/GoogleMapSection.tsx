@@ -29,7 +29,7 @@ export function GoogleMapSection() {
     const textColor = `rgb(${grayValue}, ${grayValue}, ${grayValue})`
 
     return (
-        <section ref={sectionRef} className="py-20 bg-gray-50 overflow-hidden">
+        <section ref={sectionRef} className="pt-6 pb-6 md:py-20 bg-white overflow-hidden">
             <div
                 className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
                 style={{
@@ -38,7 +38,7 @@ export function GoogleMapSection() {
             >
                 {/* Section Title with Parallax */}
                 <div
-                    className="text-center mb-12"
+                    className="text-center mb-6 md:mb-12"
                     style={{
                         transform: `translateY(${Math.max(0, 30 - scrollProgress * 60)}px)`,
                         opacity: Math.min(1, scrollProgress * 1.5)
@@ -60,7 +60,7 @@ export function GoogleMapSection() {
 
                 {/* Map Image Container */}
                 <div
-                    className="relative rounded-3xl overflow-hidden shadow-2xl"
+                    className="relative rounded-none md:rounded-3xl overflow-hidden md:shadow-2xl"
                     style={{
                         opacity: Math.min(1, scrollProgress * 1.5),
                         transform: `translateY(${Math.max(0, 30 - scrollProgress * 60)}px)`

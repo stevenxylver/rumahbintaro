@@ -14,7 +14,7 @@ export function Footer() {
                             <span className="font-bold text-xl text-gray-800">Rumah Bintaro</span>
                         </div>
                         <p className="text-gray-600 max-w-md">
-                            Portal properti terpercaya di Bintaro. Temukan rumah impian Anda bersama kami dengan pilihan properti terbaik dan harga terjangkau.
+                            Mitra terpercaya Anda dalam menemukan hunian dan investasi properti terbaik di kawasan Bintaro — strategis, nyaman, dan bernilai tinggi.
                         </p>
                     </div>
 

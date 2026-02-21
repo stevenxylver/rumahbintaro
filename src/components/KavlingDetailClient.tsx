@@ -29,7 +29,7 @@ export function KavlingDetailClient({ kavling }: Props) {
                             </li>
                             <li><span>/</span></li>
                             <li>
-                                <Link href="/#kavling" className="hover:text-blue-500 transition">Kavling</Link>
+                                <Link href="/kavling" className="hover:text-blue-500 transition">Kavling</Link>
                             </li>
                             <li><span>/</span></li>
                             <li className="text-gray-900 font-medium">{kavling.name}</li>

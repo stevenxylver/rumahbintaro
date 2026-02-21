@@ -75,7 +75,7 @@ export function PartnerBank() {
     const currentBanks = banks.slice(currentSlide * itemsPerSlide, (currentSlide + 1) * itemsPerSlide)
 
     return (
-        <section ref={sectionRef} className="py-12 md:py-20 bg-gray-50 overflow-hidden">
+        <section ref={sectionRef} className="pt-6 pb-12 md:py-20 bg-white overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Section Title */}
                 <div
@@ -89,13 +89,13 @@ export function PartnerBank() {
                         className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold transition-colors duration-300"
                         style={{ color: textColor }}
                     >
-                        Partner Bank Kami.
+                        Bank Partner Resmi.
                     </h2>
                     <h2
                         className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold transition-colors duration-300"
                         style={{ color: textColor }}
                     >
-                        <span style={{ color: scrollProgress > 0.5 ? '#2563eb' : `rgb(${Math.round(180 - (scrollProgress * 100))}, ${Math.round(180 - (scrollProgress * 100))}, ${Math.round(180 - (scrollProgress * 100))})` }}>KPR</span> Terpercaya.
+                        <span style={{ color: scrollProgress > 0.5 ? '#2563eb' : `rgb(${Math.round(180 - (scrollProgress * 100))}, ${Math.round(180 - (scrollProgress * 100))}, ${Math.round(180 - (scrollProgress * 100))})` }}>KPR</span> Mudah & Aman.
                     </h2>
                 </div>
 

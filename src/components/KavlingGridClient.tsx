@@ -3,53 +3,42 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useEffect, useState, useRef } from 'react'
+import { Kavling } from '@/data/kavlings'
 
-interface Area {
-    name: string
-    slug: string
-    image: string
-    hot?: boolean
-}
+const ITEMS_PER_PAGE = 12
 
-const ITEMS_PER_PAGE = 10 // 5 per row x 2 rows
-
-export function PropertyGridClient({ properties }: { properties: Area[] }) {
+export function KavlingGridClient({ kavlings }: { kavlings: Kavling[] }) {
     const [scrollProgress, setScrollProgress] = useState(0)
     const [currentPage, setCurrentPage] = useState(1)
     const sectionRef = useRef<HTMLElement>(null)
 
-    const totalPages = Math.ceil(properties.length / ITEMS_PER_PAGE)
+    const totalPages = Math.ceil(kavlings.length / ITEMS_PER_PAGE)
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
-    const currentProperties = properties.slice(startIndex, startIndex + ITEMS_PER_PAGE)
+    const currentKavlings = kavlings.slice(startIndex, startIndex + ITEMS_PER_PAGE)
 
     useEffect(() => {
         const handleScroll = () => {
             if (!sectionRef.current) return
-
             const rect = sectionRef.current.getBoundingClientRect()
             const windowHeight = window.innerHeight
-
             if (rect.top < windowHeight && rect.bottom > 0) {
                 const progress = Math.min(1, Math.max(0, (windowHeight - rect.top) / (windowHeight * 0.5)))
                 setScrollProgress(progress)
             }
         }
-
         window.addEventListener('scroll', handleScroll, { passive: true })
         handleScroll()
         return () => window.removeEventListener('scroll', handleScroll)
     }, [])
 
-    const grayValue = Math.round(180 - (scrollProgress * 180))
+    const grayValue = Math.round(180 - scrollProgress * 180)
     const textColor = `rgb(${grayValue}, ${grayValue}, ${grayValue})`
 
     return (
         <section ref={sectionRef} className="py-20 bg-white overflow-hidden">
             <div
                 className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
-                style={{
-                    transform: `translateY(${Math.max(0, 50 - scrollProgress * 50)}px)`,
-                }}
+                style={{ transform: `translateY(${Math.max(0, 50 - scrollProgress * 50)}px)` }}
             >
                 {/* Title */}
                 <div
@@ -63,63 +52,61 @@ export function PropertyGridClient({ properties }: { properties: Area[] }) {
                         className="text-xl md:text-5xl lg:text-6xl font-bold transition-colors duration-300"
                         style={{ color: textColor }}
                     >
-                        Daftar
+                        Kavling Eksklusif
                     </h1>
                     <h1
                         className="text-xl md:text-5xl lg:text-6xl font-bold transition-colors duration-300"
                         style={{ color: textColor }}
                     >
-                        <span style={{ color: scrollProgress > 0.5 ? '#2563eb' : `rgb(${Math.round(180 - (scrollProgress * 100))}, ${Math.round(180 - (scrollProgress * 100))}, ${Math.round(180 - (scrollProgress * 100))})` }}>Properti</span> Kami
+                        <span style={{ color: scrollProgress > 0.5 ? '#2563eb' : `rgb(${Math.round(180 - scrollProgress * 100)}, ${Math.round(180 - scrollProgress * 100)}, ${Math.round(180 - scrollProgress * 100)})` }}>Investasi</span> Cerdas
                     </h1>
                     <p className="text-gray-500 mt-4">
-                        Menampilkan <span className="font-semibold text-gray-800">{properties.length}</span> properti
+                        <span className="font-semibold text-gray-800">{kavlings.length}</span> kavling premium tersedia — lokasi strategis, nilai terus bertumbuh
                     </p>
                 </div>
 
-                {/* Grid: 2 cols mobile, 3 cols tablet, 5 cols desktop */}
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
-                    {currentProperties.map((property, index) => (
+                {/* Grid */}
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                    {currentKavlings.map((kavling, index) => (
                         <Link
-                            key={property.slug}
-                            href={`/properties/${property.slug}`}
+                            key={kavling.slug}
+                            href={`/kavling/${kavling.slug}`}
                             className="group relative aspect-[4/3] rounded-2xl overflow-hidden"
                             style={{
-                                opacity: Math.min(1, scrollProgress * 2 - (index * 0.05)),
+                                opacity: Math.min(1, scrollProgress * 2 - index * 0.05),
                                 transform: `translateY(${Math.max(0, 20 - scrollProgress * 40)}px)`
                             }}
                         >
-                            {/* Hot Badge */}
-                            {property.hot && (
-                                <div className="absolute top-2 left-2 z-10 px-2 py-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-[10px] md:text-xs font-bold rounded-full shadow-lg">
+                            <Image
+                                src={kavling.image}
+                                alt={kavling.name}
+                                fill
+                                className="object-cover transition-transform duration-500 group-hover:scale-110"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+
+                            {kavling.hot && (
+                                <div className="absolute top-3 left-3 px-2 py-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-[10px] md:text-xs font-bold rounded-full shadow">
                                     🔥 HOT
                                 </div>
                             )}
 
-                            {/* Background Image */}
-                            <Image
-                                src={property.image}
-                                alt={property.name}
-                                fill
-                                className="object-cover transition-transform duration-500 group-hover:scale-110"
-                            />
+                            <div className="absolute top-3 right-3 px-2 py-1 bg-black/50 backdrop-blur-sm text-white text-[10px] md:text-xs font-medium rounded-full">
+                                📐 {kavling.size}
+                            </div>
 
-                            {/* Gradient Overlay */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-
-                            {/* Content */}
-                            <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-2">
-                                <h3 className="text-white font-bold text-sm md:text-base lg:text-lg uppercase tracking-wide">
-                                    {property.name}
-                                </h3>
+                            <div className="absolute inset-0 flex flex-col justify-end p-3">
+                                <h3 className="text-white font-bold text-sm md:text-base">{kavling.cluster}</h3>
+                                <p className="text-white/70 text-xs">{kavling.kodeBlok}</p>
                             </div>
                         </Link>
                     ))}
                 </div>
 
                 {/* Empty State */}
-                {properties.length === 0 && (
+                {kavlings.length === 0 && (
                     <div className="text-center py-20">
-                        <p className="text-gray-500 text-lg">Tidak ada properti yang ditemukan</p>
+                        <p className="text-gray-500 text-lg">Tidak ada kavling yang ditemukan</p>
                     </div>
                 )}
 
