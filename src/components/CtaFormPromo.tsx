@@ -149,7 +149,7 @@ export function Ctaformpromo() {
                                                 Mengirim...
                                             </>
                                         ) : (
-                                            <>Kirim Sekarang <span>→</span></>
+                                            <>Ambil Promo <span>→</span></>
                                         )}
                                     </button>
                                 </form>

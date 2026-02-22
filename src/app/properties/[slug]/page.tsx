@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import { PropertyDetailClient } from '@/components/PropertyDetailClient'
 import { GoogleMapSection } from '@/components/GoogleMapSection'
 import { Ctaformpromo } from '@/components/CtaFormPromo'
+import { FacilitiesSection } from '@/components/FacilitiesSection'
 
 interface Props {
     params: Promise<{ slug: string }>
@@ -49,6 +50,7 @@ export default async function PropertyDetailPage({ params }: Props) {
         <>
             <PropertyDetailClient area={area} />
             <Ctaformpromo />
+            <FacilitiesSection />
             <GoogleMapSection />
         </>
     )

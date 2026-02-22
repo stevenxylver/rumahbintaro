@@ -3,6 +3,7 @@ import { kavlings } from '@/data/kavlings'
 import type { Metadata } from 'next'
 import { KavlingDetailClient } from '@/components/KavlingDetailClient'
 import { GoogleMapSection } from '@/components/GoogleMapSection'
+import { FacilitiesSection } from '@/components/FacilitiesSection'
 
 interface Props {
     params: Promise<{ slug: string }>
@@ -48,6 +49,7 @@ export default async function KavlingDetailPage({ params }: Props) {
         <>
             <KavlingDetailClient kavling={kavling} />
             <GoogleMapSection />
+            <FacilitiesSection />
         </>
     )
 }
