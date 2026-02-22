@@ -44,18 +44,20 @@ export function Ctaformpromo() {
     }
 
     return (
-        <section id="promo-form" className="bg-white py-16 px-4">
+        <section id="promo-form" className="bg-white pt-4 pb-8 md:py-16 px-4">
             <div className="max-w-5xl mx-auto">
                 {/* Heading */}
-                <div className="text-center mb-10">
+                <div className="text-center mb-6 md:mb-10">
+                    {/* Badge — selalu tampil */}
                     <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-50 text-blue-600 text-xs font-semibold rounded-full uppercase tracking-widest mb-4 border border-blue-100">
                         <span className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse" />
                         Penawaran Eksklusif
                     </span>
-                    <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900">
+                    {/* Judul & deskripsi — semua layar */}
+                    <h2 className="hidden md:block text-xl md:text-5xl font-extrabold text-gray-900 whitespace-nowrap">
                         Dapatkan Promo Menarik 🎁
                     </h2>
-                    <p className="text-gray-500 mt-3 text-sm max-w-md mx-auto">
+                    <p className="text-gray-500 mt-2 md:mt-3 text-sm max-w-md mx-auto whitespace-nowrap overflow-hidden text-ellipsis">
                         Isi data Anda dan tim kami akan segera menghubungi untuk memberikan penawaran terbaik.
                     </p>
                 </div>
@@ -96,9 +98,6 @@ export function Ctaformpromo() {
                             </div>
                         ) : (
                             <>
-                                <h3 className="text-xl font-bold text-gray-900 mb-1">Konsultasi Gratis</h3>
-                                <p className="text-gray-500 text-sm mb-6">Isi formulir di bawah untuk mendapatkan info properti terbaik.</p>
-
                                 <form onSubmit={handleSubmit} className="space-y-4">
                                     <div className="relative">
                                         <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400">

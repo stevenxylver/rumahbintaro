@@ -43,25 +43,27 @@ export function KavlingSection() {
             >
                 {/* Section Title */}
                 <div
-                    className="text-center mb-16"
+                    className="text-center mb-4 md:mb-16"
                     style={{
                         transform: `translateY(${Math.max(0, 30 - scrollProgress * 60)}px)`,
                         opacity: Math.min(1, scrollProgress * 1.5)
                     }}
                 >
-                    <h2
-                        className="text-xl md:text-5xl lg:text-6xl font-bold transition-colors duration-300"
-                        style={{ color: textColor }}
-                    >
-                        Kavling Eksklusif
-                    </h2>
-                    <h2
-                        className="text-xl md:text-5xl lg:text-6xl font-bold transition-colors duration-300"
-                        style={{ color: textColor }}
-                    >
-                        <span style={{ color: scrollProgress > 0.5 ? '#2563eb' : `rgb(${Math.round(180 - (scrollProgress * 100))}, ${Math.round(180 - (scrollProgress * 100))}, ${Math.round(180 - (scrollProgress * 100))})` }}>Investasi</span> Cerdas
-                    </h2>
-                    <p className="mt-4 text-gray-500 max-w-2xl mx-auto">
+                    <div className="flex flex-wrap justify-center gap-x-3 md:block">
+                        <h2
+                            className="text-xl md:text-5xl lg:text-6xl font-bold transition-colors duration-300 whitespace-nowrap"
+                            style={{ color: textColor }}
+                        >
+                            Kavling Eksklusif
+                        </h2>
+                        <h2
+                            className="text-xl md:text-5xl lg:text-6xl font-bold transition-colors duration-300 whitespace-nowrap"
+                            style={{ color: textColor }}
+                        >
+                            <span style={{ color: scrollProgress > 0.5 ? '#2563eb' : `rgb(${Math.round(180 - (scrollProgress * 100))}, ${Math.round(180 - (scrollProgress * 100))}, ${Math.round(180 - (scrollProgress * 100))})` }}>Investasi</span> Cerdas
+                        </h2>
+                    </div>
+                    <p className="hidden md:block mt-4 text-gray-500 max-w-2xl mx-auto">
                         Miliki tanah kavling strategis di jantung Bintaro — lokasi premium, harga kompetitif, nilai investasi terus berkembang
                     </p>
                 </div>

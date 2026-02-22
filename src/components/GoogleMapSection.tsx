@@ -38,20 +38,20 @@ export function GoogleMapSection() {
             >
                 {/* Section Title with Parallax */}
                 <div
-                    className="text-center mb-6 md:mb-12"
+                    className="text-center mb-2 md:mb-12"
                     style={{
                         transform: `translateY(${Math.max(0, 30 - scrollProgress * 60)}px)`,
                         opacity: Math.min(1, scrollProgress * 1.5)
                     }}
                 >
                     <h2
-                        className="text-4xl md:text-5xl lg:text-6xl font-bold transition-colors duration-300"
+                        className="text-xl md:text-5xl lg:text-6xl font-bold transition-colors duration-300 whitespace-nowrap"
                         style={{ color: textColor }}
                     >
                         Lokasi Kami
                     </h2>
                     <p
-                        className="text-lg md:text-xl mt-4 transition-colors duration-300"
+                        className="hidden md:block text-lg md:text-xl mt-4 transition-colors duration-300"
                         style={{ color: `rgb(${Math.min(180, grayValue + 50)}, ${Math.min(180, grayValue + 50)}, ${Math.min(180, grayValue + 50)})` }}
                     >
                         Temukan properti impian Anda di Bintaro dan sekitarnya

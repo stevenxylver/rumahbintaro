@@ -72,7 +72,7 @@ export function LeadPopup({ open, onClose }: LeadPopupProps) {
                             className="absolute inset-0 transition-opacity duration-700"
                             style={{ opacity: i === slide ? 1 : 0 }}
                         >
-                            <Image src={src} alt={`Promo ${i + 1}`} fill className="object-contain bg-white" />
+                            <Image src={src} alt={`Promo ${i + 1}`} fill className="object-contain" />
                         </div>
                     ))}
 

@@ -104,24 +104,26 @@ export function FacilitiesSection() {
             >
                 {/* Section Title */}
                 <div
-                    className="text-center mb-12"
+                    className="text-center mb-3 md:mb-12"
                     style={{
                         transform: `translateY(${Math.max(0, 30 - scrollProgress * 60)}px)`,
                         opacity: Math.min(1, scrollProgress * 1.5)
                     }}
                 >
-                    <h2
-                        className="text-xl md:text-5xl lg:text-6xl font-bold transition-colors duration-300"
-                        style={{ color: textColor }}
-                    >
-                        Fasilitas Lengkap
-                    </h2>
-                    <h2
-                        className="text-xl md:text-5xl lg:text-6xl font-bold transition-colors duration-300"
-                        style={{ color: textColor }}
-                    >
-                        <span style={{ color: scrollProgress > 0.5 ? '#2563eb' : `rgb(${Math.round(180 - (scrollProgress * 100))}, ${Math.round(180 - (scrollProgress * 100))}, ${Math.round(180 - (scrollProgress * 100))})` }}>Di Sekitar</span> Anda
-                    </h2>
+                    <div className="flex flex-wrap justify-center gap-x-3 md:block">
+                        <h2
+                            className="text-xl md:text-5xl lg:text-6xl font-bold transition-colors duration-300 whitespace-nowrap"
+                            style={{ color: textColor }}
+                        >
+                            Fasilitas Lengkap
+                        </h2>
+                        <h2
+                            className="text-xl md:text-5xl lg:text-6xl font-bold transition-colors duration-300 whitespace-nowrap"
+                            style={{ color: textColor }}
+                        >
+                            <span style={{ color: scrollProgress > 0.5 ? '#2563eb' : `rgb(${Math.round(180 - (scrollProgress * 100))}, ${Math.round(180 - (scrollProgress * 100))}, ${Math.round(180 - (scrollProgress * 100))})` }}>Di Sekitar</span> Anda
+                        </h2>
+                    </div>
                 </div>
 
                 {/* Category Filter — scrollable single row on mobile, wrap on desktop */}
@@ -163,8 +165,8 @@ export function FacilitiesSection() {
                                             {categories.find(c => c.id === mobileFacility.category)?.icon}
                                         </span>
                                     </div>
-                                    <div className="absolute inset-0 flex items-end p-4">
-                                        <h3 className="text-white font-bold text-base">{mobileFacility.title}</h3>
+                                    <div className="absolute inset-0 flex items-end justify-center p-4">
+                                        <h3 className="text-white font-bold text-base text-center">{mobileFacility.title}</h3>
                                     </div>
                                 </div>
 
@@ -230,8 +232,8 @@ export function FacilitiesSection() {
                                                 {categories.find(c => c.id === facility.category)?.icon}
                                             </span>
                                         </div>
-                                        <div className="absolute inset-0 flex items-end p-3">
-                                            <h3 className="text-white font-bold text-sm md:text-base lg:text-lg">
+                                        <div className="absolute inset-0 flex items-end justify-center p-3">
+                                            <h3 className="text-white font-bold text-sm md:text-base lg:text-lg text-center">
                                                 {facility.title}
                                             </h3>
                                         </div>

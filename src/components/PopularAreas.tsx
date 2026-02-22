@@ -37,7 +37,7 @@ export function PopularAreas() {
     const mobileArea = areas[mobileSlide]
 
     return (
-        <section ref={sectionRef} className="pt-6 pb-6 md:py-20 bg-white overflow-hidden">
+        <section ref={sectionRef} className="pt-1 pb-6 md:py-20 bg-white overflow-hidden">
             <div
                 className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
                 style={{ transform: `translateY(${Math.max(0, 50 - scrollProgress * 50)}px)` }}
@@ -50,18 +50,21 @@ export function PopularAreas() {
                         opacity: Math.min(1, scrollProgress * 1.5)
                     }}
                 >
-                    <h2
-                        className="text-xl md:text-5xl lg:text-6xl font-bold transition-colors duration-300"
-                        style={{ color: textColor }}
-                    >
-                        Properti Pilihan
-                    </h2>
-                    <h2
-                        className="text-xl md:text-5xl lg:text-6xl font-bold transition-colors duration-300"
-                        style={{ color: textColor }}
-                    >
-                        <span style={{ color: scrollProgress > 0.5 ? '#2563eb' : `rgb(${Math.round(180 - (scrollProgress * 100))}, ${Math.round(180 - (scrollProgress * 100))}, ${Math.round(180 - (scrollProgress * 100))})` }}>Terbaik</span> Bintaro
-                    </h2>
+                    {/* Mobile: satu baris | Desktop: dua baris */}
+                    <div className="flex flex-wrap justify-center gap-x-3 md:block">
+                        <h2
+                            className="text-xl md:text-5xl lg:text-6xl font-bold transition-colors duration-300 whitespace-nowrap"
+                            style={{ color: textColor }}
+                        >
+                            Properti Pilihan
+                        </h2>
+                        <h2
+                            className="text-xl md:text-5xl lg:text-6xl font-bold transition-colors duration-300 whitespace-nowrap"
+                            style={{ color: textColor }}
+                        >
+                            <span style={{ color: scrollProgress > 0.5 ? '#2563eb' : `rgb(${Math.round(180 - (scrollProgress * 100))}, ${Math.round(180 - (scrollProgress * 100))}, ${Math.round(180 - (scrollProgress * 100))})` }}>Terbaik</span> Bintaro
+                        </h2>
+                    </div>
                 </div>
 
                 {/* ── MOBILE: single-item slider ── */}

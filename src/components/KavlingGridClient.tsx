@@ -48,18 +48,20 @@ export function KavlingGridClient({ kavlings }: { kavlings: Kavling[] }) {
                         opacity: Math.min(1, scrollProgress * 1.5)
                     }}
                 >
-                    <h1
-                        className="text-xl md:text-5xl lg:text-6xl font-bold transition-colors duration-300"
-                        style={{ color: textColor }}
-                    >
-                        Kavling Eksklusif
-                    </h1>
-                    <h1
-                        className="text-xl md:text-5xl lg:text-6xl font-bold transition-colors duration-300"
-                        style={{ color: textColor }}
-                    >
-                        <span style={{ color: scrollProgress > 0.5 ? '#2563eb' : `rgb(${Math.round(180 - scrollProgress * 100)}, ${Math.round(180 - scrollProgress * 100)}, ${Math.round(180 - scrollProgress * 100)})` }}>Investasi</span> Cerdas
-                    </h1>
+                    <div className="flex flex-wrap justify-center gap-x-3 md:block">
+                        <h1
+                            className="text-xl md:text-5xl lg:text-6xl font-bold transition-colors duration-300 whitespace-nowrap"
+                            style={{ color: textColor }}
+                        >
+                            Kavling Eksklusif
+                        </h1>
+                        <h1
+                            className="text-xl md:text-5xl lg:text-6xl font-bold transition-colors duration-300 whitespace-nowrap"
+                            style={{ color: textColor }}
+                        >
+                            <span style={{ color: scrollProgress > 0.5 ? '#2563eb' : `rgb(${Math.round(180 - scrollProgress * 100)}, ${Math.round(180 - scrollProgress * 100)}, ${Math.round(180 - scrollProgress * 100)})` }}>Investasi</span> Cerdas
+                        </h1>
+                    </div>
                     <p className="text-gray-500 mt-4">
                         <span className="font-semibold text-gray-800">{kavlings.length}</span> kavling premium tersedia — lokasi strategis, nilai terus bertumbuh
                     </p>

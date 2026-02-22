@@ -85,18 +85,20 @@ export function PartnerBank() {
                         opacity: Math.min(1, scrollProgress * 1.5)
                     }}
                 >
-                    <h2
-                        className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold transition-colors duration-300"
-                        style={{ color: textColor }}
-                    >
-                        Bank Partner Resmi.
-                    </h2>
-                    <h2
-                        className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold transition-colors duration-300"
-                        style={{ color: textColor }}
-                    >
-                        <span style={{ color: scrollProgress > 0.5 ? '#2563eb' : `rgb(${Math.round(180 - (scrollProgress * 100))}, ${Math.round(180 - (scrollProgress * 100))}, ${Math.round(180 - (scrollProgress * 100))})` }}>KPR</span> Mudah & Aman.
-                    </h2>
+                    <div className="flex justify-center items-baseline gap-x-2 overflow-hidden md:block">
+                        <h2
+                            className="text-base md:text-5xl lg:text-6xl font-bold transition-colors duration-300 whitespace-nowrap"
+                            style={{ color: textColor }}
+                        >
+                            Bank Partner Resmi &
+                        </h2>
+                        <h2
+                            className="text-base md:text-5xl lg:text-6xl font-bold transition-colors duration-300 whitespace-nowrap"
+                            style={{ color: textColor }}
+                        >
+                            <span style={{ color: scrollProgress > 0.5 ? '#2563eb' : `rgb(${Math.round(180 - (scrollProgress * 100))}, ${Math.round(180 - (scrollProgress * 100))}, ${Math.round(180 - (scrollProgress * 100))})` }}>KPR</span> Mudah & Aman.
+                        </h2>
+                    </div>
                 </div>
 
                 {/* Slider */}
