@@ -123,24 +123,47 @@ export function PropertyDetailClient({ area }: Props) {
                                 </div>
                             )}
 
-                            {/* Title */}
-                            <div className="flex items-center mb-2">
-                                <h1 className="text-3xl md:text-4xl font-bold text-gray-900">{area.name}</h1>
+                            {/* Title + Virtual Room — redesigned for mobile */}
+                            <div className="mb-4">
+                                {/* Name row: name + type badge side-by-side */}
+                                <div className="flex items-center flex-wrap gap-2 mb-3">
+                                    <h1 className="text-2xl md:text-4xl font-bold text-gray-900 leading-tight">{area.name}</h1>
+                                    {/* Type badge — next to name */}
+                                    <span className="inline-flex items-center px-3 py-1 bg-blue-50 text-blue-600 text-sm font-semibold rounded-full border border-blue-100 flex-shrink-0">
+                                        {selectedProduct.type}
+                                    </span>
+                                    {/* Desktop-only Virtual Room button */}
+                                    {area.virtualRoomUrl && (
+                                        <a
+                                            href={area.virtualRoomUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="hidden md:inline-flex ml-auto items-center gap-1.5 px-3 py-2 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white text-sm font-semibold rounded-full shadow-md transition-all hover:shadow-lg flex-shrink-0"
+                                        >
+                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.069A1 1 0 0121 8.882v6.236a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                            </svg>
+                                            Virtual Room
+                                        </a>
+                                    )}
+                                </div>
+
+                                {/* Mobile-only Virtual Room button — full width, eye-catching */}
                                 {area.virtualRoomUrl && (
                                     <a
                                         href={area.virtualRoomUrl}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="ml-auto inline-flex items-center gap-1.5 px-3 py-2 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white text-sm font-semibold rounded-full shadow-md transition-all hover:shadow-lg flex-shrink-0"
+                                        className="md:hidden flex items-center justify-center gap-2 w-full py-3 bg-gradient-to-r from-violet-600 to-purple-600 text-white font-semibold rounded-2xl shadow-lg shadow-violet-200 transition-all active:scale-95"
                                     >
+                                        <span className="w-2 h-2 bg-white rounded-full animate-pulse" />
                                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.069A1 1 0 0121 8.882v6.236a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                                         </svg>
-                                        Virtual Room
+                                        Lihat Virtual Room
                                     </a>
                                 )}
                             </div>
-                            <p className="text-xl text-blue-600 font-semibold mb-6">{selectedProduct.type}</p>
 
                             {/* Features Grid */}
                             {(() => {
