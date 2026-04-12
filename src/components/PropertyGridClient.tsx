@@ -40,7 +40,7 @@ export function PropertyGridClient({ properties }: { properties: Area[] }) {
                 </div>
 
                 {/* Grid: 1 col mobile, 3 cols tablet, 5 cols desktop */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-8">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-8">
                     {currentProperties.map((property) => (
                         <Link
                             key={property.slug}
