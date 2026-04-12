@@ -118,10 +118,7 @@ export function Navbar() {
                             className="text-gray-700 hover:text-blue-600 font-medium py-2 border-b border-gray-100 transition-colors">
                             Kavling
                         </Link>
-                        <Link href="/kpr-calculator" onClick={() => setMenuOpen(false)}
-                            className="text-gray-700 hover:text-blue-600 font-medium py-2 border-b border-gray-100 transition-colors">
-                            Kalkulator KPR
-                        </Link>
+
                         <a
                             href="https://wa.me/6281808187943?text=Halo, saya tertarik dengan properti di Rumah Bintaro"
                             target="_blank"
