@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 
 interface Facility {
     title: string
@@ -56,11 +56,9 @@ const facilities: Facility[] = [
 const ITEMS_PER_PAGE = 10
 
 export function FacilitiesSection() {
-    const [scrollProgress, setScrollProgress] = useState(0)
     const [currentPage, setCurrentPage] = useState(1)
     const [selectedCategory, setSelectedCategory] = useState('semua')
     const [mobileSlide, setMobileSlide] = useState(0)
-    const sectionRef = useRef<HTMLElement>(null)
 
     // Filter facilities by category
     const filteredFacilities = selectedCategory === 'semua'
@@ -78,56 +76,24 @@ export function FacilitiesSection() {
         setMobileSlide(0)
     }, [selectedCategory])
 
-    useEffect(() => {
-        const handleScroll = () => {
-            if (!sectionRef.current) return
-            const rect = sectionRef.current.getBoundingClientRect()
-            const windowHeight = window.innerHeight
-            if (rect.top < windowHeight && rect.bottom > 0) {
-                const progress = Math.min(1, Math.max(0, (windowHeight - rect.top) / (windowHeight * 0.5)))
-                setScrollProgress(progress)
-            }
-        }
-        window.addEventListener('scroll', handleScroll, { passive: true })
-        handleScroll()
-        return () => window.removeEventListener('scroll', handleScroll)
-    }, [])
-
-    const grayValue = Math.round(180 - (scrollProgress * 180))
-    const textColor = `rgb(${grayValue}, ${grayValue}, ${grayValue})`
-
     return (
-        <section ref={sectionRef} className="pt-6 pb-6 md:py-20 bg-white overflow-hidden">
-            <div
-                className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
-                style={{ transform: `translateY(${Math.max(0, 50 - scrollProgress * 50)}px)` }}
-            >
+        <section className="pt-8 pb-8 md:py-20 bg-white overflow-hidden">
+            <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-8">
                 {/* Section Title */}
-                <div
-                    className="text-center mb-3 md:mb-12"
-                    style={{
-                        transform: `translateY(${Math.max(0, 30 - scrollProgress * 60)}px)`,
-                        opacity: Math.min(1, scrollProgress * 1.5)
-                    }}
-                >
-                    <div className="flex flex-wrap justify-center gap-x-3 md:block">
-                        <h2
-                            className="text-xl md:text-5xl lg:text-6xl font-bold transition-colors duration-300 whitespace-nowrap"
-                            style={{ color: textColor }}
-                        >
+                <div className="text-center mb-4 md:mb-12">
+                    <div className="flex flex-wrap justify-center gap-x-4 md:block">
+                        <h2 className="text-xl md:text-5xl lg:text-6xl font-bold text-gray-900 whitespace-nowrap">
                             Fasilitas Lengkap
                         </h2>
-                        <h2
-                            className="text-xl md:text-5xl lg:text-6xl font-bold transition-colors duration-300 whitespace-nowrap"
-                            style={{ color: textColor }}
-                        >
-                            <span style={{ color: scrollProgress > 0.5 ? '#2563eb' : `rgb(${Math.round(180 - (scrollProgress * 100))}, ${Math.round(180 - (scrollProgress * 100))}, ${Math.round(180 - (scrollProgress * 100))})` }}>Di Sekitar</span> Anda
+                        <h2 className="text-xl md:text-5xl lg:text-6xl font-bold whitespace-nowrap">
+                            <span className="text-blue-600">Di Sekitar</span>{' '}
+                            <span className="text-gray-900">Anda</span>
                         </h2>
                     </div>
                 </div>
 
                 {/* Category Filter — scrollable single row on mobile, wrap on desktop */}
-                <div className="flex md:flex-wrap md:justify-center overflow-x-auto md:overflow-visible gap-2 mb-10 pb-2 md:pb-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                <div className="flex md:flex-wrap md:justify-center overflow-x-auto md:overflow-visible gap-2 mb-12 pb-2 md:pb-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                     {categories.map((category) => (
                         <button
                             key={category.id}
@@ -160,7 +126,7 @@ export function FacilitiesSection() {
                                         className="object-cover"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                                    <div className="absolute top-3 left-3">
+                                    <div className="absolute top-4 left-4">
                                         <span className="px-2 py-1 bg-white/20 backdrop-blur-sm text-white text-xs rounded-full">
                                             {categories.find(c => c.id === mobileFacility.category)?.icon}
                                         </span>
@@ -174,9 +140,9 @@ export function FacilitiesSection() {
                                 <button
                                     onClick={() => setMobileSlide(prev => Math.max(0, prev - 1))}
                                     disabled={mobileSlide === 0}
-                                    className="absolute left-2 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center shadow-md disabled:opacity-30 transition-all"
+                                    className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center shadow-md disabled:opacity-30 transition-all"
                                 >
-                                    <svg className="w-5 h-5 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg className="w-4 h-4 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                                     </svg>
                                 </button>
@@ -185,22 +151,22 @@ export function FacilitiesSection() {
                                 <button
                                     onClick={() => setMobileSlide(prev => Math.min(filteredFacilities.length - 1, prev + 1))}
                                     disabled={mobileSlide === filteredFacilities.length - 1}
-                                    className="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center shadow-md disabled:opacity-30 transition-all"
+                                    className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center shadow-md disabled:opacity-30 transition-all"
                                 >
-                                    <svg className="w-5 h-5 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg className="w-4 h-4 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                                     </svg>
                                 </button>
                             </div>
 
                             {/* Dot indicators */}
-                            <div className="flex justify-center gap-1.5 mt-4">
+                            <div className="flex justify-center gap-2 mt-4">
                                 {filteredFacilities.map((_, i) => (
                                     <button
                                         key={i}
                                         onClick={() => setMobileSlide(i)}
                                         className={`rounded-full transition-all duration-200 ${i === mobileSlide
-                                            ? 'w-5 h-2 bg-blue-600'
+                                            ? 'w-4 h-2 bg-blue-600'
                                             : 'w-2 h-2 bg-gray-300'
                                             }`}
                                     />
@@ -210,15 +176,11 @@ export function FacilitiesSection() {
 
                         {/* ── DESKTOP: grid + pagination ── */}
                         <div className="hidden md:block">
-                            <div className="grid sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
+                            <div className="grid sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-8">
                                 {currentFacilities.map((facility, index) => (
                                     <div
                                         key={`${facility.title}-${index}`}
                                         className="group relative aspect-square rounded-2xl overflow-hidden cursor-pointer"
-                                        style={{
-                                            opacity: Math.min(1, scrollProgress * 2 - (index * 0.05)),
-                                            transform: `translateY(${Math.max(0, 20 - scrollProgress * 40)}px)`
-                                        }}
                                     >
                                         <Image
                                             src={facility.image}
@@ -227,12 +189,12 @@ export function FacilitiesSection() {
                                             className="object-cover transition-transform duration-500 group-hover:scale-110"
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                                        <div className="absolute top-3 left-3">
+                                        <div className="absolute top-4 left-4">
                                             <span className="px-2 py-1 bg-white/20 backdrop-blur-sm text-white text-xs rounded-full">
                                                 {categories.find(c => c.id === facility.category)?.icon}
                                             </span>
                                         </div>
-                                        <div className="absolute inset-0 flex items-end justify-center p-3">
+                                        <div className="absolute inset-0 flex items-end justify-center p-4">
                                             <h3 className="text-white font-bold text-sm md:text-base lg:text-lg text-center">
                                                 {facility.title}
                                             </h3>
@@ -243,13 +205,13 @@ export function FacilitiesSection() {
 
                             {/* Desktop Pagination */}
                             {totalPages > 1 && (
-                                <div className="flex justify-center items-center gap-2 mt-10">
+                                <div className="flex justify-center items-center gap-2 mt-12">
                                     <button
                                         onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
                                         disabled={currentPage === 1}
                                         className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                                     >
-                                        <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                                         </svg>
                                     </button>
@@ -270,7 +232,7 @@ export function FacilitiesSection() {
                                         disabled={currentPage === totalPages}
                                         className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                                     >
-                                        <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                                         </svg>
                                     </button>

@@ -2,64 +2,30 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useEffect, useState, useRef } from 'react'
+import { useState } from 'react'
 import { Kavling } from '@/data/kavlings'
 
 const ITEMS_PER_PAGE = 12
 
 export function KavlingGridClient({ kavlings }: { kavlings: Kavling[] }) {
-    const [scrollProgress, setScrollProgress] = useState(0)
     const [currentPage, setCurrentPage] = useState(1)
-    const sectionRef = useRef<HTMLElement>(null)
 
     const totalPages = Math.ceil(kavlings.length / ITEMS_PER_PAGE)
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
     const currentKavlings = kavlings.slice(startIndex, startIndex + ITEMS_PER_PAGE)
 
-    useEffect(() => {
-        const handleScroll = () => {
-            if (!sectionRef.current) return
-            const rect = sectionRef.current.getBoundingClientRect()
-            const windowHeight = window.innerHeight
-            if (rect.top < windowHeight && rect.bottom > 0) {
-                const progress = Math.min(1, Math.max(0, (windowHeight - rect.top) / (windowHeight * 0.5)))
-                setScrollProgress(progress)
-            }
-        }
-        window.addEventListener('scroll', handleScroll, { passive: true })
-        handleScroll()
-        return () => window.removeEventListener('scroll', handleScroll)
-    }, [])
-
-    const grayValue = Math.round(180 - scrollProgress * 180)
-    const textColor = `rgb(${grayValue}, ${grayValue}, ${grayValue})`
-
     return (
-        <section ref={sectionRef} className="py-20 bg-white overflow-hidden">
-            <div
-                className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
-                style={{ transform: `translateY(${Math.max(0, 50 - scrollProgress * 50)}px)` }}
-            >
+        <section className="py-20 bg-white overflow-hidden">
+            <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-8">
                 {/* Title */}
-                <div
-                    className="text-center mb-8 md:mb-16"
-                    style={{
-                        transform: `translateY(${Math.max(0, 30 - scrollProgress * 60)}px)`,
-                        opacity: Math.min(1, scrollProgress * 1.5)
-                    }}
-                >
-                    <div className="flex flex-wrap justify-center gap-x-3 md:block">
-                        <h1
-                            className="text-xl md:text-5xl lg:text-6xl font-bold transition-colors duration-300 whitespace-nowrap"
-                            style={{ color: textColor }}
-                        >
+                <div className="text-center mb-8 md:mb-16">
+                    <div className="flex flex-wrap justify-center gap-x-4 md:block">
+                        <h1 className="text-xl md:text-5xl lg:text-6xl font-bold text-gray-900 whitespace-nowrap">
                             Kavling Eksklusif
                         </h1>
-                        <h1
-                            className="text-xl md:text-5xl lg:text-6xl font-bold transition-colors duration-300 whitespace-nowrap"
-                            style={{ color: textColor }}
-                        >
-                            <span style={{ color: scrollProgress > 0.5 ? '#2563eb' : `rgb(${Math.round(180 - scrollProgress * 100)}, ${Math.round(180 - scrollProgress * 100)}, ${Math.round(180 - scrollProgress * 100)})` }}>Investasi</span> Cerdas
+                        <h1 className="text-xl md:text-5xl lg:text-6xl font-bold whitespace-nowrap">
+                            <span className="text-blue-600">Investasi</span>{' '}
+                            <span className="text-gray-900">Cerdas</span>
                         </h1>
                     </div>
                     <p className="text-gray-500 mt-4">
@@ -68,16 +34,12 @@ export function KavlingGridClient({ kavlings }: { kavlings: Kavling[] }) {
                 </div>
 
                 {/* Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-                    {currentKavlings.map((kavling, index) => (
+                <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
+                    {currentKavlings.map((kavling) => (
                         <Link
                             key={kavling.slug}
                             href={`/kavling/${kavling.slug}`}
                             className="group relative aspect-[4/3] rounded-2xl overflow-hidden"
-                            style={{
-                                opacity: Math.min(1, scrollProgress * 2 - index * 0.05),
-                                transform: `translateY(${Math.max(0, 20 - scrollProgress * 40)}px)`
-                            }}
                         >
                             <Image
                                 src={kavling.image}
@@ -88,16 +50,16 @@ export function KavlingGridClient({ kavlings }: { kavlings: Kavling[] }) {
                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
 
                             {kavling.hot && (
-                                <div className="absolute top-3 left-3 px-2 py-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-[10px] md:text-xs font-bold rounded-full shadow">
+                                <div className="absolute top-4 left-4 px-2 py-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-xs font-bold rounded-full shadow">
                                     🔥 HOT
                                 </div>
                             )}
 
-                            <div className="absolute top-3 right-3 px-2 py-1 bg-black/50 backdrop-blur-sm text-white text-[10px] md:text-xs font-medium rounded-full">
+                            <div className="absolute top-4 right-4 px-2 py-1 bg-black/50 backdrop-blur-sm text-white text-xs font-medium rounded-full">
                                 📐 {kavling.size}
                             </div>
 
-                            <div className="absolute inset-0 flex flex-col justify-end p-3">
+                            <div className="absolute inset-0 flex flex-col justify-end p-4">
                                 <h3 className="text-white font-bold text-sm md:text-base">{kavling.cluster}</h3>
                                 <p className="text-white/70 text-xs">{kavling.kodeBlok}</p>
                             </div>
@@ -114,13 +76,13 @@ export function KavlingGridClient({ kavlings }: { kavlings: Kavling[] }) {
 
                 {/* Pagination */}
                 {totalPages > 1 && (
-                    <div className="flex justify-center items-center gap-2 mt-10">
+                    <div className="flex justify-center items-center gap-2 mt-12">
                         <button
                             onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
                             disabled={currentPage === 1}
                             className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                         >
-                            <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                             </svg>
                         </button>
@@ -143,7 +105,7 @@ export function KavlingGridClient({ kavlings }: { kavlings: Kavling[] }) {
                             disabled={currentPage === totalPages}
                             className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                         >
-                            <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                             </svg>
                         </button>

@@ -17,10 +17,8 @@ const ITEMS_PER_SLIDE_DESKTOP = 6
 const AUTO_SLIDE_INTERVAL = 3000
 
 export function PartnerBank() {
-    const [scrollProgress, setScrollProgress] = useState(0)
     const [currentSlide, setCurrentSlide] = useState(0)
     const [itemsPerSlide, setItemsPerSlide] = useState(ITEMS_PER_SLIDE_DESKTOP)
-    const sectionRef = useRef<HTMLElement>(null)
     const intervalRef = useRef<NodeJS.Timeout | null>(null)
 
     const totalSlides = Math.ceil(banks.length / itemsPerSlide)
@@ -53,50 +51,20 @@ export function PartnerBank() {
         }
     }, [nextSlide, totalSlides])
 
-    // Scroll animation
-    useEffect(() => {
-        const handleScroll = () => {
-            if (!sectionRef.current) return
-            const rect = sectionRef.current.getBoundingClientRect()
-            const windowHeight = window.innerHeight
-            if (rect.top < windowHeight && rect.bottom > 0) {
-                const progress = Math.min(1, Math.max(0, (windowHeight - rect.top) / (windowHeight * 0.5)))
-                setScrollProgress(progress)
-            }
-        }
-        window.addEventListener('scroll', handleScroll, { passive: true })
-        handleScroll()
-        return () => window.removeEventListener('scroll', handleScroll)
-    }, [])
-
-    const grayValue = Math.round(180 - (scrollProgress * 180))
-    const textColor = `rgb(${grayValue}, ${grayValue}, ${grayValue})`
-
     const currentBanks = banks.slice(currentSlide * itemsPerSlide, (currentSlide + 1) * itemsPerSlide)
 
     return (
-        <section ref={sectionRef} className="pt-6 pb-12 md:py-20 bg-white overflow-hidden">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="pt-8 pb-12 md:py-20 bg-white overflow-hidden">
+            <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-8">
                 {/* Section Title */}
-                <div
-                    className="text-center mb-10 md:mb-16"
-                    style={{
-                        transform: `translateY(${Math.max(0, 30 - scrollProgress * 60)}px)`,
-                        opacity: Math.min(1, scrollProgress * 1.5)
-                    }}
-                >
+                <div className="text-center mb-12 md:mb-16">
                     <div className="flex justify-center items-baseline gap-x-2 overflow-hidden md:block">
-                        <h2
-                            className="text-base md:text-5xl lg:text-6xl font-bold transition-colors duration-300 whitespace-nowrap"
-                            style={{ color: textColor }}
-                        >
+                        <h2 className="text-base md:text-5xl lg:text-6xl font-bold text-gray-900 whitespace-nowrap">
                             Bank Partner Resmi &
                         </h2>
-                        <h2
-                            className="text-base md:text-5xl lg:text-6xl font-bold transition-colors duration-300 whitespace-nowrap"
-                            style={{ color: textColor }}
-                        >
-                            <span style={{ color: scrollProgress > 0.5 ? '#2563eb' : `rgb(${Math.round(180 - (scrollProgress * 100))}, ${Math.round(180 - (scrollProgress * 100))}, ${Math.round(180 - (scrollProgress * 100))})` }}>KPR</span> Mudah & Aman.
+                        <h2 className="text-base md:text-5xl lg:text-6xl font-bold whitespace-nowrap">
+                            <span className="text-blue-600">KPR</span>{' '}
+                            <span className="text-gray-900">Mudah & Aman.</span>
                         </h2>
                     </div>
                 </div>
@@ -104,11 +72,11 @@ export function PartnerBank() {
                 {/* Slider */}
                 <div className="relative">
                     {/* Bank Logos Grid */}
-                    <div className="grid grid-cols-3 md:grid-cols-6 gap-4 md:gap-6 transition-opacity duration-500">
+                    <div className="grid grid-cols-3 md:grid-cols-6 gap-4 md:gap-8 transition-opacity duration-500">
                         {currentBanks.map((bank) => (
                             <div
                                 key={bank.name}
-                                className="flex items-center justify-center p-4 md:p-6 bg-white rounded-2xl shadow-sm hover:shadow-md hover:scale-105 transition-all duration-300"
+                                className="flex items-center justify-center p-4 md:p-8 bg-white rounded-2xl shadow-sm hover:shadow-md hover:scale-105 transition-all duration-300"
                             >
                                 <div className="relative w-full h-12 md:h-16">
                                     <Image
@@ -130,8 +98,8 @@ export function PartnerBank() {
                                     key={i}
                                     onClick={() => setCurrentSlide(i)}
                                     className={`rounded-full transition-all duration-300 ${currentSlide === i
-                                        ? 'w-8 h-3 bg-blue-600'
-                                        : 'w-3 h-3 bg-gray-300 hover:bg-gray-400'
+                                        ? 'w-8 h-4 bg-blue-600'
+                                        : 'w-4 h-4 bg-gray-300 hover:bg-gray-400'
                                         }`}
                                 />
                             ))}
