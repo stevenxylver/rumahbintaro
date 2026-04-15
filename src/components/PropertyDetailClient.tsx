@@ -463,7 +463,7 @@ export function PropertyDetailClient({ area }: Props) {
                                         if (!contactName.trim() || !contactPhone.trim()) return
                                         const subject = `Inquiry Properti ${area.name} - ${selectedProduct.type}`
                                         const body = `Nama: ${contactName}\nNo. Telepon: ${contactPhone}\n\nSaya tertarik dengan properti ${area.name} - ${selectedProduct.type}. Mohon informasi lebih lanjut.`
-                                        window.location.href = `mailto:stevmili123@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+                                        window.location.href = `mailto:bintarojayarumah@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
                                         setFormSubmitted(true)
                                     }}
                                     className="space-y-4"
