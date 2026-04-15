@@ -5,14 +5,21 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { areas } from '@/data/areas'
 
-const ITEMS_PER_PAGE = 10
+const ITEMS_PER_PAGE_MOBILE = 6 // 3 rows x 2 cols
+const ITEMS_PER_PAGE_DESKTOP = 10
 
 export function PopularAreas() {
     const [currentPage, setCurrentPage] = useState(1)
+    const [mobilePage, setMobilePage] = useState(1)
 
-    const totalPages = Math.ceil(areas.length / ITEMS_PER_PAGE)
-    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
-    const currentAreas = areas.slice(startIndex, startIndex + ITEMS_PER_PAGE)
+    const totalPagesDesktop = Math.ceil(areas.length / ITEMS_PER_PAGE_DESKTOP)
+    const totalPagesMobile = Math.ceil(areas.length / ITEMS_PER_PAGE_MOBILE)
+
+    const desktopStart = (currentPage - 1) * ITEMS_PER_PAGE_DESKTOP
+    const currentAreasDesktop = areas.slice(desktopStart, desktopStart + ITEMS_PER_PAGE_DESKTOP)
+
+    const mobileStart = (mobilePage - 1) * ITEMS_PER_PAGE_MOBILE
+    const currentAreasMobile = areas.slice(mobileStart, mobileStart + ITEMS_PER_PAGE_MOBILE)
 
     return (
         <section className="pt-4 pb-8 md:py-20 bg-white overflow-hidden">
@@ -30,70 +37,139 @@ export function PopularAreas() {
                     </div>
                 </div>
 
-                {/* Grid: 2 cols mobile, 3 cols tablet, 5 cols desktop */}
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-8">
-                    {currentAreas.map((area) => (
-                        <Link
-                            key={area.slug}
-                            href={`/properties/${area.slug}`}
-                            className="group relative aspect-[4/3] rounded-2xl overflow-hidden"
-                        >
-                            {area.hot && (
-                                <div className="absolute top-2 left-2 z-10 px-2 py-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-xs font-bold rounded-full shadow-lg">
-                                    🔥 HOT
+                {/* ── MOBILE: 2 cols x 3 rows grid with slider ── */}
+                <div className="md:hidden">
+                    <div className="grid grid-cols-2 gap-4">
+                        {currentAreasMobile.map((area) => (
+                            <Link
+                                key={area.slug}
+                                href={`/properties/${area.slug}`}
+                                className="group relative aspect-[4/3] rounded-2xl overflow-hidden"
+                            >
+                                {area.hot && (
+                                    <div className="absolute top-2 left-2 z-10 px-2 py-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-[10px] font-bold rounded-full shadow-lg">
+                                        🔥 HOT
+                                    </div>
+                                )}
+                                <Image
+                                    src={area.image}
+                                    alt={area.name}
+                                    fill
+                                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                                <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-2">
+                                    <h3 className="text-white font-bold text-xs uppercase tracking-wide">
+                                        {area.name}
+                                    </h3>
                                 </div>
-                            )}
-                            <Image
-                                src={area.image}
-                                alt={area.name}
-                                fill
-                                className="object-cover transition-transform duration-500 group-hover:scale-110"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                            <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-2">
-                                <h3 className="text-white font-bold text-xs md:text-base lg:text-lg uppercase tracking-wide">
-                                    {area.name}
-                                </h3>
+                            </Link>
+                        ))}
+                    </div>
+
+                    {/* Mobile Slider Controls */}
+                    {totalPagesMobile > 1 && (
+                        <div className="flex justify-center items-center gap-4 mt-8">
+                            <button
+                                onClick={() => setMobilePage(prev => Math.max(1, prev - 1))}
+                                disabled={mobilePage === 1}
+                                className="p-2 rounded-full bg-white border border-gray-200 text-gray-600 disabled:opacity-30 transition-all shadow-sm"
+                            >
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                                </svg>
+                            </button>
+                            <div className="flex items-center gap-2">
+                                {Array.from({ length: totalPagesMobile }, (_, i) => (
+                                    <button
+                                        key={i}
+                                        onClick={() => setMobilePage(i + 1)}
+                                        className={`rounded-full transition-all ${mobilePage === i + 1
+                                            ? 'w-6 h-2 bg-blue-600'
+                                            : 'w-2 h-2 bg-gray-300'
+                                            }`}
+                                    />
+                                ))}
                             </div>
-                        </Link>
-                    ))}
+                            <button
+                                onClick={() => setMobilePage(prev => Math.min(totalPagesMobile, prev + 1))}
+                                disabled={mobilePage === totalPagesMobile}
+                                className="p-2 rounded-full bg-white border border-gray-200 text-gray-600 disabled:opacity-30 transition-all shadow-sm"
+                            >
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                </svg>
+                            </button>
+                        </div>
+                    )}
                 </div>
 
-                {/* Pagination */}
-                {totalPages > 1 && (
-                    <div className="flex justify-center items-center gap-2 mt-12">
-                        <button
-                            onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-                            disabled={currentPage === 1}
-                            className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                        >
-                            <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                            </svg>
-                        </button>
-                        {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
-                            <button
-                                key={page}
-                                onClick={() => setCurrentPage(page)}
-                                className={`w-10 h-10 rounded-full font-medium transition-all ${currentPage === page
-                                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg'
-                                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                                    }`}
+                {/* ── DESKTOP: 5 cols grid ── */}
+                <div className="hidden md:block">
+                    <div className="grid sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-8">
+                        {currentAreasDesktop.map((area) => (
+                            <Link
+                                key={area.slug}
+                                href={`/properties/${area.slug}`}
+                                className="group relative aspect-[4/3] rounded-2xl overflow-hidden"
                             >
-                                {page}
-                            </button>
+                                {area.hot && (
+                                    <div className="absolute top-2 left-2 z-10 px-2 py-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-xs font-bold rounded-full shadow-lg">
+                                        🔥 HOT
+                                    </div>
+                                )}
+                                <Image
+                                    src={area.image}
+                                    alt={area.name}
+                                    fill
+                                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                                <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-2">
+                                    <h3 className="text-white font-bold text-sm md:text-base lg:text-lg uppercase tracking-wide">
+                                        {area.name}
+                                    </h3>
+                                </div>
+                            </Link>
                         ))}
-                        <button
-                            onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-                            disabled={currentPage === totalPages}
-                            className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                        >
-                            <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                            </svg>
-                        </button>
                     </div>
-                )}
+
+                    {/* Desktop Pagination */}
+                    {totalPagesDesktop > 1 && (
+                        <div className="flex justify-center items-center gap-2 mt-12">
+                            <button
+                                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                                disabled={currentPage === 1}
+                                className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                            >
+                                <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                                </svg>
+                            </button>
+                            {Array.from({ length: totalPagesDesktop }, (_, i) => i + 1).map(page => (
+                                <button
+                                    key={page}
+                                    onClick={() => setCurrentPage(page)}
+                                    className={`w-10 h-10 rounded-full font-medium transition-all ${currentPage === page
+                                        ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg'
+                                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                        }`}
+                                >
+                                    {page}
+                                </button>
+                            ))}
+                            <button
+                                onClick={() => setCurrentPage(prev => Math.min(totalPagesDesktop, prev + 1))}
+                                disabled={currentPage === totalPagesDesktop}
+                                className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                            >
+                                <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                </svg>
+                            </button>
+                        </div>
+                    )}
+                </div>
             </div>
         </section>
     )
