@@ -1,0 +1,37 @@
+import { MetadataRoute } from 'next'
+import { areas } from '@/data/areas'
+import { kavlings } from '@/data/kavlings'
+
+export default function sitemap(): MetadataRoute.Sitemap {
+    const baseUrl = 'https://perumahanbintarojaya.com'
+
+    // Static routes
+    const routes = [
+        '',
+        '/properties',
+        '/kavling',
+    ].map((route) => ({
+        url: `${baseUrl}${route}`,
+        lastModified: new Date(),
+        changeFrequency: 'daily' as const,
+        priority: route === '' ? 1 : 0.8,
+    }))
+
+    // Dynamic property pages
+    const propertyPages = areas.map((area) => ({
+        url: `${baseUrl}/properties/${area.slug}`,
+        lastModified: new Date(),
+        changeFrequency: 'weekly' as const,
+        priority: 0.7,
+    }))
+
+    // Dynamic kavling pages
+    const kavlingPages = kavlings.map((kavling) => ({
+        url: `${baseUrl}/kavling/${kavling.slug}`,
+        lastModified: new Date(),
+        changeFrequency: 'weekly' as const,
+        priority: 0.6,
+    }))
+
+    return [...routes, ...propertyPages, ...kavlingPages]
+}
