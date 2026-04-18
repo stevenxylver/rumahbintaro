@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { trackWhatsAppClick } from '@/lib/gtag'
 
 const items = [
     {
@@ -97,6 +98,11 @@ export function IconLinkSection() {
                             <Link
                                 key={item.label}
                                 href={item.href!}
+                                onClick={() => {
+                                    if (item.href?.includes('wa.me')) {
+                                        trackWhatsAppClick(`IconLink - ${item.label}`);
+                                    }
+                                }}
                                 className="flex flex-col items-center gap-3 group flex-shrink-0 w-20 md:flex-shrink md:w-28"
                             >
                                 <div className="w-[60px] h-[60px] md:w-20 md:h-20 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 group-hover:bg-blue-100 group-hover:scale-105 transition-all duration-200 shadow-sm">

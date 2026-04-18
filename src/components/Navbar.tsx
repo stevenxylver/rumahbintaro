@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { LeadPopup } from '@/components/LeadPopup'
+import { trackWhatsAppClick } from '@/lib/gtag'
 
 export function Navbar() {
     const [scrolled, setScrolled] = useState(false)
@@ -66,6 +67,7 @@ export function Navbar() {
                                 href="https://wa.me/6281808187943?text=Halo, saya tertarik dengan properti di Rumah Bintaro"
                                 target="_blank"
                                 rel="noopener noreferrer"
+                                onClick={() => trackWhatsAppClick('Navbar Desktop')}
                                 className="px-5 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-full font-medium hover:from-blue-600 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg"
                             >
                                 Hubungi Kami
@@ -123,7 +125,10 @@ export function Navbar() {
                             href="https://wa.me/6281808187943?text=Halo, saya tertarik dengan properti di Rumah Bintaro"
                             target="_blank"
                             rel="noopener noreferrer"
-                            onClick={() => setMenuOpen(false)}
+                            onClick={() => {
+                                setMenuOpen(false);
+                                trackWhatsAppClick('Navbar Mobile');
+                            }}
                             className="w-full text-center px-5 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-full font-medium hover:from-blue-600 hover:to-indigo-700 transition-all shadow-md"
                         >
                             Hubungi Kami

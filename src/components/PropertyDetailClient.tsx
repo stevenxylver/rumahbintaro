@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 import { Area, Product } from '@/data/areas'
+import { trackWhatsAppClick, trackLeadForm } from '@/lib/gtag'
 
 interface Props {
     area: Area
@@ -373,6 +374,7 @@ export function PropertyDetailClient({ area }: Props) {
                                         href={`https://wa.me/6281808187943?text=Halo, saya tertarik dengan properti ${area.name} - ${selectedProduct.type}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
+                                        onClick={() => trackWhatsAppClick(`Property Detail - ${area.name} (${selectedProduct.type})`)}
                                         className="flex items-center justify-center gap-2 w-full py-3 bg-emerald-500 text-white rounded-xl font-semibold hover:bg-emerald-600 transition-all shadow-lg"
                                     >
                                         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -464,6 +466,7 @@ export function PropertyDetailClient({ area }: Props) {
                                         const subject = `Inquiry Properti ${area.name} - ${selectedProduct.type}`
                                         const body = `Nama: ${contactName}\nNo. Telepon: ${contactPhone}\n\nSaya tertarik dengan properti ${area.name} - ${selectedProduct.type}. Mohon informasi lebih lanjut.`
                                         window.location.href = `mailto:bintarojayarumah@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+                                        trackLeadForm(`Email Form - ${area.name}`);
                                         setFormSubmitted(true)
                                     }}
                                     className="space-y-4"

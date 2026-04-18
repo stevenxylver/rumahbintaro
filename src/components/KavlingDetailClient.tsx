@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 import { Kavling } from '@/data/kavlings'
+import { trackWhatsAppClick } from '@/lib/gtag'
 
 interface Props {
     kavling: Kavling
@@ -170,6 +171,7 @@ export function KavlingDetailClient({ kavling }: Props) {
                                         href={`https://wa.me/6281808187943?text=Halo, saya tertarik dengan kavling ${kavling.kodeBlok} di ${kavling.cluster} (${kavling.size})`}
                                         target="_blank"
                                         rel="noopener noreferrer"
+                                        onClick={() => trackWhatsAppClick(`Kavling Detail - ${kavling.name} (${kavling.kodeBlok})`)}
                                         className="flex items-center justify-center gap-2 w-full py-3 bg-emerald-500 text-white rounded-xl font-semibold hover:bg-emerald-600 transition-all shadow-lg"
                                     >
                                         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">

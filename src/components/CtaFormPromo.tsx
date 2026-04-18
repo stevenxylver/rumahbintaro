@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
+import { trackLeadForm } from '@/lib/gtag'
 
 const PROMO_IMAGES = [
     '/images/promo/promolebaran.png',
@@ -35,6 +36,7 @@ export function Ctaformpromo() {
                 body: JSON.stringify({ name, email, phone }),
             })
             if (!res.ok) throw new Error('Gagal')
+            trackLeadForm('Promo Form Main');
             setSuccess(true)
         } catch {
             setError('Gagal mengirim. Coba lagi.')
