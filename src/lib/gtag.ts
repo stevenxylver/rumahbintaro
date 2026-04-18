@@ -2,11 +2,19 @@
 
 import { sendGAEvent } from '@next/third-parties/google'
 
+const TARGET_DOMAIN = 'perumahanbintarojaya.com'
+
+const isMainDomain = () => {
+    if (typeof window === 'undefined') return false
+    return window.location.hostname.includes(TARGET_DOMAIN)
+}
+
 /**
  * Tracks a WhatsApp click event to Google Analytics.
  * @param location - Where the click happened (e.g., 'Navbar', 'Property Detail')
  */
 export const trackWhatsAppClick = (location: string) => {
+    if (!isMainDomain()) return
     sendGAEvent({
         event: 'click_whatsapp',
         value: location,
@@ -19,6 +27,7 @@ export const trackWhatsAppClick = (location: string) => {
  * Tracks a Lead Form submission event.
  */
 export const trackLeadForm = (location: string) => {
+    if (!isMainDomain()) return
     sendGAEvent({
         event: 'generate_lead',
         value: location,
@@ -31,6 +40,7 @@ export const trackLeadForm = (location: string) => {
  * Tracks when the Promo/Gift icon is clicked to view the promotion.
  */
 export const trackPromoView = (location: string) => {
+    if (!isMainDomain()) return
     sendGAEvent({
         event: 'view_promotion',
         value: location,

@@ -4,6 +4,7 @@ import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { GoogleAnalytics } from '@next/third-parties/google'
+import { headers } from 'next/headers'
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -26,11 +27,16 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const headersList = await headers();
+  const host = headersList.get('host') || '';
+  const isTargetDomain = host.includes('perumahanbintarojaya.com');
+  const gaId = process.env.NEXT_PUBLIC_GA_ID || '';
+
   return (
     <html lang="id">
       <body className={`${poppins.className} antialiased bg-gray-50`}>
@@ -39,7 +45,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
-        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ''} />
+        {isTargetDomain && gaId && <GoogleAnalytics gaId={gaId} />}
       </body>
     </html>
   );
