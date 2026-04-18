@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import { trackPromoView } from '@/lib/gtag'
 
 const PROMO_IMAGES = [
     '/images/promo/promolebaran.png',
@@ -41,6 +42,7 @@ export function LeadPopup({ open, onClose }: LeadPopupProps) {
 
     const handleClick = () => {
         onClose()
+        trackPromoView('Popup Image Overlay')
         router.push('/#promo-form')
     }
 

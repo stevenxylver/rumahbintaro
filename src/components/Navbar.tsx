@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { LeadPopup } from '@/components/LeadPopup'
-import { trackWhatsAppClick } from '@/lib/gtag'
+import { trackWhatsAppClick, trackPromoView } from '@/lib/gtag'
 
 export function Navbar() {
     const [scrolled, setScrolled] = useState(false)
@@ -52,7 +52,10 @@ export function Navbar() {
 
                             {/* Promo Icon Button — Desktop */}
                             <button
-                                onClick={() => setPromoOpen(true)}
+                                onClick={() => {
+                                    setPromoOpen(true);
+                                    trackPromoView('Navbar Desktop');
+                                }}
                                 className="relative flex items-center gap-1.5 px-4 py-2 bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-700 rounded-full font-medium transition-all group"
                                 title="Lihat Promo"
                             >
@@ -77,7 +80,10 @@ export function Navbar() {
                         {/* Mobile right side: Promo icon + Burger */}
                         <div className="md:hidden flex items-center gap-2">
                             <button
-                                onClick={() => setPromoOpen(true)}
+                                onClick={() => {
+                                    setPromoOpen(true);
+                                    trackPromoView('Navbar Mobile');
+                                }}
                                 className="relative p-2 rounded-xl bg-amber-50 border border-amber-200 text-amber-700"
                                 title="Lihat Promo"
                             >

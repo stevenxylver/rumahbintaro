@@ -26,3 +26,15 @@ export const trackLeadForm = (location: string) => {
     })
     console.log(`GA4 Event: generate_lead from ${location}`)
 }
+
+/**
+ * Tracks when the Promo/Gift icon is clicked to view the promotion.
+ */
+export const trackPromoView = (location: string) => {
+    sendGAEvent({
+        event: 'view_promotion',
+        value: location,
+        location: location,
+    })
+    console.log(`GA4 Event: view_promotion from ${location}`)
+}
