@@ -52,6 +52,31 @@ export function FacilitiesSection({ facilities = [] }: FacilitiesSectionProps) {
         setMobilePage(1)
     }, [selectedCategory])
 
+    // Lightbox State
+    const [activeFacility, setActiveFacility] = useState<Facility | null>(null)
+    const [currentGalleryIndex, setCurrentGalleryIndex] = useState(0)
+
+    const handleFacilityClick = (facility: Facility) => {
+        if (facility.images && facility.images.length > 0) {
+            setActiveFacility(facility)
+            setCurrentGalleryIndex(0)
+        }
+    }
+
+    const nextImage = (e: React.MouseEvent) => {
+        e.stopPropagation()
+        if (activeFacility?.images) {
+            setCurrentGalleryIndex(prev => (prev + 1) % activeFacility.images!.length)
+        }
+    }
+
+    const prevImage = (e: React.MouseEvent) => {
+        e.stopPropagation()
+        if (activeFacility?.images) {
+            setCurrentGalleryIndex(prev => (prev - 1 + activeFacility.images!.length) % activeFacility.images!.length)
+        }
+    }
+
     return (
         <section className="pt-8 pb-8 md:py-20 bg-white overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-8">
@@ -97,7 +122,8 @@ export function FacilitiesSection({ facilities = [] }: FacilitiesSectionProps) {
                                 {currentFacilitiesMobile.map((facility, index) => (
                                     <div
                                         key={`${facility.title}-${index}`}
-                                        className="group relative aspect-square rounded-2xl overflow-hidden cursor-pointer"
+                                        onClick={() => handleFacilityClick(facility)}
+                                        className={`group relative aspect-square rounded-2xl overflow-hidden ${facility.images && facility.images.length > 0 ? 'cursor-pointer' : ''}`}
                                     >
                                         <Image
                                             src={facility.image}
@@ -111,6 +137,13 @@ export function FacilitiesSection({ facilities = [] }: FacilitiesSectionProps) {
                                                 {categories.find(c => c.id === facility.category)?.icon}
                                             </span>
                                         </div>
+                                        {facility.images && facility.images.length > 0 && (
+                                            <div className="absolute top-2 right-2">
+                                                <span className="px-2 py-1 bg-blue-600 text-white text-[8px] rounded-full flex items-center gap-1 font-bold">
+                                                    📷 {facility.images.length}
+                                                </span>
+                                            </div>
+                                        )}
                                         <div className="absolute inset-0 flex items-end justify-center p-2">
                                             <h3 className="text-white font-bold text-xs text-center">
                                                 {facility.title}
@@ -163,7 +196,8 @@ export function FacilitiesSection({ facilities = [] }: FacilitiesSectionProps) {
                                 {currentFacilitiesDesktop.map((facility, index) => (
                                     <div
                                         key={`${facility.title}-${index}`}
-                                        className="group relative aspect-square rounded-2xl overflow-hidden cursor-pointer"
+                                        onClick={() => handleFacilityClick(facility)}
+                                        className={`group relative aspect-square rounded-2xl overflow-hidden ${facility.images && facility.images.length > 0 ? 'cursor-zoom-in' : ''}`}
                                     >
                                         <Image
                                             src={facility.image}
@@ -171,14 +205,21 @@ export function FacilitiesSection({ facilities = [] }: FacilitiesSectionProps) {
                                             fill
                                             className="object-cover transition-transform duration-500 group-hover:scale-110"
                                         />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent transition-opacity group-hover:opacity-80" />
                                         <div className="absolute top-4 left-4">
                                             <span className="px-2 py-1 bg-white/20 backdrop-blur-sm text-white text-xs rounded-full">
                                                 {categories.find(c => c.id === facility.category)?.icon}
                                             </span>
                                         </div>
+                                        {facility.images && facility.images.length > 0 && (
+                                            <div className="absolute top-4 right-4">
+                                                <span className="px-3 py-1 bg-blue-600/90 backdrop-blur text-white text-xs rounded-full flex items-center gap-2 font-bold opacity-0 group-hover:opacity-100 transition-opacity">
+                                                    📷 View Gallery ({facility.images.length})
+                                                </span>
+                                            </div>
+                                        )}
                                         <div className="absolute inset-0 flex items-end justify-center p-4">
-                                            <h3 className="text-white font-bold text-sm md:text-base lg:text-lg text-center">
+                                            <h3 className="text-white font-bold text-sm md:text-base lg:text-lg text-center transform translate-y-2 group-hover:translate-y-0 transition-transform">
                                                 {facility.title}
                                             </h3>
                                         </div>
@@ -225,6 +266,72 @@ export function FacilitiesSection({ facilities = [] }: FacilitiesSectionProps) {
                     </>
                 )}
             </div>
+
+            {/* Gallery Lightbox */}
+            {activeFacility && activeFacility.images && (
+                <div 
+                    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-sm p-4"
+                    onClick={() => setActiveFacility(null)}
+                >
+                    <button 
+                        onClick={() => setActiveFacility(null)}
+                        className="absolute top-6 right-6 text-white hover:rotate-90 transition-all z-[110]"
+                    >
+                        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+
+                    <div 
+                        className="relative w-full max-w-5xl aspect-video"
+                        onClick={e => e.stopPropagation()}
+                    >
+                        <Image
+                            src={activeFacility.images[currentGalleryIndex]}
+                            alt={activeFacility.title}
+                            fill
+                            className="object-contain"
+                            priority
+                        />
+
+                        {activeFacility.images.length > 1 && (
+                            <>
+                                <button
+                                    onClick={prevImage}
+                                    className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all backdrop-blur-md border border-white/10"
+                                >
+                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                                    </svg>
+                                </button>
+                                <button
+                                    onClick={nextImage}
+                                    className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all backdrop-blur-md border border-white/10"
+                                >
+                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </button>
+                                
+                                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 px-4 py-2 bg-black/50 backdrop-blur-md rounded-full border border-white/10">
+                                    {activeFacility.images.map((_, i) => (
+                                        <button
+                                            key={i}
+                                            onClick={() => setCurrentGalleryIndex(i)}
+                                            className={`h-1.5 transition-all rounded-full ${i === currentGalleryIndex ? 'w-8 bg-blue-500' : 'w-2 bg-white/30 hover:bg-white/50'}`}
+                                        />
+                                    ))}
+                                </div>
+                            </>
+                        )}
+                        
+                        <div className="absolute top-6 left-6 px-4 py-2 bg-black/50 backdrop-blur-md rounded-xl border border-white/10">
+                            <p className="text-white font-bold">{activeFacility.title}</p>
+                            <p className="text-white/60 text-sm">Image {currentGalleryIndex + 1} of {activeFacility.images.length}</p>
+                        </div>
+                    </div>
+                </div>
+            )}
         </section>
     )
 }
