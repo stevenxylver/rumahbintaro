@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import { KavlingDetailClient } from '@/components/KavlingDetailClient'
 import { GoogleMapSection } from '@/components/GoogleMapSection'
 import { FacilitiesSection } from '@/components/FacilitiesSection'
+import { Ctaformpromo } from '@/components/CtaFormPromo'
 
 interface Props {
     params: Promise<{ slug: string }>
@@ -48,8 +49,10 @@ export default async function KavlingDetailPage({ params }: Props) {
     return (
         <>
             <KavlingDetailClient kavling={kavling} />
+
             <GoogleMapSection />
             <FacilitiesSection />
+            <Ctaformpromo />
         </>
     )
 }

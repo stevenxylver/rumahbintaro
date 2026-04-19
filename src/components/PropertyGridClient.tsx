@@ -25,15 +25,9 @@ export function PropertyGridClient({ properties }: { properties: Area[] }) {
             <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-8">
                 {/* Title */}
                 <div className="text-center mb-8 md:mb-16">
-                    <div className="flex justify-center gap-x-4 md:block">
-                        <h1 className="text-xl md:text-5xl lg:text-6xl font-bold text-gray-900 whitespace-nowrap">
-                            Daftar
-                        </h1>
-                        <h1 className="text-xl md:text-5xl lg:text-6xl font-bold whitespace-nowrap">
-                            <span className="text-blue-600">Properti</span>{' '}
-                            <span className="text-gray-900">Kami</span>
-                        </h1>
-                    </div>
+                    <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-gray-900">
+                        Daftar <span className="text-blue-600">Properti</span> Kami
+                    </h1>
                     <p className="text-gray-500 mt-4">
                         Menampilkan <span className="font-semibold text-gray-800">{properties.length}</span> properti
                     </p>
