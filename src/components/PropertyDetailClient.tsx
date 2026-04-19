@@ -20,10 +20,14 @@ export function PropertyDetailClient({ area }: Props) {
     const [contactPhone, setContactPhone] = useState('')
     const [formSubmitted, setFormSubmitted] = useState(false)
 
-    // Use area image as fallback if product has no images
+    // Fallback logic for images:
+    // 1. Specific Product Gallery
+    // 2. Area/Cluster Gallery
+    // 3. Featured Area Image
+    const areaGallery = (area.images ? JSON.parse(area.images) : []) as string[]
     const displayImages = selectedProduct.images.length > 0
         ? selectedProduct.images
-        : [area.image]
+        : (areaGallery.length > 0 ? areaGallery : [area.image])
 
     return (
         <>

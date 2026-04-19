@@ -12,6 +12,7 @@ export async function createProperty(formData: FormData) {
   const virtualRoomUrl = formData.get('virtualRoomUrl') as string
   const brosurUrl = formData.get('brosurUrl') as string
   const description = formData.get('description') as string
+  const images = formData.get('images') as string // JSON string array
 
   await db.property.create({
     data: {
@@ -22,6 +23,7 @@ export async function createProperty(formData: FormData) {
       virtualRoomUrl: virtualRoomUrl || null,
       brosurUrl: brosurUrl || null,
       description: description || null,
+      images: images || null,
     },
   })
 
@@ -38,6 +40,7 @@ export async function updateProperty(id: string, formData: FormData) {
   const virtualRoomUrl = formData.get('virtualRoomUrl') as string
   const brosurUrl = formData.get('brosurUrl') as string
   const description = formData.get('description') as string
+  const images = formData.get('images') as string // JSON string array
 
   await db.property.update({
     where: { id },
@@ -49,6 +52,7 @@ export async function updateProperty(id: string, formData: FormData) {
       virtualRoomUrl: virtualRoomUrl || null,
       brosurUrl: brosurUrl || null,
       description: description || null,
+      images: images || null,
     },
   })
 

@@ -52,6 +52,7 @@ model Property {
   virtualRoomUrl String?
   brosurUrl      String?
   description    String?
+  images         String?        // JSON string array of image paths for cluster gallery
   products       PropertyType[]
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt

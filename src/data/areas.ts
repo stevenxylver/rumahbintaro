@@ -30,6 +30,7 @@ export interface Area {
     brosurUrl?: string
     products: Product[]
     description?: string
+    images?: string
 }
 
 export const areas: Area[] = [
