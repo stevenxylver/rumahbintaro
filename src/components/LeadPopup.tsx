@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import { trackPromoView } from '@/lib/gtag'
 
 const PROMO_IMAGES = [
@@ -19,6 +19,7 @@ export function LeadPopup({ open, onClose }: LeadPopupProps) {
     const [slide, setSlide] = useState(0)
     const [isVisible, setIsVisible] = useState(false)
     const router = useRouter()
+    const pathname = usePathname()
 
     useEffect(() => {
         if (open) {
@@ -38,7 +39,7 @@ export function LeadPopup({ open, onClose }: LeadPopupProps) {
         return () => clearInterval(interval)
     }, [open])
 
-    if (!open) return null
+    if (!open || pathname?.startsWith('/admin')) return null
 
     const handleClick = () => {
         onClose()

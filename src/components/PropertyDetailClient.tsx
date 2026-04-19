@@ -24,7 +24,7 @@ export function PropertyDetailClient({ area }: Props) {
     // 1. Specific Product Gallery
     // 2. Area/Cluster Gallery
     // 3. Featured Area Image
-    const areaGallery = (area.images ? JSON.parse(area.images) : []) as string[]
+    const areaGallery = (Array.isArray(area.images) ? area.images : []) as string[]
     const displayImages = selectedProduct.images.length > 0
         ? selectedProduct.images
         : (areaGallery.length > 0 ? areaGallery : [area.image])

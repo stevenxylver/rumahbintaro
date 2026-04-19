@@ -42,11 +42,18 @@ export default async function KavlingDetailPage({ params }: Props) {
         notFound()
     }
 
-    // Parse images JSON string back to array for the client component
+    // Parse images safely
+    let parsedImages = []
+    try {
+        parsedImages = kavling.images ? JSON.parse(kavling.images) : []
+    } catch (e) {
+        console.error('Failed to parse kavling images:', e)
+    }
+
     const kavlingWithImages = {
         ...kavling,
         description: kavling.description ?? undefined,
-        images: kavling.images ? JSON.parse(kavling.images) : undefined,
+        images: Array.isArray(parsedImages) ? parsedImages : [],
     }
 
     return (

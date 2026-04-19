@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { writeFile } from 'fs/promises'
+import { writeFile, mkdir } from 'fs/promises'
+import { existsSync } from 'fs'
 import path from 'path'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -9,6 +10,7 @@ export async function POST(req: NextRequest) {
     const file = formData.get('file') as File | null
 
     if (!file) {
+      console.log('Upload failed: No file found in request')
       return NextResponse.json({ error: 'No file uploaded' }, { status: 400 })
     }
 
@@ -19,20 +21,21 @@ export async function POST(req: NextRequest) {
     const uploadDir = path.join(process.cwd(), 'public', 'uploads', 'general')
     
     // Ensure directory exists
-    const fs = require('fs')
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true })
+    if (!existsSync(uploadDir)) {
+      await mkdir(uploadDir, { recursive: true })
+      console.log('Created directory:', uploadDir)
     }
 
     const filePath = path.join(uploadDir, filename)
     await writeFile(filePath, buffer)
+    console.log('File successfully uploaded to:', filePath)
 
     return NextResponse.json({ 
       url: `/uploads/general/${filename}`,
       success: true 
     })
-  } catch (error) {
-    console.error('Upload error:', error)
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
+  } catch (error: any) {
+    console.error('Upload API Error:', error.message, error.stack)
+    return NextResponse.json({ error: 'Internal Server Error', details: error.message }, { status: 500 })
   }
 }

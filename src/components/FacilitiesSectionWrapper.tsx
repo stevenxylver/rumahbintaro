@@ -6,11 +6,21 @@ export async function FacilitiesSectionWrapper() {
         orderBy: { category: 'asc' },
     })
 
-    const facilitiesData = facilities.map(f => ({
-        title: f.title,
-        image: f.image,
-        category: f.category,
-    }))
+    const facilitiesData = facilities.map(f => {
+        let parsedImages = []
+        try {
+            parsedImages = f.images ? JSON.parse(f.images) : []
+        } catch (e) {
+            console.error('Failed to parse facility images:', e)
+        }
+
+        return {
+            title: f.title,
+            image: f.image,
+            category: f.category,
+            images: Array.isArray(parsedImages) ? parsedImages : [],
+        }
+    })
 
     return <FacilitiesSection facilities={facilitiesData} />
 }

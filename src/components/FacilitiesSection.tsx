@@ -7,6 +7,7 @@ interface Facility {
     title: string
     image: string
     category: string
+    images?: string[]
 }
 
 const categories = [

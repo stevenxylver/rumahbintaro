@@ -48,16 +48,25 @@ export default async function PropertyDetailPage({ params }: Props) {
         notFound()
     }
 
+    // Safely parse JSON strings
+    const safeParse = (str: string | null | undefined, fallback: any = []) => {
+        if (!str) return fallback
+        try {
+            return JSON.parse(str)
+        } catch (e) {
+            console.error('JSON parse error:', e)
+            return fallback
+        }
+    }
+
     // Map database models to match the expected Client Component interface
     const mappedArea = {
         ...area,
+        images: safeParse(area.images),
         products: area.products.map(p => ({
-            type: p.type,
-            bedrooms: p.bedrooms,
-            bathrooms: p.bathrooms,
-            carPack: p.carPack,
-            images: p.images ? JSON.parse(p.images) : [],
-            ...(p.specs ? JSON.parse(p.specs) : {})
+            ...p,
+            images: safeParse(p.images),
+            ...(safeParse(p.specs, {}))
         }))
     }
 
