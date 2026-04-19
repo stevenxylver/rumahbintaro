@@ -44,7 +44,7 @@ export function PromoReadySection() {
                 <div className="md:hidden">
                     <div className="grid grid-cols-2 gap-4">
                         {currentBenefitsMobile.map((item, idx) => (
-                            <div 
+                            <div
                                 key={idx}
                                 className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm text-center flex flex-col items-center justify-center min-h-[140px]"
                             >
@@ -99,7 +99,7 @@ export function PromoReadySection() {
                 <div className="hidden md:block">
                     <div className="grid grid-cols-3 gap-8">
                         {BENEFITS.map((item, idx) => (
-                            <div 
+                            <div
                                 key={idx}
                                 className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group flex items-start gap-6"
                             >
@@ -112,29 +112,6 @@ export function PromoReadySection() {
                             </div>
                         ))}
                     </div>
-                </div>
-
-                {/* CTA Button */}
-                <div className="flex justify-center mt-12 md:mt-16 px-4">
-                    <a
-                        href="https://wa.me/6281808187943?text=Halo, saya ingin konsultasi mengenai promo Unit Siap Huni di Rumah Bintaro"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => trackWhatsAppClick('Promo Siap Huni Section')}
-                        className="group relative inline-flex items-center justify-center gap-3 w-full md:w-auto px-10 py-5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-lg font-bold rounded-full shadow-2xl hover:shadow-blue-500/40 transition-all hover:scale-105 active:scale-95"
-                    >
-                        <span>Konsultasi Sekarang</span>
-                        <svg 
-                            className="w-6 h-6 group-hover:translate-x-1 transition-transform" 
-                            fill="none" 
-                            stroke="currentColor" 
-                            viewBox="0 0 24 24"
-                        >
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                        </svg>
-                        
-                        <div className="absolute inset-0 bg-white/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </a>
                 </div>
             </div>
         </section>

@@ -33,9 +33,18 @@ export function Footer() {
                             <li>
                                 <Link href="/" className="text-gray-600 hover:text-blue-500 transition-colors">Beranda</Link>
                             </li>
-                            <li>
-                                <Link href="/properties" className="text-gray-600 hover:text-blue-500 transition-colors">Properti</Link>
-                            </li>
+                             <li>
+                                 <Link href="/kavling" className="text-gray-600 hover:text-blue-500 transition-colors">Kavling</Link>
+                             </li>
+                             <li>
+                                 <Link href="/about" className="text-gray-600 hover:text-blue-500 transition-colors">Tentang Kami</Link>
+                             </li>
+                             <li>
+                                 <Link href="/blog" className="text-gray-600 hover:text-blue-500 transition-colors">Artikel</Link>
+                             </li>
+                             <li>
+                                 <Link href="/contact" className="text-gray-600 hover:text-blue-500 transition-colors">Kontak</Link>
+                             </li>
                         </ul>
                     </div>
 
