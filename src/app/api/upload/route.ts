@@ -16,13 +16,19 @@ export async function POST(req: NextRequest) {
     const buffer = Buffer.from(bytes)
 
     const filename = `${uuidv4()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`
-    const uploadDir = path.join(process.cwd(), 'public', 'uploads', 'blog')
-    const filePath = path.join(uploadDir, filename)
+    const uploadDir = path.join(process.cwd(), 'public', 'uploads', 'general')
+    
+    // Ensure directory exists
+    const fs = require('fs')
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true })
+    }
 
+    const filePath = path.join(uploadDir, filename)
     await writeFile(filePath, buffer)
 
     return NextResponse.json({ 
-      url: `/uploads/blog/${filename}`,
+      url: `/uploads/general/${filename}`,
       success: true 
     })
   } catch (error) {

@@ -13,6 +13,7 @@ export async function createKavling(formData: FormData) {
   const size = formData.get('size') as string
   const hot = formData.get('hot') === 'on'
   const description = formData.get('description') as string
+  const images = formData.get('images') as string // JSON string array
 
   await db.kavling.create({
     data: {
@@ -24,7 +25,7 @@ export async function createKavling(formData: FormData) {
       size,
       hot,
       description: description || null,
-      images: image ? JSON.stringify([image]) : null,
+      images: images || null,
     },
   })
 
@@ -42,6 +43,7 @@ export async function updateKavling(id: string, formData: FormData) {
   const size = formData.get('size') as string
   const hot = formData.get('hot') === 'on'
   const description = formData.get('description') as string
+  const images = formData.get('images') as string // JSON string array
 
   await db.kavling.update({
     where: { id },
@@ -54,7 +56,7 @@ export async function updateKavling(id: string, formData: FormData) {
       size,
       hot,
       description: description || null,
-      images: image ? JSON.stringify([image]) : null,
+      images: images || null,
     },
   })
 

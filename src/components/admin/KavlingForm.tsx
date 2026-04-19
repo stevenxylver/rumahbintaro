@@ -14,6 +14,7 @@ interface KavlingFormProps {
     size: string
     hot: boolean
     description: string | null
+    images: string | null
   } | null
   action: (formData: FormData) => Promise<void>
 }
@@ -21,23 +22,38 @@ interface KavlingFormProps {
 export default function KavlingForm({ kavling, action }: KavlingFormProps) {
   const [isUploading, setIsUploading] = useState(false)
   const [imageUrl, setImageUrl] = useState(kavling?.image || '')
+  const [gallery, setGallery] = useState<string[]>(kavling?.images ? JSON.parse(kavling.images) : [])
 
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, isGallery = false) => {
+    const files = e.target.files
+    if (!files || files.length === 0) return
+    
     setIsUploading(true)
-    const formData = new FormData()
-    formData.append('file', file)
-    try {
-      const res = await fetch('/api/upload', { method: 'POST', body: formData })
-      const data = await res.json()
-      if (data.url) setImageUrl(data.url)
-    } catch (error) {
-      console.error('Upload failed:', error)
-      alert('Upload failed')
-    } finally {
-      setIsUploading(false)
+    
+    if (isGallery) {
+      for (let i = 0; i < files.length; i++) {
+        const formData = new FormData()
+        formData.append('file', files[i])
+        try {
+          const res = await fetch('/api/upload', { method: 'POST', body: formData })
+          const data = await res.json()
+          if (data.url) setGallery(prev => [...prev, data.url])
+        } catch (error) {
+          console.error('Upload failed:', error)
+        }
+      }
+    } else {
+      const formData = new FormData()
+      formData.append('file', files[0])
+      try {
+        const res = await fetch('/api/upload', { method: 'POST', body: formData })
+        const data = await res.json()
+        if (data.url) setImageUrl(data.url)
+      } catch (error) {
+        console.error('Upload failed:', error)
+      }
     }
+    setIsUploading(false)
   }
 
   return (
@@ -70,7 +86,7 @@ export default function KavlingForm({ kavling, action }: KavlingFormProps) {
       </div>
 
       <div>
-        <label className="block text-sm font-bold text-gray-700 mb-2">Gambar</label>
+        <label className="block text-sm font-bold text-gray-700 mb-2">Gambar Featured (Utama)</label>
         <div className="relative h-48 w-full bg-gray-50 rounded-2xl overflow-hidden border-2 border-dashed border-gray-200 flex items-center justify-center">
           {imageUrl ? (
             <>
@@ -79,14 +95,33 @@ export default function KavlingForm({ kavling, action }: KavlingFormProps) {
             </>
           ) : (
             <div className="text-center">
-              <input type="file" accept="image/*" onChange={handleFileUpload} className="hidden" id="kavling-upload" disabled={isUploading} />
+              <input type="file" accept="image/*" onChange={(e) => handleFileUpload(e, false)} className="hidden" id="kavling-upload" disabled={isUploading} />
               <label htmlFor="kavling-upload" className="cursor-pointer text-blue-600 font-bold hover:underline">
-                {isUploading ? 'Uploading...' : 'Click to Upload Image'}
+                {isUploading ? 'Uploading...' : 'Click to Upload Featured Image'}
               </label>
             </div>
           )}
         </div>
         <input type="hidden" name="image" value={imageUrl} />
+      </div>
+
+      <div>
+        <label className="block text-sm font-bold text-gray-700 mb-2">Gallery Kavling (Beberapa Gambar)</label>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-3">
+          {gallery.map((img, idx) => (
+            <div key={idx} className="relative h-24 bg-gray-100 rounded-xl overflow-hidden border border-gray-100">
+              <Image src={img} alt={`Gallery ${idx}`} fill className="object-cover" />
+              <button type="button" onClick={() => setGallery(prev => prev.filter((_, i) => i !== idx))} className="absolute top-1 right-1 bg-red-600 text-white p-1 rounded-full text-xs">✕</button>
+            </div>
+          ))}
+          <div className="relative h-24 bg-gray-50 rounded-xl overflow-hidden border-2 border-dashed border-gray-200 flex items-center justify-center">
+            <input type="file" multiple accept="image/*" onChange={(e) => handleFileUpload(e, true)} className="hidden" id="gallery-upload" disabled={isUploading} />
+            <label htmlFor="gallery-upload" className="cursor-pointer text-blue-400 text-xs font-bold hover:underline">
+              {isUploading ? '...' : '+ Add Gallery'}
+            </label>
+          </div>
+        </div>
+        <input type="hidden" name="images" value={JSON.stringify(gallery)} />
       </div>
 
       <div>

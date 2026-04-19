@@ -39,6 +39,7 @@ model Facility {
   title     String
   image     String
   category  String
+  images    String?  // JSON string array of image paths
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
