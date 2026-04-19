@@ -25,7 +25,9 @@ export function PropertyDetailClient({ area }: Props) {
     // 2. Area/Cluster Gallery
     // 3. Featured Area Image
     const areaGallery = (Array.isArray(area.images) ? area.images : []) as string[]
-    const displayImages = selectedProduct.images.length > 0
+    
+    // Safety check for display images
+    const displayImages = selectedProduct?.images && selectedProduct.images.length > 0
         ? selectedProduct.images
         : (areaGallery.length > 0 ? areaGallery : [area.image])
 
@@ -57,8 +59,8 @@ export function PropertyDetailClient({ area }: Props) {
                                 onClick={() => setIsLightboxOpen(true)}
                             >
                                 <Image
-                                    src={displayImages[currentImageIndex]}
-                                    alt={`${area.name} - ${selectedProduct.type}`}
+                                    src={displayImages[currentImageIndex] || area.image}
+                                    alt={`${area.name} - ${selectedProduct?.type || 'Unit'}`}
                                     fill
                                     className="object-cover hover:scale-105 transition-transform duration-300"
                                     priority
@@ -135,7 +137,7 @@ export function PropertyDetailClient({ area }: Props) {
                                     <h1 className="text-2xl md:text-4xl font-bold text-gray-900 leading-tight">{area.name}</h1>
                                     {/* Type badge — next to name */}
                                     <span className="inline-flex items-center px-3 py-1 bg-blue-50 text-blue-600 text-sm font-semibold rounded-full border border-blue-100 flex-shrink-0">
-                                        {selectedProduct.type}
+                                        {selectedProduct?.type || 'Default'}
                                     </span>
                                     {/* Desktop-only Virtual Room button */}
                                     {area.virtualRoomUrl && (
@@ -173,25 +175,25 @@ export function PropertyDetailClient({ area }: Props) {
                             {/* Features Grid */}
                             {(() => {
                                 const allFeatures = [
-                                    { icon: '🛏️', value: String(selectedProduct.bedrooms), label: 'Kamar Tidur' },
-                                    { icon: '🚿', value: String(selectedProduct.bathrooms), label: 'Kamar Mandi' },
-                                    { icon: '🍳', value: String(selectedProduct.kitchen), label: 'Dapur' },
-                                    { icon: '🛋️', value: String(selectedProduct.livingRoom), label: 'Ruang Tamu' },
-                                    { icon: '🚗', value: String(selectedProduct.carPack), label: 'Car Park' },
-                                    { icon: '🌿', value: String(selectedProduct.terraceGarden), label: 'Teras/Taman' },
-                                    ...(selectedProduct.ensuiteMasterBedroom ? [{ icon: '🛏️', value: String(selectedProduct.ensuiteMasterBedroom), label: 'Ensuite Master Bedroom' }] : []),
-                                    ...(selectedProduct.powderRoom ? [{ icon: '🪞', value: String(selectedProduct.powderRoom), label: 'Powder Room' }] : []),
-                                    ...(selectedProduct.sideYard ? [{ icon: '🌳', value: String(selectedProduct.sideYard), label: 'Side Yard' }] : []),
-                                    ...(selectedProduct.guestLounge ? [{ icon: '🪑', value: String(selectedProduct.guestLounge), label: 'Guest Lounge' }] : []),
-                                    ...(selectedProduct.laundryArea ? [{ icon: '🧺', value: String(selectedProduct.laundryArea), label: 'Laundry Area' }] : []),
-                                    ...(selectedProduct.diningRoom ? [{ icon: '🍽️', value: String(selectedProduct.diningRoom), label: 'Dining Room' }] : []),
-                                    ...(selectedProduct.maidRoomBathroom ? [{ icon: '🏠', value: String(selectedProduct.maidRoomBathroom), label: 'Maid Room & Bathroom' }] : []),
-                                    ...(selectedProduct.workingArea ? [{ icon: '💼', value: String(selectedProduct.workingArea), label: 'Working Area' }] : []),
-                                    ...(selectedProduct.carCharger ? [{ icon: '🔌', value: String(selectedProduct.carCharger), label: 'Car Charger System' }] : []),
-                                    ...(selectedProduct.smartDoorLock ? [{ icon: '🔐', value: String(selectedProduct.smartDoorLock), label: 'Smart Door Lock' }] : []),
-                                    ...(selectedProduct.wallPad ? [{ icon: '📱', value: String(selectedProduct.wallPad), label: 'Wall Pad Security' }] : []),
-                                    ...(selectedProduct.pantryArea ? [{ icon: '🍶', value: String(selectedProduct.pantryArea), label: 'Pantry Area' }] : []),
-                                ].filter(f => f.value !== '0')
+                                    { icon: '🛏️', value: String(selectedProduct?.bedrooms || 0), label: 'Kamar Tidur' },
+                                    { icon: '🚿', value: String(selectedProduct?.bathrooms || 0), label: 'Kamar Mandi' },
+                                    { icon: '🍳', value: String(selectedProduct?.kitchen || 0), label: 'Dapur' },
+                                    { icon: '🛋️', value: String(selectedProduct?.livingRoom || 0), label: 'Ruang Tamu' },
+                                    { icon: '🚗', value: String(selectedProduct?.carPack || 0), label: 'Car Park' },
+                                    { icon: '🌿', value: String(selectedProduct?.terraceGarden || 0), label: 'Teras/Taman' },
+                                    ...(selectedProduct?.ensuiteMasterBedroom ? [{ icon: '🛏️', value: String(selectedProduct.ensuiteMasterBedroom), label: 'Ensuite Master Bedroom' }] : []),
+                                    ...(selectedProduct?.powderRoom ? [{ icon: '🪞', value: String(selectedProduct.powderRoom), label: 'Powder Room' }] : []),
+                                    ...(selectedProduct?.sideYard ? [{ icon: '🌳', value: String(selectedProduct.sideYard), label: 'Side Yard' }] : []),
+                                    ...(selectedProduct?.guestLounge ? [{ icon: '🪑', value: String(selectedProduct.guestLounge), label: 'Guest Lounge' }] : []),
+                                    ...(selectedProduct?.laundryArea ? [{ icon: '🧺', value: String(selectedProduct.laundryArea), label: 'Laundry Area' }] : []),
+                                    ...(selectedProduct?.diningRoom ? [{ icon: '🍽️', value: String(selectedProduct.diningRoom), label: 'Dining Room' }] : []),
+                                    ...(selectedProduct?.maidRoomBathroom ? [{ icon: '🏠', value: String(selectedProduct.maidRoomBathroom), label: 'Maid Room & Bathroom' }] : []),
+                                    ...(selectedProduct?.workingArea ? [{ icon: '💼', value: String(selectedProduct.workingArea), label: 'Working Area' }] : []),
+                                    ...(selectedProduct?.carCharger ? [{ icon: '🔌', value: String(selectedProduct.carCharger), label: 'Car Charger System' }] : []),
+                                    ...(selectedProduct?.smartDoorLock ? [{ icon: '🔐', value: String(selectedProduct.smartDoorLock), label: 'Smart Door Lock' }] : []),
+                                    ...(selectedProduct?.wallPad ? [{ icon: '📱', value: String(selectedProduct.wallPad), label: 'Wall Pad Security' }] : []),
+                                    ...(selectedProduct?.pantryArea ? [{ icon: '🍶', value: String(selectedProduct.pantryArea), label: 'Pantry Area' }] : []),
+                                ].filter(f => f.value !== '0' && f.value !== 'undefined')
                                 const displayedFeatures = showAllFeatures ? allFeatures : allFeatures.slice(0, 6)
                                 const hasMore = allFeatures.length > 6
 
@@ -228,9 +230,13 @@ export function PropertyDetailClient({ area }: Props) {
                                 <h2 className="text-xl font-bold text-gray-900 mb-4">Tentang Properti</h2>
                                 <p className="text-gray-600 leading-relaxed">
                                     {area.name} adalah hunian modern dengan desain arsitektur kontemporer yang menawarkan kenyamanan dan keeleganan.
-                                    Unit {selectedProduct.type} memiliki {selectedProduct.bedrooms} kamar tidur dan {selectedProduct.bathrooms} kamar mandi,
-                                    cocok untuk keluarga kecil hingga menengah. Dilengkapi dengan area parkir untuk {selectedProduct.carPack} mobil
-                                    {selectedProduct.terraceGarden ? ' serta teras dan taman yang asri.' : '.'}
+                                    {selectedProduct && (
+                                        <>
+                                            Unit {selectedProduct.type} memiliki {selectedProduct.bedrooms} kamar tidur dan {selectedProduct.bathrooms} kamar mandi,
+                                            cocok untuk keluarga kecil hingga menengah. Dilengkapi dengan area parkir untuk {selectedProduct.carPack} mobil
+                                            {selectedProduct.terraceGarden ? ' serta teras dan taman yang asri.' : '.'}
+                                        </>
+                                    )}
                                 </p>
                             </div>
                         </div>
@@ -249,13 +255,13 @@ export function PropertyDetailClient({ area }: Props) {
                                                     setSelectedProduct(product)
                                                     setCurrentImageIndex(0)
                                                 }}
-                                                className={`w-full p-4 rounded-xl text-left transition-all ${selectedProduct.type === product.type
+                                                className={`w-full p-4 rounded-xl text-left transition-all ${selectedProduct?.type === product.type
                                                     ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg'
                                                     : 'bg-white border border-gray-200 text-gray-900 hover:border-blue-400'
                                                     }`}
                                             >
                                                 <div className="font-bold">{product.type}</div>
-                                                <div className={`text-sm ${selectedProduct.type === product.type ? 'text-white/80' : 'text-gray-500'}`}>
+                                                <div className={`text-sm ${selectedProduct?.type === product.type ? 'text-white/80' : 'text-gray-500'}`}>
                                                     {product.bedrooms} KT • {product.bathrooms} KM • {product.carPack} Parkir
                                                 </div>
                                             </button>
@@ -269,101 +275,101 @@ export function PropertyDetailClient({ area }: Props) {
                                     <div className="space-y-2 text-sm">
                                         <div className="flex justify-between">
                                             <span className="text-gray-500">Tipe</span>
-                                            <span className="font-medium">{selectedProduct.type}</span>
+                                            <span className="font-medium">{selectedProduct?.type || '-'}</span>
                                         </div>
                                         <div className="flex justify-between">
                                             <span className="text-gray-500">Kamar Tidur</span>
-                                            <span className="font-medium">{selectedProduct.bedrooms}</span>
+                                            <span className="font-medium">{selectedProduct?.bedrooms || 0}</span>
                                         </div>
                                         <div className="flex justify-between">
                                             <span className="text-gray-500">Kamar Mandi</span>
-                                            <span className="font-medium">{selectedProduct.bathrooms}</span>
+                                            <span className="font-medium">{selectedProduct?.bathrooms || 0}</span>
                                         </div>
                                         <div className="flex justify-between">
                                             <span className="text-gray-500">Dapur</span>
-                                            <span className="font-medium">{selectedProduct.kitchen}</span>
+                                            <span className="font-medium">{selectedProduct?.kitchen || 0}</span>
                                         </div>
                                         <div className="flex justify-between">
                                             <span className="text-gray-500">Ruang Tamu</span>
-                                            <span className="font-medium">{selectedProduct.livingRoom}</span>
+                                            <span className="font-medium">{selectedProduct?.livingRoom || 0}</span>
                                         </div>
                                         <div className="flex justify-between">
                                             <span className="text-gray-500">Car Park</span>
-                                            <span className="font-medium">{selectedProduct.carPack}</span>
+                                            <span className="font-medium">{selectedProduct?.carPack || 0}</span>
                                         </div>
-                                        {selectedProduct.terraceGarden ? (
+                                        {selectedProduct?.terraceGarden ? (
                                             <div className="flex justify-between">
                                                 <span className="text-gray-500">Teras/Taman</span>
                                                 <span className="font-medium">{selectedProduct.terraceGarden}</span>
                                             </div>
                                         ) : null}
-                                        {selectedProduct.ensuiteMasterBedroom ? (
+                                        {selectedProduct?.ensuiteMasterBedroom ? (
                                             <div className="flex justify-between">
                                                 <span className="text-gray-500">Ensuite Master</span>
                                                 <span className="font-medium">{selectedProduct.ensuiteMasterBedroom}</span>
                                             </div>
                                         ) : null}
-                                        {selectedProduct.powderRoom ? (
+                                        {selectedProduct?.powderRoom ? (
                                             <div className="flex justify-between">
                                                 <span className="text-gray-500">Powder Room</span>
                                                 <span className="font-medium">{selectedProduct.powderRoom}</span>
                                             </div>
                                         ) : null}
-                                        {selectedProduct.sideYard ? (
+                                        {selectedProduct?.sideYard ? (
                                             <div className="flex justify-between">
                                                 <span className="text-gray-500">Side Yard</span>
                                                 <span className="font-medium">{selectedProduct.sideYard}</span>
                                             </div>
                                         ) : null}
-                                        {selectedProduct.guestLounge ? (
+                                        {selectedProduct?.guestLounge ? (
                                             <div className="flex justify-between">
                                                 <span className="text-gray-500">Guest Lounge</span>
                                                 <span className="font-medium">{selectedProduct.guestLounge}</span>
                                             </div>
                                         ) : null}
-                                        {selectedProduct.laundryArea ? (
+                                        {selectedProduct?.laundryArea ? (
                                             <div className="flex justify-between">
                                                 <span className="text-gray-500">Laundry Area</span>
                                                 <span className="font-medium">{selectedProduct.laundryArea}</span>
                                             </div>
                                         ) : null}
-                                        {selectedProduct.diningRoom ? (
+                                        {selectedProduct?.diningRoom ? (
                                             <div className="flex justify-between">
                                                 <span className="text-gray-500">Dining Room</span>
                                                 <span className="font-medium">{selectedProduct.diningRoom}</span>
                                             </div>
                                         ) : null}
-                                        {selectedProduct.maidRoomBathroom ? (
+                                        {selectedProduct?.maidRoomBathroom ? (
                                             <div className="flex justify-between">
                                                 <span className="text-gray-500">Maid Room & Bath</span>
                                                 <span className="font-medium">{selectedProduct.maidRoomBathroom}</span>
                                             </div>
                                         ) : null}
-                                        {selectedProduct.workingArea ? (
+                                        {selectedProduct?.workingArea ? (
                                             <div className="flex justify-between">
                                                 <span className="text-gray-500">Working Area</span>
                                                 <span className="font-medium">{selectedProduct.workingArea}</span>
                                             </div>
                                         ) : null}
-                                        {selectedProduct.carCharger ? (
+                                        {selectedProduct?.carCharger ? (
                                             <div className="flex justify-between">
                                                 <span className="text-gray-500">Car Charger</span>
                                                 <span className="font-medium">{selectedProduct.carCharger}</span>
                                             </div>
                                         ) : null}
-                                        {selectedProduct.smartDoorLock ? (
+                                        {selectedProduct?.smartDoorLock ? (
                                             <div className="flex justify-between">
                                                 <span className="text-gray-500">Smart Door Lock</span>
                                                 <span className="font-medium">{selectedProduct.smartDoorLock}</span>
                                             </div>
                                         ) : null}
-                                        {selectedProduct.wallPad ? (
+                                        {selectedProduct?.wallPad ? (
                                             <div className="flex justify-between">
                                                 <span className="text-gray-500">Wall Pad Security</span>
                                                 <span className="font-medium">{selectedProduct.wallPad}</span>
                                             </div>
                                         ) : null}
-                                        {selectedProduct.pantryArea ? (
+                                        {selectedProduct?.pantryArea ? (
                                             <div className="flex justify-between">
                                                 <span className="text-gray-500">Pantry Area</span>
                                                 <span className="font-medium">{selectedProduct.pantryArea}</span>
@@ -375,10 +381,10 @@ export function PropertyDetailClient({ area }: Props) {
                                 {/* Contact Buttons */}
                                 <div className="space-y-3">
                                     <a
-                                        href={`https://wa.me/6281808187943?text=Halo, saya tertarik dengan properti ${area.name} - ${selectedProduct.type}`}
+                                        href={`https://wa.me/6281808187943?text=Halo, saya tertarik dengan properti ${area.name}${selectedProduct ? ` - ${selectedProduct.type}` : ''}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        onClick={() => trackWhatsAppClick(`Property Detail - ${area.name} (${selectedProduct.type})`)}
+                                        onClick={() => trackWhatsAppClick(`Property Detail - ${area.name}${selectedProduct ? ` (${selectedProduct.type})` : ''}`)}
                                         className="flex items-center justify-center gap-2 w-full py-3 bg-emerald-500 text-white rounded-xl font-semibold hover:bg-emerald-600 transition-all shadow-lg"
                                     >
                                         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
