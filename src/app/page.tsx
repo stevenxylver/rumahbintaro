@@ -6,6 +6,7 @@ import { PartnerBank } from '@/components/PartnerBank'
 import { KavlingSection } from '@/components/KavlingSection'
 import { IconLinkSection } from '@/components/IconLinkSection'
 import { Ctaformpromo } from '@/components/CtaFormPromo'
+import { PromoReadySection } from '@/components/PromoReadySection'
 
 export default function HomePage() {
   return (
@@ -25,6 +26,7 @@ export default function HomePage() {
 
       {/* Google Map Section */}
       <GoogleMapSection />
+      <PromoReadySection />
 
       {/* Facilities Section */}
       <FacilitiesSection />

@@ -25,6 +25,10 @@ export const metadata: Metadata = {
     type: "website",
     locale: "id_ID",
   },
+  icons: {
+    icon: "/images/Jaya_log_merah.webp",
+    apple: "/images/Jaya_log_merah.webp",
+  },
 };
 
 export default async function RootLayout({
