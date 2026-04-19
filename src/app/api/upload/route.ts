@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
     const bytes = await file.arrayBuffer()
     const buffer = Buffer.from(bytes)
 
-    const filename = `${uuidv4()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`
+    const filename = `${uuidv4()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`.toLowerCase()
     const uploadDir = path.join(process.cwd(), 'public', 'uploads', 'general')
     
     // Ensure directory exists
