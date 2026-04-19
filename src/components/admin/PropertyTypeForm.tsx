@@ -9,32 +9,10 @@ interface PropertyTypeFormProps {
 }
 
 export default function PropertyTypeForm({ propertyId, action }: PropertyTypeFormProps) {
-  const [isUploading, setIsUploading] = useState(false)
-  const [images, setImages] = useState<string[]>([])
-
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files
-    if (!files) return
-    setIsUploading(true)
-    
-    for (let i = 0; i < files.length; i++) {
-      const formData = new FormData()
-      formData.append('file', files[i])
-      try {
-        const res = await fetch('/api/upload', { method: 'POST', body: formData })
-        const data = await res.json()
-        if (data.url) setImages(prev => [...prev, data.url])
-      } catch (error) {
-        console.error('Upload failed:', error)
-      }
-    }
-    setIsUploading(false)
-  }
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
-    formData.append('images', JSON.stringify(images))
+
     
     // Convert all other inputs to a specs JSON object for "flexibility"
     const specs: Record<string, any> = {}
@@ -51,7 +29,6 @@ export default function PropertyTypeForm({ propertyId, action }: PropertyTypeFor
     
     await action(formData)
     e.currentTarget.reset()
-    setImages([])
   }
 
   return (
@@ -85,18 +62,7 @@ export default function PropertyTypeForm({ propertyId, action }: PropertyTypeFor
         </div>
       </div>
 
-      <div>
-        <label className="block text-xs font-bold text-gray-500 mb-1">Gallery (Multiple Images)</label>
-        <div className="flex flex-wrap gap-2 mb-2">
-          {images.map((img, idx) => (
-            <div key={idx} className="relative w-16 h-16 rounded overflow-hidden">
-              <Image src={img} alt="Gallery item" fill className="object-cover" />
-              <button type="button" onClick={() => setImages(prev => prev.filter((_, i) => i !== idx))} className="absolute top-0 right-0 bg-red-600 text-white text-[10px] p-1">✕</button>
-            </div>
-          ))}
-        </div>
-        <input type="file" multiple accept="image/*" onChange={handleFileUpload} disabled={isUploading} className="text-sm" />
-      </div>
+
 
       <button type="submit" className="w-full bg-gray-900 text-white py-2 rounded-xl font-bold hover:bg-black transition-all">
         Simpan Tipe Unit
