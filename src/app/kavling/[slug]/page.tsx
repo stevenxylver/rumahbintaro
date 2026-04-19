@@ -27,10 +27,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
     return {
         title: `${kavling.name} - ${kavling.size} - Rumah Bintaro`,
-        description: `Tanah kavling ${kavling.name} seluas ${kavling.size} di kawasan Bintaro. Siap bangun dengan sertifikat SHM.`,
+        description: kavling.description || `Tanah kavling ${kavling.name} seluas ${kavling.size} di kawasan Bintaro. Siap bangun dengan sertifikat SHM.`,
         openGraph: {
             title: `${kavling.name} - Rumah Bintaro`,
-            description: `Tanah kavling ${kavling.name} seluas ${kavling.size} di kawasan Bintaro.`,
+            description: kavling.description || `Tanah kavling ${kavling.name} seluas ${kavling.size} di kawasan Bintaro.`,
             type: 'article',
             images: kavling.image ? [{ url: kavling.image, width: 1200, height: 630 }] : [],
             locale: 'id_ID',

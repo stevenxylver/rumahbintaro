@@ -29,6 +29,7 @@ export interface Area {
     virtualRoomUrl?: string
     brosurUrl?: string
     products: Product[]
+    description?: string
 }
 
 export const areas: Area[] = [
@@ -128,7 +129,8 @@ export const areas: Area[] = [
                 pantryArea: 2,
                 images: ['/images/products/dharmawangsa.png', '/images/products/dharmalivingroom.png', '/images/products/dharmabedroom.png', '/images/products/dharmabathroom.png']
             },
-        ]
+        ],
+        description: 'Cluster Dharmawangsa di Bintaro Jaya menawarkan hunian mewah dengan desain arsitektur modern yang elegan. Terletak di lokasi strategis dengan akses mudah menuju tol dan fasilitas premium.'
     },
     {
         name: 'Montana',
@@ -181,7 +183,8 @@ export const areas: Area[] = [
                 pantryArea: 0,
                 images: ['/images/products/montanamain.png', '/images/products/dharmalivingroom.png', '/images/products/dharmabedroom.png', '/images/products/dharmabathroom.png']
             },
-        ]
+        ],
+        description: 'Nikmati hunian asri dan nyaman di Cluster Montana Bintaro Jaya. Cluster ini dirancang untuk gaya hidup modern keluarga millenial dengan keamanan 24 jam dan lingkungan hijau.'
     },
     {
         name: 'Azura',
@@ -233,7 +236,8 @@ export const areas: Area[] = [
                 pantryArea: 0,
                 images: ['/images/products/montanamain.png', '/images/products/dharmalivingroom.png', '/images/products/dharmabedroom.png', '/images/products/dharmabathroom.png']
             },
-        ]
+        ],
+        description: 'Azura Bintaro adalah perumahan eksklusif yang mengedepankan efisiensi ruang dan pencahayaan alami. Hunian ideal bagi Anda yang mencari keseimbangan hidup di tengah kota.'
     },
     {
         name: 'Botanica Aralia',
@@ -284,7 +288,8 @@ export const areas: Area[] = [
                 pantryArea: 0,
                 images: ['/images/products/montanamain.png', '/images/products/dharmalivingroom.png', '/images/products/dharmabedroom.png', '/images/products/dharmabathroom.png']
             },
-        ]
+        ],
+        description: 'Cluster Aralia di kawasan Botanica Bintaro Jaya mengusung konsep ramah lingkungan dengan taman-taman asri dan fungsionalitas ruang yang tinggi.'
     },
     {
         name: 'Botanica Belisa',
@@ -358,7 +363,8 @@ export const areas: Area[] = [
                 pantryArea: 0,
                 images: ['/images/products/montanamain.png', '/images/products/dharmalivingroom.png', '/images/products/dharmabedroom.png', '/images/products/dharmabathroom.png']
             },
-        ]
+        ],
+        description: 'Cluster Belisa di Botanica adalah pilihan terbaik untuk investasi rumah mewah di Bintaro. Menggabungkan arsitektur kontemporer dengan fasilitas modern lengkap.'
     },
     {
         name: 'Riviera',
@@ -431,7 +437,8 @@ export const areas: Area[] = [
                 pantryArea: 0,
                 images: ['/images/products/riviera.png', '/images/products/livingroomrivia.png', '/images/products/bedriviera.png', '/images/products/dharmabathroom.png']
             },
-        ]
+        ],
+        description: 'Cluster Riviera menawarkan hunian minimalis modern yang sangat populer di Bintaro Jaya. Harga terjangkau dengan akses strategis ke stasiun dan pusat bisnis.'
     },
     {
         name: 'Ninehomes',
@@ -460,7 +467,8 @@ export const areas: Area[] = [
                 pantryArea: 0,
                 images: ['/images/products/ninehome.png', '/images/products/livingroomrivia.png', '/images/products/bedriviera.png', '/images/products/dharmabathroom.png']
             },
-        ]
+        ],
+        description: 'Ninehomes adalah konsep hunian butik yang eksklusif dan tenang di jantung Bintaro. Memadukan privasi maksimal dengan kemudahan akses fasilitas kota.'
     },
     {
         name: 'Emerald Core',
@@ -487,7 +495,8 @@ export const areas: Area[] = [
                 terraceGarden: 1,
                 images: ['/images/products/emerald-98-1.jpg', '/images/products/emerald-98-2.jpg']
             },
-        ]
+        ],
+        description: 'Emerald Core menghadirkan desain rumah yang kompak namun fungsional di salah satu kawasan paling premium di Bintaro Jaya.'
     },
     {
         name: 'Botanica Evenue',
@@ -524,7 +533,8 @@ export const areas: Area[] = [
                 terraceGarden: 1,
                 images: ['/images/products/evenue-125-1.jpg']
             },
-        ]
+        ],
+        description: 'Botanica Evenue adalah pilihan tepat bagi keluarga muda yang mendambakan rumah dengan lingkungan hijau yang terintegrasi dengan baik.'
     },
     {
         name: 'Botanica Arcade',
@@ -551,6 +561,7 @@ export const areas: Area[] = [
                 terraceGarden: 1,
                 images: ['/images/products/arcade-92-1.jpg', '/images/products/arcade-92-2.jpg']
             },
-        ]
+        ],
+        description: 'Cluster Arcade di Botanica menawarkan kemudahan akses ke berbagai pusat kuliner dan belanja di kawasan komersial Bintaro Jaya.'
     },
-]
+];
