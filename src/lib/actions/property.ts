@@ -27,7 +27,9 @@ export async function createProperty(formData: FormData) {
     },
   })
 
+  revalidatePath('/')
   revalidatePath('/properties')
+  revalidatePath(`/properties/${slug}`)
   revalidatePath('/admin/property')
   redirect('/admin/property')
 }
@@ -56,6 +58,7 @@ export async function updateProperty(id: string, formData: FormData) {
     },
   })
 
+  revalidatePath('/')
   revalidatePath('/properties')
   revalidatePath(`/properties/${slug}`)
   revalidatePath('/admin/property')
@@ -67,6 +70,7 @@ export async function deleteProperty(id: string) {
     where: { id },
   })
 
+  revalidatePath('/')
   revalidatePath('/properties')
   revalidatePath('/admin/property')
 }

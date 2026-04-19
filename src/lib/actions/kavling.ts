@@ -29,7 +29,9 @@ export async function createKavling(formData: FormData) {
     },
   })
 
+  revalidatePath('/')
   revalidatePath('/kavling')
+  revalidatePath(`/kavling/${slug}`)
   revalidatePath('/admin/kavling')
   redirect('/admin/kavling')
 }
@@ -60,6 +62,7 @@ export async function updateKavling(id: string, formData: FormData) {
     },
   })
 
+  revalidatePath('/')
   revalidatePath('/kavling')
   revalidatePath(`/kavling/${slug}`)
   revalidatePath('/admin/kavling')
@@ -71,6 +74,7 @@ export async function deleteKavling(id: string) {
     where: { id },
   })
 
+  revalidatePath('/')
   revalidatePath('/kavling')
   revalidatePath('/admin/kavling')
 }

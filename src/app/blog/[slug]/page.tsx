@@ -8,6 +8,8 @@ interface Props {
     params: Promise<{ slug: string }>
 }
 
+export const dynamicParams = true
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params
     const post = await db.blogPost.findUnique({
