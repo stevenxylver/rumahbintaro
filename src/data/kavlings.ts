@@ -6,8 +6,8 @@ export interface Kavling {
     image: string
     size: string
     hot?: boolean
-    description?: string
-    images?: string[]
+    description?: string | null
+    images?: string[] | string | null
 }
 
 export const kavlings: Kavling[] = [

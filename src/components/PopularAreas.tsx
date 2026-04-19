@@ -3,23 +3,25 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState } from 'react'
-import { areas } from '@/data/areas'
-
 const ITEMS_PER_PAGE_MOBILE = 6 // 3 rows x 2 cols
 const ITEMS_PER_PAGE_DESKTOP = 10
 
-export function PopularAreas() {
+interface PopularAreasProps {
+    properties?: any[]
+}
+
+export function PopularAreas({ properties = [] }: PopularAreasProps) {
     const [currentPage, setCurrentPage] = useState(1)
     const [mobilePage, setMobilePage] = useState(1)
 
-    const totalPagesDesktop = Math.ceil(areas.length / ITEMS_PER_PAGE_DESKTOP)
-    const totalPagesMobile = Math.ceil(areas.length / ITEMS_PER_PAGE_MOBILE)
+    const totalPagesDesktop = Math.ceil(properties.length / ITEMS_PER_PAGE_DESKTOP)
+    const totalPagesMobile = Math.ceil(properties.length / ITEMS_PER_PAGE_MOBILE)
 
     const desktopStart = (currentPage - 1) * ITEMS_PER_PAGE_DESKTOP
-    const currentAreasDesktop = areas.slice(desktopStart, desktopStart + ITEMS_PER_PAGE_DESKTOP)
+    const currentAreasDesktop = properties.slice(desktopStart, desktopStart + ITEMS_PER_PAGE_DESKTOP)
 
     const mobileStart = (mobilePage - 1) * ITEMS_PER_PAGE_MOBILE
-    const currentAreasMobile = areas.slice(mobileStart, mobileStart + ITEMS_PER_PAGE_MOBILE)
+    const currentAreasMobile = properties.slice(mobileStart, mobileStart + ITEMS_PER_PAGE_MOBILE)
 
     return (
         <section className="pt-4 pb-8 md:py-20 bg-white overflow-hidden">

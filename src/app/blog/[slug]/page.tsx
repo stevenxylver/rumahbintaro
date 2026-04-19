@@ -1,8 +1,8 @@
+import db from '@/lib/db'
+import { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { Metadata } from 'next'
-import { blogPosts } from '@/data/blog'
 
 interface Props {
     params: Promise<{ slug: string }>
@@ -10,7 +10,9 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params
-    const post = blogPosts.find((p) => p.slug === slug)
+    const post = await db.blogPost.findUnique({
+        where: { slug }
+    })
     
     if (!post) return { title: 'Artikel Tidak Ditemukan' }
 
@@ -21,7 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             title: post.title,
             description: post.excerpt,
             type: 'article',
-            publishedTime: post.date,
+            publishedTime: post.date.toISOString(),
             images: [{ url: post.image }],
         },
     }
@@ -29,7 +31,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BlogDetailPage({ params }: Props) {
     const { slug } = await params
-    const post = blogPosts.find((p) => p.slug === slug)
+    const post = await db.blogPost.findUnique({
+        where: { slug }
+    })
 
     if (!post) notFound()
 
@@ -54,7 +58,7 @@ export default async function BlogDetailPage({ params }: Props) {
                             {post.title}
                         </h1>
                         <p className="text-blue-200 mt-4 font-medium">
-                            Diposting pada {post.date} oleh Tim Rumah Bintaro
+                            Diposting pada {post.date.toISOString().split('T')[0]} oleh Tim Rumah Bintaro
                         </p>
                     </div>
                 </div>
@@ -84,17 +88,18 @@ export default async function BlogDetailPage({ params }: Props) {
                             Kembali ke Blog
                         </Link>
 
-                        <div className="flex items-center gap-4">
-                            <span className="text-gray-400 font-medium">Bagikan:</span>
-                            <div className="flex gap-2">
-                                <button className="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all">FB</button>
-                                <button className="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all">TW</button>
-                                <button className="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all">WA</button>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </article>
     )
+}
+
+export async function generateStaticParams() {
+    const posts = await db.blogPost.findMany({
+        select: { slug: true }
+    })
+    return posts.map((post) => ({
+        slug: post.slug,
+    }))
 }

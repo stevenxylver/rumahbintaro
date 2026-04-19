@@ -19,44 +19,14 @@ const categories = [
     { id: 'belanja', name: 'Belanja', icon: '🛒' },
 ]
 
-const facilities: Facility[] = [
-    // Kesehatan
-    { title: 'RS Pondok Indah', image: '/images/areas/rumahsakitpi.png', category: 'kesehatan' },
-    { title: 'Klinik Medika', image: '/images/areas/klinikmedika.png', category: 'kesehatan' },
-    { title: 'Apotek Kimia Farma', image: '/images/areas/kimiafarma.png', category: 'kesehatan' },
-
-    // Edukasi
-    { title: 'SD Al-Azhar', image: '/images/areas/sdaladzhar.png', category: 'edukasi' },
-    { title: 'SMPK Penabur', image: '/images/areas/smpkpenabur.png', category: 'edukasi' },
-    { title: 'SMA Labschool', image: '/images/areas/labschool.png', category: 'edukasi' },
-    { title: 'Universitas Bina Nusantara', image: '/images/areas/binus.png', category: 'edukasi' },
-
-    // Kantor
-    { title: 'Bintaro Trade Center', image: '/images/areas/bintarotradecenter.png', category: 'kantor' },
-    { title: 'CBD Bintaro Jaya', image: '/images/areas/rumahsakit.png', category: 'kantor' },
-    { title: 'Perkantoran Sector 7', image: '/images/areas/rumahsakit.png', category: 'kantor' },
-
-    // Hiburan
-    { title: 'XXI Bintaro Plaza', image: '/images/areas/bintaroxchange.png', category: 'hiburan' },
-    { title: 'Timezone', image: '/images/areas/rumahsakit.png', category: 'hiburan' },
-    { title: 'Taman Kota', image: '/images/areas/rumahsakit.png', category: 'hiburan' },
-
-    // Olahraga
-    { title: 'Lapangan Golf BSD', image: '/images/areas/rumahsakit.png', category: 'olahraga' },
-    { title: 'GOR Bintaro', image: '/images/areas/rumahsakit.png', category: 'olahraga' },
-    { title: 'Kolam Renang Bintaro', image: '/images/areas/rumahsakit.png', category: 'olahraga' },
-    { title: 'Fitness Center', image: '/images/areas/rumahsakit.png', category: 'olahraga' },
-
-    // Belanja
-    { title: 'Bintaro Jaya Xchange', image: '/images/areas/bintaroxchange.png', category: 'belanja' },
-    { title: 'Lotte Mart', image: '/images/areas/lottemart.png', category: 'belanja' },
-    { title: 'Giant Supermarket', image: '/images/areas/rumahsakit.png', category: 'belanja' },
-]
-
 const ITEMS_PER_PAGE_MOBILE = 6 // 3 rows x 2 cols
 const ITEMS_PER_PAGE_DESKTOP = 10
 
-export function FacilitiesSection() {
+interface FacilitiesSectionProps {
+    facilities?: Facility[]
+}
+
+export function FacilitiesSection({ facilities = [] }: FacilitiesSectionProps) {
     const [currentPage, setCurrentPage] = useState(1)
     const [mobilePage, setMobilePage] = useState(1)
     const [selectedCategory, setSelectedCategory] = useState('semua')

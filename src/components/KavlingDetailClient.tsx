@@ -14,7 +14,7 @@ export function KavlingDetailClient({ kavling }: Props) {
     const [currentImageIndex, setCurrentImageIndex] = useState(0)
     const [isLightboxOpen, setIsLightboxOpen] = useState(false)
 
-    const displayImages = kavling.images && kavling.images.length > 0
+    const displayImages: string[] = Array.isArray(kavling.images) && kavling.images.length > 0
         ? kavling.images
         : [kavling.image]
 

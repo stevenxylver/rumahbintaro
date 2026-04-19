@@ -1,23 +1,19 @@
 import { notFound } from 'next/navigation'
-import { kavlings } from '@/data/kavlings'
+import db from '@/lib/db'
 import type { Metadata } from 'next'
 import { KavlingDetailClient } from '@/components/KavlingDetailClient'
 import { GoogleMapSection } from '@/components/GoogleMapSection'
-import { FacilitiesSection } from '@/components/FacilitiesSection'
+import { FacilitiesSectionWrapper } from '@/components/FacilitiesSectionWrapper'
 import { Ctaformpromo } from '@/components/CtaFormPromo'
 
 interface Props {
     params: Promise<{ slug: string }>
 }
 
-function getKavling(slug: string) {
-    return kavlings.find(k => k.slug === slug)
-}
-
 // Dynamic SEO Metadata
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params
-    const kavling = getKavling(slug)
+    const kavling = await db.kavling.findUnique({ where: { slug } })
 
     if (!kavling) {
         return {
@@ -40,25 +36,33 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function KavlingDetailPage({ params }: Props) {
     const { slug } = await params
-    const kavling = getKavling(slug)
+    const kavling = await db.kavling.findUnique({ where: { slug } })
 
     if (!kavling) {
         notFound()
     }
 
+    // Parse images JSON string back to array for the client component
+    const kavlingWithImages = {
+        ...kavling,
+        description: kavling.description ?? undefined,
+        images: kavling.images ? JSON.parse(kavling.images) : undefined,
+    }
+
     return (
         <>
-            <KavlingDetailClient kavling={kavling} />
+            <KavlingDetailClient kavling={kavlingWithImages} />
 
             <GoogleMapSection />
-            <FacilitiesSection />
+            <FacilitiesSectionWrapper />
             <Ctaformpromo />
         </>
     )
 }
 
 // Generate static params for all kavlings
-export function generateStaticParams() {
+export async function generateStaticParams() {
+    const kavlings = await db.kavling.findMany({ select: { slug: true } })
     return kavlings.map((k) => ({
         slug: k.slug,
     }))

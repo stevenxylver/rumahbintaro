@@ -1,23 +1,22 @@
 import { notFound } from 'next/navigation'
-import { areas } from '@/data/areas'
+import db from '@/lib/db'
 import type { Metadata } from 'next'
 import { PropertyDetailClient } from '@/components/PropertyDetailClient'
 import { GoogleMapSection } from '@/components/GoogleMapSection'
 import { Ctaformpromo } from '@/components/CtaFormPromo'
-import { FacilitiesSection } from '@/components/FacilitiesSection'
+import { FacilitiesSectionWrapper } from '@/components/FacilitiesSectionWrapper'
 
 interface Props {
     params: Promise<{ slug: string }>
 }
 
-function getArea(slug: string) {
-    return areas.find(area => area.slug === slug)
-}
-
 // Dynamic SEO Metadata
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params
-    const area = getArea(slug)
+    const area = await db.property.findUnique({
+        where: { slug },
+        include: { products: true }
+    })
 
     if (!area) {
         return {
@@ -40,24 +39,42 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function PropertyDetailPage({ params }: Props) {
     const { slug } = await params
-    const area = getArea(slug)
+    const area = await db.property.findUnique({
+        where: { slug },
+        include: { products: true }
+    })
 
-    if (!area) {
+    if (!area || !area.products) {
         notFound()
+    }
+
+    // Map database models to match the expected Client Component interface
+    const mappedArea = {
+        ...area,
+        products: area.products.map(p => ({
+            type: p.type,
+            bedrooms: p.bedrooms,
+            bathrooms: p.bathrooms,
+            carPack: p.carPack,
+            images: p.images ? JSON.parse(p.images) : [],
+            ...(p.specs ? JSON.parse(p.specs) : {})
+        }))
     }
 
     return (
         <>
-            <PropertyDetailClient area={area} />
+            {/* @ts-ignore - mapping result might have slightly different strict types but compatible at runtime */}
+            <PropertyDetailClient area={mappedArea} />
             <Ctaformpromo />
-            <FacilitiesSection />
+            <FacilitiesSectionWrapper />
             <GoogleMapSection />
         </>
     )
 }
 
 // Generate static params for all areas
-export function generateStaticParams() {
+export async function generateStaticParams() {
+    const areas = await db.property.findMany({ select: { slug: true } })
     return areas.map((area) => ({
         slug: area.slug,
     }))

@@ -1,7 +1,7 @@
-import { PopularAreas } from '@/components/PopularAreas'
+import { PopularAreasWrapper } from '@/components/PopularAreasWrapper'
 import { MainHero } from '@/components/MainHero'
 import { GoogleMapSection } from '@/components/GoogleMapSection'
-import { FacilitiesSection } from '@/components/FacilitiesSection'
+import { FacilitiesSectionWrapper } from '@/components/FacilitiesSectionWrapper'
 import { PartnerBank } from '@/components/PartnerBank'
 import { KavlingSection } from '@/components/KavlingSection'
 import { IconLinkSection } from '@/components/IconLinkSection'
@@ -18,7 +18,7 @@ export default function HomePage() {
       <IconLinkSection />
 
       {/* Popular Areas */}
-      <PopularAreas />
+      <PopularAreasWrapper />
       <Ctaformpromo />
 
       {/* Kavling Section */}
@@ -29,7 +29,7 @@ export default function HomePage() {
       <PromoReadySection />
 
       {/* Facilities Section */}
-      <FacilitiesSection />
+      <FacilitiesSectionWrapper />
 
       {/* Partner Bank */}
       <PartnerBank />

@@ -1,5 +1,5 @@
 import { PropertyGridClient } from '@/components/PropertyGridClient'
-import { areas } from '@/data/areas'
+import db from '@/lib/db'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -7,10 +7,14 @@ export const metadata: Metadata = {
     description: 'Jelajahi koleksi properti terbaik kami di Bintaro. Filter berdasarkan harga, lokasi, dan status.',
 }
 
-export default function PropertiesPage() {
+export default async function PropertiesPage() {
+    const properties = await db.property.findMany({
+        orderBy: { createdAt: 'desc' },
+    })
+
     return (
         <div className="min-h-screen bg-white">
-            <PropertyGridClient properties={areas} />
+            <PropertyGridClient properties={properties} />
         </div>
     )
 }

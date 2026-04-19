@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model BlogPost {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  title     String
+  date      DateTime @default(now())
+  image     String
+  excerpt   String
+  content   String   // Stores HTML content
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Kavling {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  kodeBlok    String
+  cluster     String
+  image       String
+  size        String
+  hot         Boolean  @default(false)
+  description String?
+  images      String?  // JSON string array of image paths
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Facility {
+  id        String   @id @default(cuid())
+  title     String
+  image     String
+  category  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Property {
+  id             String         @id @default(cuid())
+  name           String
+  slug           String         @unique
+  image          String
+  hot            Boolean        @default(false)
+  virtualRoomUrl String?
+  brosurUrl      String?
+  description    String?
+  products       PropertyType[]
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+}
+
+model PropertyType {
+  id         String   @id @default(cuid())
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  type       String
+  bedrooms   Int      @default(0)
+  bathrooms  Int      @default(0)
+  carPack    Int      @default(0)
+  specs      String?  // JSON string for flexible specifications
+  images     String?  // JSON string array of image paths
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}

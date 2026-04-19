@@ -1,14 +1,18 @@
+import db from '@/lib/db'
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
-import type { Metadata } from 'next'
-import { blogPosts } from '@/data/blog'
 
 export const metadata: Metadata = {
     title: 'Artikel & Berita Properti',
     description: 'Dapatkan informasi terbaru mengenai tren properti, tips hunian, dan berita seputar Bintaro Jaya dari tim ahli kami.',
 }
 
-export default function BlogPage() {
+export default async function BlogPage() {
+    const posts = await db.blogPost.findMany({
+        orderBy: { date: 'desc' }
+    })
+
     return (
         <div className="bg-white min-h-screen pt-20">
             <section className="py-20">
@@ -21,7 +25,7 @@ export default function BlogPage() {
                     </div>
 
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {blogPosts.map((post) => (
+                        {posts.map((post) => (
                             <Link 
                                 key={post.slug}
                                 href={`/blog/${post.slug}`}
@@ -43,7 +47,7 @@ export default function BlogPage() {
                                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                         </svg>
-                                        {post.date}
+                                        {post.date.toISOString().split('T')[0]}
                                     </div>
                                     <h2 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-blue-600 transition-colors leading-tight">
                                         {post.title}
