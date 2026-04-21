@@ -13,6 +13,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
+
   title: {
     default: "Rumah Bintaro - Portal Properti Terpercaya",
     template: "%s | Rumah Bintaro"
@@ -36,10 +37,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const headersList = await headers();
-  const host = headersList.get('host') || '';
-  const isTargetDomain = host.includes('perumahanbintarojaya.com');
   const gaId = process.env.NEXT_PUBLIC_GA_ID || '';
+
 
   return (
     <html lang="id">
@@ -49,7 +48,8 @@ export default async function RootLayout({
           {children}
         </main>
         <Footer />
-        {isTargetDomain && gaId && <GoogleAnalytics gaId={gaId} />}
+        {gaId && <GoogleAnalytics gaId={gaId} />}
+
       </body>
     </html>
   );

@@ -6,7 +6,8 @@ const TARGET_DOMAIN = 'perumahanbintarojaya.com'
 
 const isMainDomain = () => {
     if (typeof window === 'undefined') return false
-    return window.location.hostname.includes(TARGET_DOMAIN)
+    const hostname = window.location.hostname
+    return hostname.includes('perumahanbintarojaya.com') || hostname.includes('perumahanbintarojaya.net')
 }
 
 /**
