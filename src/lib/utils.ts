@@ -1,33 +1,15 @@
-import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
-
-export function cn(...inputs: ClassValue[]) {
-    return twMerge(clsx(inputs))
-}
-
-export function formatPrice(price: number): string {
-    if (price >= 1_000_000_000) {
-        return `Rp ${(price / 1_000_000_000).toFixed(1)} M`
-    }
-    if (price >= 1_000_000) {
-        return `Rp ${(price / 1_000_000).toFixed(0)} Juta`
-    }
-    return `Rp ${price.toLocaleString('id-ID')}`
-}
-
-export function generateSlug(title: string): string {
-    return title
-        .toLowerCase()
-        .replace(/[^a-z0-9\s-]/g, '')
-        .replace(/\s+/g, '-')
-        .replace(/-+/g, '-')
-        .trim()
-}
-
-export function parseImages(images: string): string[] {
-    try {
-        return JSON.parse(images)
-    } catch {
-        return []
-    }
+/**
+ * Converts a string into a URL-friendly slug.
+ * Example: "Emerald Core 2" -> "emerald-core-2"
+ */
+export function slugify(text: string): string {
+  return text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')     // Replace spaces with -
+    .replace(/[^\w-]+/g, '')   // Remove all non-word chars
+    .replace(/--+/g, '-')      // Replace multiple - with single -
+    .replace(/^-+/, '')        // Trim - from start of text
+    .replace(/-+$/, '');       // Trim - from end of text
 }

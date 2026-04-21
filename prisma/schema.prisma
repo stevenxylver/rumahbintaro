@@ -14,7 +14,7 @@ model BlogPost {
   date      DateTime @default(now())
   image     String
   excerpt   String
-  content   String   // Stores HTML content
+  content   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -29,7 +29,7 @@ model Kavling {
   size        String
   hot         Boolean  @default(false)
   description String?
-  images      String?  // JSON string array of image paths
+  images      String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -39,9 +39,9 @@ model Facility {
   title     String
   image     String
   category  String
-  images    String?  // JSON string array of image paths
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  images    String?
 }
 
 model Property {
@@ -53,22 +53,22 @@ model Property {
   virtualRoomUrl String?
   brosurUrl      String?
   description    String?
-  images         String?        // JSON string array of image paths for cluster gallery
-  products       PropertyType[]
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
+  images         String?
+  products       PropertyType[]
 }
 
 model PropertyType {
   id         String   @id @default(cuid())
   propertyId String
-  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
   type       String
   bedrooms   Int      @default(0)
   bathrooms  Int      @default(0)
   carPack    Int      @default(0)
-  specs      String?  // JSON string for flexible specifications
-  images     String?  // JSON string array of image paths
+  specs      String?
+  images     String?
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
 }

@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
+import { slugify } from '@/lib/utils'
+
 
 interface KavlingFormProps {
   kavling?: {
@@ -23,6 +25,15 @@ export default function KavlingForm({ kavling, action }: KavlingFormProps) {
   const [isUploading, setIsUploading] = useState(false)
   const [imageUrl, setImageUrl] = useState(kavling?.image || '')
   const [gallery, setGallery] = useState<string[]>(kavling?.images ? JSON.parse(kavling.images) : [])
+  const [slug, setSlug] = useState(kavling?.slug || '')
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const name = e.target.value
+    if (!kavling) {
+      setSlug(slugify(name))
+    }
+  }
+
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, isGallery = false) => {
     const files = e.target.files
@@ -61,12 +72,13 @@ export default function KavlingForm({ kavling, action }: KavlingFormProps) {
       <div className="grid md:grid-cols-2 gap-6">
         <div>
           <label className="block text-sm font-bold text-gray-700 mb-2">Nama Kavling</label>
-          <input type="text" name="name" defaultValue={kavling?.name} required className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" />
+          <input type="text" name="name" defaultValue={kavling?.name} onChange={handleNameChange} required className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" />
         </div>
         <div>
           <label className="block text-sm font-bold text-gray-700 mb-2">Slug</label>
-          <input type="text" name="slug" defaultValue={kavling?.slug} required className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" />
+          <input type="text" name="slug" value={slug} onChange={(e) => setSlug(e.target.value)} required className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" />
         </div>
+
         <div>
           <label className="block text-sm font-bold text-gray-700 mb-2">Kode Blok</label>
           <input type="text" name="kodeBlok" defaultValue={kavling?.kodeBlok} required className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" />

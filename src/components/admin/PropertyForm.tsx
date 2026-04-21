@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
+import { slugify } from '@/lib/utils'
+
 
 interface PropertyFormProps {
   property?: {
@@ -22,6 +24,16 @@ export default function PropertyForm({ property, action }: PropertyFormProps) {
   const [isUploading, setIsUploading] = useState(false)
   const [imageUrl, setImageUrl] = useState(property?.image || '')
   const [gallery, setGallery] = useState<string[]>(property?.images ? JSON.parse(property.images) : [])
+  const [slug, setSlug] = useState(property?.slug || '')
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const name = e.target.value
+    // Only auto-update slug if we are creating a new property
+    if (!property) {
+      setSlug(slugify(name))
+    }
+  }
+
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, isGallery = false) => {
     const files = e.target.files
@@ -60,12 +72,13 @@ export default function PropertyForm({ property, action }: PropertyFormProps) {
       <div className="grid md:grid-cols-2 gap-6">
         <div>
           <label className="block text-sm font-bold text-gray-700 mb-2">Nama Cluster</label>
-          <input type="text" name="name" defaultValue={property?.name} required className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" />
+          <input type="text" name="name" defaultValue={property?.name} onChange={handleNameChange} required className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" />
         </div>
         <div>
           <label className="block text-sm font-bold text-gray-700 mb-2">Slug</label>
-          <input type="text" name="slug" defaultValue={property?.slug} required className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" />
+          <input type="text" name="slug" value={slug} onChange={(e) => setSlug(e.target.value)} required className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" />
         </div>
+
         <div>
           <label className="block text-sm font-bold text-gray-700 mb-2">Virtual Tour URL (Matterport)</label>
           <input type="url" name="virtualRoomUrl" defaultValue={property?.virtualRoomUrl || ''} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" />
