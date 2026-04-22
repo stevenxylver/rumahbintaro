@@ -13,6 +13,7 @@ export async function createProperty(formData: FormData) {
   const brosurUrl = formData.get('brosurUrl') as string
   const description = formData.get('description') as string
   const images = formData.get('images') as string // JSON string array
+  const typesJson = formData.get('types') as string // JSON string array of type objects
 
   await db.property.create({
     data: {
@@ -24,6 +25,16 @@ export async function createProperty(formData: FormData) {
       brosurUrl: brosurUrl || null,
       description: description || null,
       images: images || null,
+      products: {
+        create: typesJson ? JSON.parse(typesJson).map((t: any) => ({
+          type: t.type,
+          bedrooms: parseInt(t.bedrooms) || 0,
+          bathrooms: parseInt(t.bathrooms) || 0,
+          carPack: parseInt(t.carPack) || 0,
+          specs: t.specs,
+          images: t.images || null,
+        })) : []
+      }
     },
   })
 
@@ -33,6 +44,7 @@ export async function createProperty(formData: FormData) {
   revalidatePath('/admin/property')
   redirect('/admin/property')
 }
+
 
 export async function updateProperty(id: string, formData: FormData) {
   const name = formData.get('name') as string

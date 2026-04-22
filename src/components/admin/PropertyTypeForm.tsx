@@ -4,11 +4,13 @@ import { useState } from 'react'
 import Image from 'next/image'
 
 interface PropertyTypeFormProps {
-  propertyId: string
+  propertyId?: string
   action: (formData: FormData) => Promise<void>
+  title?: string
 }
 
-export default function PropertyTypeForm({ propertyId, action }: PropertyTypeFormProps) {
+export default function PropertyTypeForm({ propertyId, action, title = "Tambah Tipe Unit Baru" }: PropertyTypeFormProps) {
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
