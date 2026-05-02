@@ -49,11 +49,7 @@ export function KavlingGridClient({ kavlings }: { kavlings: Kavling[] }) {
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
 
-                            <div className="absolute top-4 left-4 z-10">
-                                <div className="px-3 py-1.5 bg-white/95 backdrop-blur-sm text-gray-900 text-xs font-bold rounded-full shadow-md whitespace-nowrap">
-                                    {kavling.hot ? 'Siap Huni & Free PPN' : 'Free PPN'}
-                                </div>
-                            </div>
+
 
                             <div className="absolute top-4 right-4 px-2 py-1 bg-black/50 backdrop-blur-sm text-white text-xs font-medium rounded-full">
                                 📐 {kavling.size}

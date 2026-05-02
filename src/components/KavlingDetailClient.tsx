@@ -54,12 +54,7 @@ export function KavlingDetailClient({ kavling }: Props) {
                                 />
                                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
 
-                                {/* Badges */}
-                                <div className="absolute top-4 right-4 z-10">
-                                    <div className="px-4 py-2 bg-white/95 backdrop-blur-sm text-gray-900 text-sm font-bold rounded-full shadow-md whitespace-nowrap">
-                                        {kavling.hot ? 'Siap Huni & Free PPN' : 'Free PPN'}
-                                    </div>
-                                </div>
+
 
                                 {/* Click to zoom hint */}
                                 <div className="absolute bottom-4 right-4 px-3 py-1.5 bg-black/50 backdrop-blur-sm text-white text-xs rounded-full opacity-0 group-hover:opacity-100 transition-opacity">

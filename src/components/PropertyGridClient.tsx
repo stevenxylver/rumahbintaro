@@ -41,11 +41,7 @@ export function PropertyGridClient({ properties }: { properties: Area[] }) {
                             href={`/properties/${property.slug}`}
                             className="group relative aspect-[4/3] rounded-2xl overflow-hidden"
                         >
-                            <div className="absolute top-3 right-3 z-10">
-                                <div className="px-3 py-1.5 bg-white/95 backdrop-blur-sm text-gray-900 text-[10px] md:text-xs font-bold rounded-full shadow-md whitespace-nowrap">
-                                    {property.hot ? 'Siap Huni & Free PPN' : 'Free PPN'}
-                                </div>
-                            </div>
+
                             <Image
                                 src={property.image}
                                 alt={property.name}
