@@ -10,7 +10,7 @@ interface PromoData {
   title: string | null;
 }
 
-export function Ctaformpromo({ promos }: { promos: PromoData[] }) {
+export function Ctaformpromo({ promos = [] }: { promos?: PromoData[] }) {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [phone, setPhone] = useState('')
