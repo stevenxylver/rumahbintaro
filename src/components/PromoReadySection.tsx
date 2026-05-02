@@ -82,30 +82,31 @@ export function PromoReadySection() {
 
                     {/* Right Column: Text & Features */}
                     <div>
-                        {/* Discover Badge & Countdown */}
-                        <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
-                            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-gray-200 bg-white shadow-sm self-start">
-                                <div className="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
-                                <span className="text-xs font-semibold text-gray-600">Discover Best Promo</span>
+                        {/* Countdown Timer - More Prominent & Responsive */}
+                        <div className="mb-8 p-6 bg-blue-50/50 rounded-3xl border border-blue-100 flex flex-col md:flex-row items-center justify-between gap-6">
+                            <div className="text-center md:text-left">
+                                <span className="block text-[10px] font-black text-blue-600 uppercase tracking-[0.2em] mb-1">Penawaran Terbatas</span>
+                                <h3 className="text-xl font-bold text-gray-900">Berakhir Dalam:</h3>
                             </div>
-
-                            {/* Countdown Timer */}
-                            <div className="flex items-center gap-2">
-                                <span className="text-[10px] font-bold text-red-500 uppercase tracking-wider animate-pulse">Berakhir Dalam:</span>
-                                <div className="flex gap-1.5">
-                                    {[
-                                        { label: 'Jam', val: time.h },
-                                        { label: 'Menit', val: time.m },
-                                        { label: 'Detik', val: time.s }
-                                    ].map((t, i) => (
-                                        <div key={i} className="flex items-center gap-1">
-                                            <div className="bg-gray-900 text-white min-w-[32px] h-8 flex items-center justify-center rounded-lg font-mono font-bold text-sm shadow-sm">
+                            
+                            <div className="flex gap-4">
+                                {[
+                                    { label: 'JAM', val: time.h },
+                                    { label: 'MENIT', val: time.m },
+                                    { label: 'DETIK', val: time.s }
+                                ].map((t, i) => (
+                                    <div key={i} className="flex flex-col items-center gap-1">
+                                        <div className="relative group">
+                                            {/* Glow Effect */}
+                                            <div className="absolute -inset-1 bg-blue-500 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
+                                            
+                                            <div className="relative bg-gray-900 text-white min-w-[60px] md:min-w-[70px] h-16 md:h-20 flex items-center justify-center rounded-2xl font-mono font-black text-2xl md:text-3xl shadow-xl border border-gray-800">
                                                 {t.val}
                                             </div>
-                                            {i < 2 && <span className="text-gray-400 font-bold">:</span>}
                                         </div>
-                                    ))}
-                                </div>
+                                        <span className="text-[10px] font-bold text-gray-500 tracking-widest">{t.label}</span>
+                                    </div>
+                                ))}
                             </div>
                         </div>
 
