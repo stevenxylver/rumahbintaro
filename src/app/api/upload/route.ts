@@ -14,6 +14,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'No file uploaded' }, { status: 400 })
     }
 
+    console.log(`Uploading file: ${file.name}, size: ${file.size} bytes, type: ${file.type}`)
+
     const bytes = await file.arrayBuffer()
     const buffer = Buffer.from(bytes)
 
