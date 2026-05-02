@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { WhatsAppFloating } from "@/components/WhatsAppFloating";
 import { GoogleAnalytics } from '@next/third-parties/google'
 import { headers } from 'next/headers'
 
@@ -48,6 +49,7 @@ export default async function RootLayout({
           {children}
         </main>
         <Footer />
+        <WhatsAppFloating />
         {gaId && <GoogleAnalytics gaId={gaId} />}
 
       </body>
