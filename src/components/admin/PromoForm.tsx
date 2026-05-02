@@ -28,15 +28,19 @@ export default function PromoForm({ promo, action }: PromoFormProps) {
     formData.append('file', files[0])
     try {
       const res = await fetch('/api/upload', { method: 'POST', body: formData })
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({ error: `Server returned ${res.status}` }))
+        throw new Error(errData.error || `Error ${res.status}`)
+      }
       const data = await res.json()
       if (data.url) {
         setImageUrl(data.url)
       } else {
         setUploadError(data.error || 'Gagal mengunggah gambar')
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Upload failed:', error)
-      setUploadError('Terjadi kesalahan saat mengunggah')
+      setUploadError(error.message || 'Terjadi kesalahan saat mengunggah')
     }
     setIsUploading(false)
   }
