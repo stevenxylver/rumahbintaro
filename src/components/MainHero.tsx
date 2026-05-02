@@ -9,7 +9,6 @@ export function MainHero() {
                 muted
                 loop
                 playsInline
-                poster="/images/hero-poster.webp"
                 className="absolute inset-0 w-full h-full object-cover object-center opacity-80"
                 preload="auto"
             >
