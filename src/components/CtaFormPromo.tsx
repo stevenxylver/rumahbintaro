@@ -56,11 +56,11 @@ export function Ctaformpromo() {
                     </p>
                 </div>
                 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+                <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-6 md:grid md:grid-cols-4 md:gap-6 md:overflow-visible scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                     {PROMO_IMAGES.map((src, i) => (
                         <div 
                             key={i} 
-                            className="relative aspect-square w-full rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 bg-gray-50 group"
+                            className="flex-none w-[65vw] sm:w-[45vw] md:w-full relative aspect-[4/5] md:aspect-square rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 bg-gray-50 group snap-center"
                         >
                             <Image 
                                 src={src} 
