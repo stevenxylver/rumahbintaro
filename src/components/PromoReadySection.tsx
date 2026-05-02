@@ -29,9 +29,9 @@ export function PromoReadySection() {
     const time = formatTime(timeLeft)
 
     const promoItems = [
-        'Free AC', 'Free CCTV', 'Instan Approval', 'Free Canopy', 
-        'Free Solar Panel', 'Free Kitchen Set', 'Free Smartdoor Lock', 
-        'Free Smarthome System', 'Free Water Heater', 
+        'Free AC', 'Free CCTV', 'Instan Approval', 'Free Canopy',
+        'Free Solar Panel', 'Free Kitchen Set', 'Free Smartdoor Lock',
+        'Free Smarthome System', 'Free Water Heater',
         'Free EV Charging Installation', 'Cicilan Start 6JT/Bulan'
     ]
 
@@ -39,7 +39,7 @@ export function PromoReadySection() {
         <section className="py-12 md:py-20 bg-white overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-                    
+
                     {/* Left Column: Images & Cards */}
                     <div className="relative">
                         {/* Main Image */}
@@ -110,7 +110,7 @@ export function PromoReadySection() {
                         </div>
 
                         <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-8 leading-tight tracking-tight">
-                            Flash Sale: Promo Terbaik Hanya 5 Jam!
+                            Promo terbaik di bintaro jaya, hanya untuk anda!
                         </h2>
 
                         <div className="flex flex-wrap gap-3 mb-10">
@@ -124,9 +124,9 @@ export function PromoReadySection() {
                             ))}
                         </div>
 
-                        <a 
-                            href="https://wa.me/6281808187943?text=Halo,%20saya%20tertarik%20dengan%20promo%20Siap%20Huni%20dan%20Free%20PPN%20Bintaro%20Jaya" 
-                            target="_blank" 
+                        <a
+                            href="https://wa.me/6281808187943?text=Halo,%20saya%20tertarik%20dengan%20promo%20Siap%20Huni%20dan%20Free%20PPN%20Bintaro%20Jaya"
+                            target="_blank"
                             rel="noopener noreferrer"
                             onClick={() => trackWhatsAppClick('Promo Ready Section - Discover Best Promo')}
                             className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-400 hover:from-blue-700 hover:to-blue-500 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all"

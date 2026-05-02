@@ -3,13 +3,13 @@
 import Image from 'next/image'
 
 export interface PromoData {
-  id: string;
-  image: string;
-  title: string | null;
+    id: string;
+    image: string;
+    title: string | null;
 }
 
 interface PromoGalleryProps {
-  promos?: PromoData[] | null;
+    promos?: PromoData[] | null;
 }
 
 export function PromoGallery({ promos = [] }: PromoGalleryProps) {
@@ -19,23 +19,18 @@ export function PromoGallery({ promos = [] }: PromoGalleryProps) {
         <div className="max-w-7xl mx-auto mb-20">
             {/* Section Title - Matching KavlingSection style */}
             <div className="text-center mb-12 md:mb-20">
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 text-[10px] md:text-xs font-bold rounded-full uppercase tracking-[0.2em] mb-6 border border-blue-100/50">
-                    <span className="w-2 h-2 bg-blue-500 rounded-full animate-ping" />
-                    Penawaran Eksklusif
-                </div>
+
                 <h2 className="text-3xl md:text-5xl lg:text-6xl font-black text-gray-900 tracking-tight leading-tight">
                     Promo <span className="text-blue-600">Terupdate</span> <br className="hidden md:block" />
                     <span className="text-gray-900">Bulan Ini</span>
                 </h2>
-                <p className="mt-4 text-gray-500 max-w-2xl mx-auto text-sm md:text-base px-4">
-                    Jangan lewatkan kesempatan memiliki hunian impian dengan berbagai keuntungan dan kemudahan pembayaran khusus periode ini.
-                </p>
+
             </div>
 
             {/* Gallery Grid/Slider */}
             <div className="relative group/gallery">
-                <div 
-                    className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 md:grid md:grid-cols-4 md:gap-8 md:overflow-visible scrollbar-hide px-4 md:px-0" 
+                <div
+                    className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 md:grid md:grid-cols-4 md:gap-8 md:overflow-visible scrollbar-hide px-4 md:px-0"
                     style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                 >
                     {safePromos.length > 0 ? (
@@ -51,7 +46,7 @@ export function PromoGallery({ promos = [] }: PromoGalleryProps) {
                                         fill
                                         className="object-contain p-4 md:p-6 transition-transform duration-700 group-hover:scale-105"
                                     />
-                                    
+
                                     {/* Glassmorphism Badge */}
                                     <div className="absolute top-4 left-4">
                                         <div className="px-3 py-1 bg-white/70 backdrop-blur-md border border-white/50 rounded-full text-[10px] font-bold text-blue-600 shadow-sm">
