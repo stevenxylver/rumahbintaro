@@ -10,7 +10,8 @@ interface PromoData {
   title: string | null;
 }
 
-export function Ctaformpromo({ promos = [] }: { promos?: PromoData[] }) {
+export function Ctaformpromo({ promos = [] }: { promos?: PromoData[] | null }) {
+    const safePromos = promos || []
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [phone, setPhone] = useState('')
@@ -53,8 +54,8 @@ export function Ctaformpromo({ promos = [] }: { promos?: PromoData[] }) {
                 </div>
 
                 <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-6 md:grid md:grid-cols-4 md:gap-6 md:overflow-visible scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                    {promos.length > 0 ? (
-                        promos.map((promo, i) => (
+                    {safePromos.length > 0 ? (
+                        safePromos.map((promo, i) => (
                             <div
                                 key={promo.id}
                                 className="flex-none w-[65vw] sm:w-[45vw] md:w-full relative aspect-[4/5] md:aspect-square rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 bg-gray-50 group snap-center"
