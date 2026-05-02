@@ -1,9 +1,33 @@
 'use client'
 
+import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { trackWhatsAppClick } from '@/lib/gtag'
 
 export function PromoReadySection() {
+    const [timeLeft, setTimeLeft] = useState(5 * 60 * 60) // 5 hours in seconds
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0))
+        }, 1000)
+
+        return () => clearInterval(timer)
+    }, [])
+
+    const formatTime = (seconds: number) => {
+        const h = Math.floor(seconds / 3600)
+        const m = Math.floor((seconds % 3600) / 60)
+        const s = seconds % 60
+        return {
+            h: h.toString().padStart(2, '0'),
+            m: m.toString().padStart(2, '0'),
+            s: s.toString().padStart(2, '0')
+        }
+    }
+
+    const time = formatTime(timeLeft)
+
     const promoItems = [
         'Free AC', 'Free CCTV', 'Instan Approval', 'Free Canopy', 
         'Free Solar Panel', 'Free Kitchen Set', 'Free Smartdoor Lock', 
@@ -58,14 +82,35 @@ export function PromoReadySection() {
 
                     {/* Right Column: Text & Features */}
                     <div>
-                        {/* Discover Badge */}
-                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-gray-200 bg-white mb-6 shadow-sm">
-                            <div className="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
-                            <span className="text-xs font-semibold text-gray-600">Discover Best Promo</span>
+                        {/* Discover Badge & Countdown */}
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
+                            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-gray-200 bg-white shadow-sm self-start">
+                                <div className="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
+                                <span className="text-xs font-semibold text-gray-600">Discover Best Promo</span>
+                            </div>
+
+                            {/* Countdown Timer */}
+                            <div className="flex items-center gap-2">
+                                <span className="text-[10px] font-bold text-red-500 uppercase tracking-wider animate-pulse">Berakhir Dalam:</span>
+                                <div className="flex gap-1.5">
+                                    {[
+                                        { label: 'Jam', val: time.h },
+                                        { label: 'Menit', val: time.m },
+                                        { label: 'Detik', val: time.s }
+                                    ].map((t, i) => (
+                                        <div key={i} className="flex items-center gap-1">
+                                            <div className="bg-gray-900 text-white min-w-[32px] h-8 flex items-center justify-center rounded-lg font-mono font-bold text-sm shadow-sm">
+                                                {t.val}
+                                            </div>
+                                            {i < 2 && <span className="text-gray-400 font-bold">:</span>}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
                         </div>
 
                         <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-8 leading-tight tracking-tight">
-                            Promo Terbaik di Bintaro Jaya, Hanya untuk Anda!
+                            Flash Sale: Promo Terbaik Hanya 5 Jam!
                         </h2>
 
                         <div className="flex flex-wrap gap-3 mb-10">
