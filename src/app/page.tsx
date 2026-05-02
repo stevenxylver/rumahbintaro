@@ -17,19 +17,23 @@ export default function HomePage() {
       {/* Icon Link Section */}
       <IconLinkSection />
 
-      {/* Popular Areas */}
+      {/* Popular Areas (Properti) */}
       <PopularAreasWrapper />
+
+      {/* Promo Ready Section (Diletakkan setelah produk untuk menarik minat) */}
+      <PromoReadySection />
+
+      {/* CTA Form Promo (Formulir setelah melihat promo agar user langsung mengisi) */}
       <Ctaformpromo />
 
       {/* Kavling Section */}
       <KavlingSection />
 
-      {/* Google Map Section */}
-      <GoogleMapSection />
-      <PromoReadySection />
-
-      {/* Facilities Section */}
+      {/* Facilities Section (Fasilitas) */}
       <FacilitiesSectionWrapper />
+
+      {/* Google Map Section (Peta Lokasi berdampingan dengan Fasilitas) */}
+      <GoogleMapSection />
 
       {/* Partner Bank */}
       <PartnerBank />
