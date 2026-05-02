@@ -15,21 +15,28 @@ interface PromoFormProps {
 export default function PromoForm({ promo, action }: PromoFormProps) {
   const [isUploading, setIsUploading] = useState(false)
   const [imageUrl, setImageUrl] = useState(promo?.image || '')
+  const [uploadError, setUploadError] = useState('')
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
     if (!files || files.length === 0) return
     
     setIsUploading(true)
+    setUploadError('')
     
     const formData = new FormData()
     formData.append('file', files[0])
     try {
       const res = await fetch('/api/upload', { method: 'POST', body: formData })
       const data = await res.json()
-      if (data.url) setImageUrl(data.url)
+      if (data.url) {
+        setImageUrl(data.url)
+      } else {
+        setUploadError(data.error || 'Gagal mengunggah gambar')
+      }
     } catch (error) {
       console.error('Upload failed:', error)
+      setUploadError('Terjadi kesalahan saat mengunggah')
     }
     setIsUploading(false)
   }
@@ -65,10 +72,15 @@ export default function PromoForm({ promo, action }: PromoFormProps) {
           )}
         </div>
         <input type="hidden" name="image" value={imageUrl} />
+        {uploadError && <p className="text-red-500 text-xs mt-2 font-bold">{uploadError}</p>}
       </div>
 
       <div className="flex justify-end pt-4">
-        <button type="submit" className="bg-blue-600 text-white px-12 py-3 rounded-xl font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-200">
+        <button 
+          type="submit" 
+          disabled={!imageUrl || isUploading}
+          className="bg-blue-600 text-white px-12 py-3 rounded-xl font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 disabled:opacity-50"
+        >
           {promo ? 'Update Promo' : 'Tambah Promo'}
         </button>
       </div>
