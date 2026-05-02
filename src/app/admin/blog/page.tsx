@@ -17,6 +17,7 @@ export default async function AdminBlogPage() {
             <Link href="/admin/kavling" className="text-blue-600 font-bold hover:underline">Kavling</Link>
             <Link href="/admin/facility" className="text-blue-600 font-bold hover:underline">Fasilitas</Link>
             <Link href="/admin/promo" className="text-blue-600 font-bold hover:underline">Promo</Link>
+            <Link href="/admin/hero" className="text-blue-600 font-bold hover:underline">Hero</Link>
             <Link
               href="/admin/blog/new"
               className="bg-blue-600 text-white px-6 py-2 rounded-xl font-bold hover:bg-blue-700 transition-all"

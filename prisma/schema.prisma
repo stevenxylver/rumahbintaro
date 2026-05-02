@@ -80,3 +80,11 @@ model Promo {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model HeroContent {
+  id        String   @id @default(cuid())
+  videoUrl  String
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
