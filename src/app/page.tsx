@@ -7,8 +7,14 @@ import { KavlingSection } from '@/components/KavlingSection'
 import { IconLinkSection } from '@/components/IconLinkSection'
 import { Ctaformpromo } from '@/components/CtaFormPromo'
 import { PromoReadySection } from '@/components/PromoReadySection'
+import db from '@/lib/db'
 
-export default function HomePage() {
+export default async function HomePage() {
+  const promos = await db.promo.findMany({
+    orderBy: { createdAt: 'desc' },
+    take: 8 // Limit to 8 latest promos so it doesn't break layout if too many
+  })
+
   return (
     <div className="bg-white">
       {/* Hero Section */}
@@ -24,7 +30,7 @@ export default function HomePage() {
       <PromoReadySection />
 
       {/* CTA Form Promo (Formulir setelah melihat promo agar user langsung mengisi) */}
-      <Ctaformpromo />
+      <Ctaformpromo promos={promos} />
 
       {/* Kavling Section */}
       <KavlingSection />

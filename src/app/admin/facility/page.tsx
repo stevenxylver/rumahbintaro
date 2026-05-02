@@ -23,8 +23,9 @@ export default async function AdminFacilityPage() {
           <h1 className="text-3xl font-bold text-gray-900">Manage Fasilitas</h1>
           <div className="flex gap-4">
             <Link href="/admin/property" className="text-blue-600 font-bold hover:underline">Properti</Link>
-            <Link href="/admin/blog" className="text-blue-600 font-bold hover:underline">Blog</Link>
             <Link href="/admin/kavling" className="text-blue-600 font-bold hover:underline">Kavling</Link>
+            <Link href="/admin/blog" className="text-blue-600 font-bold hover:underline">Blog</Link>
+            <Link href="/admin/promo" className="text-blue-600 font-bold hover:underline">Promo</Link>
             <Link
               href="/admin/facility/new"
               className="bg-blue-600 text-white px-6 py-2 rounded-xl font-bold hover:bg-blue-700 transition-all"

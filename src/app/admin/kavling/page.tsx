@@ -13,9 +13,10 @@ export default async function AdminKavlingPage() {
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Manage Kavling</h1>
           <div className="flex gap-4">
-            <Link href="/admin/property" className="text-blue-600 font-bold hover:underline">Properti</Link>
             <Link href="/admin/blog" className="text-blue-600 font-bold hover:underline">Blog</Link>
+            <Link href="/admin/property" className="text-blue-600 font-bold hover:underline">Property</Link>
             <Link href="/admin/facility" className="text-blue-600 font-bold hover:underline">Fasilitas</Link>
+            <Link href="/admin/promo" className="text-blue-600 font-bold hover:underline">Promo</Link>
             <Link
               href="/admin/kavling/new"
               className="bg-blue-600 text-white px-6 py-2 rounded-xl font-bold hover:bg-blue-700 transition-all"

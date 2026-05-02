@@ -4,15 +4,13 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { trackLeadForm } from '@/lib/gtag'
 
-// Extend to 4 items by repeating to match the requested 4-column layout
-const PROMO_IMAGES = [
-    '/images/promo/promolebaran.png',
-    '/images/promo/promoimlek.png',
-    '/images/promo/promolebaran.png',
-    '/images/promo/promoimlek.png',
-]
+interface PromoData {
+  id: string;
+  image: string;
+  title: string | null;
+}
 
-export function Ctaformpromo() {
+export function Ctaformpromo({ promos }: { promos: PromoData[] }) {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [phone, setPhone] = useState('')
@@ -55,19 +53,25 @@ export function Ctaformpromo() {
                 </div>
 
                 <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-6 md:grid md:grid-cols-4 md:gap-6 md:overflow-visible scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                    {PROMO_IMAGES.map((src, i) => (
-                        <div
-                            key={i}
-                            className="flex-none w-[65vw] sm:w-[45vw] md:w-full relative aspect-[4/5] md:aspect-square rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 bg-gray-50 group snap-center"
-                        >
-                            <Image
-                                src={src}
-                                alt={`Promo ${i + 1}`}
-                                fill
-                                className="object-contain p-4 group-hover:scale-105 transition-transform duration-500"
-                            />
+                    {promos.length > 0 ? (
+                        promos.map((promo, i) => (
+                            <div
+                                key={promo.id}
+                                className="flex-none w-[65vw] sm:w-[45vw] md:w-full relative aspect-[4/5] md:aspect-square rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 bg-gray-50 group snap-center"
+                            >
+                                <Image
+                                    src={promo.image}
+                                    alt={promo.title || `Promo ${i + 1}`}
+                                    fill
+                                    className="object-contain p-4 group-hover:scale-105 transition-transform duration-500"
+                                />
+                            </div>
+                        ))
+                    ) : (
+                        <div className="col-span-4 text-center py-8 text-gray-500">
+                            Belum ada promo yang tersedia saat ini.
                         </div>
-                    ))}
+                    )}
                 </div>
 
                 <div className="max-w-3xl mx-auto relative group">

@@ -18,6 +18,7 @@ export default async function AdminPropertyPage() {
             <Link href="/admin/blog" className="text-blue-600 font-bold hover:underline">Blog</Link>
             <Link href="/admin/kavling" className="text-blue-600 font-bold hover:underline">Kavling</Link>
             <Link href="/admin/facility" className="text-blue-600 font-bold hover:underline">Fasilitas</Link>
+            <Link href="/admin/promo" className="text-blue-600 font-bold hover:underline">Promo</Link>
             <Link
               href="/admin/property/new"
               className="bg-blue-600 text-white px-6 py-2 rounded-xl font-bold hover:bg-blue-700 transition-all"

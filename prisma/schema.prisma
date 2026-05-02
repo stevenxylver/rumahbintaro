@@ -72,3 +72,11 @@ model PropertyType {
   updatedAt  DateTime @updatedAt
   property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
 }
+
+model Promo {
+  id        String   @id @default(cuid())
+  title     String?
+  image     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
