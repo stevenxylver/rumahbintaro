@@ -66,15 +66,10 @@ export function PropertyDetailClient({ area }: Props) {
                                     priority
                                 />
                                 {/* Badges */}
-                                <div className="absolute top-4 left-4 flex flex-col gap-2 z-10">
-                                    <div className="px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-sm font-bold rounded-full shadow-lg w-max">
-                                        ✨ Free PPN
+                                <div className="absolute top-4 right-4 z-10">
+                                    <div className="px-4 py-2 bg-white/95 backdrop-blur-sm text-gray-900 text-sm font-bold rounded-full shadow-md whitespace-nowrap">
+                                        {area.hot ? 'Siap Huni & Free PPN' : 'Free PPN'}
                                     </div>
-                                    {area.hot && (
-                                        <div className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-green-500 text-white text-sm font-bold rounded-full shadow-lg w-max">
-                                            🏡 Siap Huni
-                                        </div>
-                                    )}
                                 </div>
 
                                 {/* Click to zoom hint */}
