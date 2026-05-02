@@ -4,11 +4,13 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { useRouter, usePathname } from 'next/navigation'
 import { trackPromoView } from '@/lib/gtag'
+import { getPromos } from '@/lib/actions/promo'
 
-const PROMO_IMAGES = [
-    '/images/promo/promolebaran.png',
-    '/images/promo/promoimlek.png',
-]
+interface PromoData {
+    id: string;
+    image: string;
+    title: string | null;
+}
 
 interface LeadPopupProps {
     open: boolean
@@ -16,10 +18,19 @@ interface LeadPopupProps {
 }
 
 export function LeadPopup({ open, onClose }: LeadPopupProps) {
+    const [promos, setPromos] = useState<PromoData[]>([])
     const [slide, setSlide] = useState(0)
     const [isVisible, setIsVisible] = useState(false)
     const router = useRouter()
     const pathname = usePathname()
+
+    useEffect(() => {
+        async function loadPromos() {
+            const data = await getPromos()
+            setPromos(data as PromoData[])
+        }
+        loadPromos()
+    }, [])
 
     useEffect(() => {
         if (open) {
@@ -32,14 +43,14 @@ export function LeadPopup({ open, onClose }: LeadPopupProps) {
     }, [open])
 
     useEffect(() => {
-        if (!open) return
+        if (!open || promos.length === 0) return
         const interval = setInterval(() => {
-            setSlide(prev => (prev + 1) % PROMO_IMAGES.length)
-        }, 3000)
+            setSlide(prev => (prev + 1) % promos.length)
+        }, 4000) // Slightly longer interval for better readability
         return () => clearInterval(interval)
-    }, [open])
+    }, [open, promos.length])
 
-    if (!open || pathname?.startsWith('/admin')) return null
+    if (!open || pathname?.startsWith('/admin') || promos.length === 0) return null
 
     const handleClick = () => {
         onClose()
@@ -54,26 +65,26 @@ export function LeadPopup({ open, onClose }: LeadPopupProps) {
         >
             {/* Backdrop with animation */}
             <div
-                className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300"
+                className="absolute inset-0 bg-black/80 backdrop-blur-md transition-opacity duration-500"
                 style={{ opacity: isVisible ? 1 : 0 }}
             />
 
             {/* Popup container */}
             <div
-                className="relative w-full max-w-xs md:max-w-sm transition-all duration-300"
+                className="relative w-[90vw] max-w-[400px] transition-all duration-500 ease-out"
                 style={{
                     opacity: isVisible ? 1 : 0,
-                    transform: isVisible ? 'scale(1) translateY(0)' : 'scale(0.9) translateY(20px)',
+                    transform: isVisible ? 'scale(1) translateY(0)' : 'scale(0.95) translateY(20px)',
                 }}
                 onClick={e => e.stopPropagation()}
             >
-                {/* Close button — overlapping top-right corner */}
+                {/* Close button */}
                 <button
                     onClick={onClose}
-                    className="absolute -top-3 -right-3 z-20 w-10 h-10 rounded-full bg-white text-gray-600 flex items-center justify-center shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:bg-red-500 hover:text-white hover:rotate-90 transition-all duration-300"
+                    className="absolute -top-4 -right-4 z-20 w-12 h-12 rounded-full bg-white text-gray-900 flex items-center justify-center shadow-2xl hover:bg-red-500 hover:text-white hover:rotate-90 transition-all duration-300 group"
                     aria-label="Tutup"
                 >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+                    <svg className="w-6 h-6 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
@@ -81,31 +92,46 @@ export function LeadPopup({ open, onClose }: LeadPopupProps) {
                 {/* Image poster */}
                 <button
                     onClick={handleClick}
-                    className="relative w-full cursor-pointer shadow-[0_20px_60px_rgba(0,0,0,0.5)] bg-transparent"
-                    style={{ aspectRatio: '2/3' }}
+                    className="relative w-full cursor-pointer shadow-[0_30px_100px_rgba(0,0,0,0.6)] bg-white rounded-3xl overflow-hidden group/img"
+                    style={{ aspectRatio: '4/6' }}
                     aria-label="Lihat Promo"
                 >
-                    {PROMO_IMAGES.map((src, i) => (
+                    {promos.map((promo, i) => (
                         <div
-                            key={src}
-                            className="absolute inset-0 transition-opacity duration-700"
-                            style={{ opacity: i === slide ? 1 : 0 }}
+                            key={promo.id}
+                            className="absolute inset-0 transition-all duration-1000 ease-in-out"
+                            style={{ 
+                                opacity: i === slide ? 1 : 0,
+                                transform: i === slide ? 'scale(1)' : 'scale(1.05)'
+                            }}
                         >
-                            <Image src={src} alt={`Promo ${i + 1}`} fill className="object-contain" />
+                            <Image 
+                                src={promo.image} 
+                                alt={promo.title || `Promo ${i + 1}`} 
+                                fill 
+                                className="object-cover group-hover/img:scale-105 transition-transform duration-700" 
+                                priority={i === 0}
+                            />
+                            {/* Subtle Overlay for title if needed */}
+                            {promo.title && (
+                                <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 to-transparent">
+                                    <p className="text-white font-bold text-lg drop-shadow-md">{promo.title}</p>
+                                </div>
+                            )}
                         </div>
                     ))}
                 </button>
 
                 {/* Dot indicators */}
-                {PROMO_IMAGES.length > 1 && (
-                    <div className="flex justify-center gap-2 mt-4">
-                        {PROMO_IMAGES.map((_, i) => (
+                {promos.length > 1 && (
+                    <div className="flex justify-center gap-3 mt-6">
+                        {promos.map((_, i) => (
                             <button
                                 key={i}
                                 onClick={() => setSlide(i)}
-                                className={`h-2 rounded-full transition-all duration-300 ${i === slide
-                                    ? 'bg-white w-6'
-                                    : 'bg-white/40 w-2 hover:bg-white/60'
+                                className={`h-2.5 rounded-full transition-all duration-500 ${i === slide
+                                    ? 'bg-white w-10 shadow-[0_0_15px_rgba(255,255,255,0.5)]'
+                                    : 'bg-white/30 w-2.5 hover:bg-white/50'
                                     }`}
                             />
                         ))}

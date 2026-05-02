@@ -26,3 +26,10 @@ export async function updatePromo(id: string, data: { title?: string, image: str
     revalidatePath('/')
     revalidatePath('/admin/promo')
 }
+
+export async function getPromos() {
+    return await db.promo.findMany({
+        orderBy: { createdAt: 'desc' },
+        take: 5 // Take latest 5 for popup
+    })
+}
