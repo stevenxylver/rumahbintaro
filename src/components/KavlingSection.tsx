@@ -55,11 +55,7 @@ export function KavlingSection() {
                                     className="object-cover"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-                                {kavling.hot && (
-                                    <div className="absolute top-2 left-2 px-2 py-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-[10px] font-bold rounded-full">
-                                        🔥 HOT
-                                    </div>
-                                )}
+
                                 <div className="absolute top-2 right-2 px-2 py-1 bg-black/50 backdrop-blur-sm text-white text-[10px] font-medium rounded-full">
                                     📐 {kavling.size}
                                 </div>
@@ -137,11 +133,7 @@ export function KavlingSection() {
                                     className="object-cover transition-transform duration-500 group-hover:scale-110"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-                                {kavling.hot && (
-                                    <div className="absolute top-4 left-4 px-2 py-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-xs font-bold rounded-full">
-                                        🔥 HOT
-                                    </div>
-                                )}
+
                                 <div className="absolute top-4 right-4 px-2 py-1 bg-black/50 backdrop-blur-sm text-white text-xs font-medium rounded-full">
                                     📐 {kavling.size}
                                 </div>

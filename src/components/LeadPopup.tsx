@@ -100,24 +100,20 @@ export function LeadPopup({ open, onClose }: LeadPopupProps) {
                         <div
                             key={promo.id}
                             className="absolute inset-0 transition-all duration-1000 ease-in-out"
-                            style={{ 
+                            style={{
                                 opacity: i === slide ? 1 : 0,
                                 transform: i === slide ? 'scale(1)' : 'scale(1.05)'
                             }}
                         >
-                            <Image 
-                                src={promo.image} 
-                                alt={promo.title || `Promo ${i + 1}`} 
-                                fill 
-                                className="object-cover group-hover/img:scale-105 transition-transform duration-700" 
+                            <Image
+                                src={promo.image}
+                                alt={promo.title || `Promo ${i + 1}`}
+                                fill
+                                className="object-cover group-hover/img:scale-105 transition-transform duration-700"
                                 priority={i === 0}
                             />
                             {/* Subtle Overlay for title if needed */}
-                            {promo.title && (
-                                <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 to-transparent">
-                                    <p className="text-white font-bold text-lg drop-shadow-md">{promo.title}</p>
-                                </div>
-                            )}
+
                         </div>
                     ))}
                 </button>
