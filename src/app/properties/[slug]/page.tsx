@@ -50,6 +50,11 @@ export default async function PropertyDetailPage({ params }: Props) {
         notFound()
     }
 
+    const promos = await db.promo.findMany({
+        orderBy: { createdAt: 'desc' },
+        take: 8
+    })
+
     // Safely parse JSON strings
     const safeParse = (str: string | null | undefined, fallback: any = []) => {
         if (!str) return fallback
@@ -76,7 +81,7 @@ export default async function PropertyDetailPage({ params }: Props) {
         <>
             {/* @ts-ignore - mapping result might have slightly different strict types but compatible at runtime */}
             <PropertyDetailClient area={mappedArea} />
-            <Ctaformpromo />
+            <Ctaformpromo promos={promos} />
             <FacilitiesSectionWrapper />
             <GoogleMapSection />
         </>

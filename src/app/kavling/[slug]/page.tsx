@@ -44,6 +44,11 @@ export default async function KavlingDetailPage({ params }: Props) {
         notFound()
     }
 
+    const promos = await db.promo.findMany({
+        orderBy: { createdAt: 'desc' },
+        take: 8
+    })
+
     // Parse images safely
     let parsedImages = []
     try {
@@ -64,7 +69,7 @@ export default async function KavlingDetailPage({ params }: Props) {
 
             <GoogleMapSection />
             <FacilitiesSectionWrapper />
-            <Ctaformpromo />
+            <Ctaformpromo promos={promos} />
         </>
     )
 }
