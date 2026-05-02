@@ -41,11 +41,16 @@ export function PropertyGridClient({ properties }: { properties: Area[] }) {
                             href={`/properties/${property.slug}`}
                             className="group relative aspect-[4/3] rounded-2xl overflow-hidden"
                         >
-                            {property.hot && (
-                                <div className="absolute top-2 left-2 z-10 px-2 py-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-xs font-bold rounded-full shadow-lg">
-                                    🔥 HOT
+                            <div className="absolute top-2 left-2 z-10 flex flex-col gap-1">
+                                <div className="px-2 py-1 bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-[10px] md:text-xs font-bold rounded-full shadow-lg whitespace-nowrap w-max">
+                                    ✨ Free PPN
                                 </div>
-                            )}
+                                {property.hot && (
+                                    <div className="px-2 py-1 bg-gradient-to-r from-emerald-500 to-green-500 text-white text-[10px] md:text-xs font-bold rounded-full shadow-lg whitespace-nowrap w-max">
+                                        🏡 Siap Huni
+                                    </div>
+                                )}
+                            </div>
                             <Image
                                 src={property.image}
                                 alt={property.name}

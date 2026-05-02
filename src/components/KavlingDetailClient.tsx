@@ -54,12 +54,17 @@ export function KavlingDetailClient({ kavling }: Props) {
                                 />
                                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
 
-                                {/* Hot Badge */}
-                                {kavling.hot && (
-                                    <div className="absolute top-4 left-4 px-3 py-1.5 bg-gradient-to-r from-red-500 to-orange-500 text-white text-sm font-bold rounded-full shadow-lg">
-                                        🔥 HOT
+                                {/* Badges */}
+                                <div className="absolute top-4 left-4 flex flex-col gap-2 z-10">
+                                    <div className="px-3 py-1.5 bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-sm font-bold rounded-full shadow-lg w-max">
+                                        ✨ Free PPN
                                     </div>
-                                )}
+                                    {kavling.hot && (
+                                        <div className="px-3 py-1.5 bg-gradient-to-r from-emerald-500 to-green-500 text-white text-sm font-bold rounded-full shadow-lg w-max">
+                                            🏡 Siap Huni
+                                        </div>
+                                    )}
+                                </div>
 
                                 {/* Click to zoom hint */}
                                 <div className="absolute bottom-4 right-4 px-3 py-1.5 bg-black/50 backdrop-blur-sm text-white text-xs rounded-full opacity-0 group-hover:opacity-100 transition-opacity">

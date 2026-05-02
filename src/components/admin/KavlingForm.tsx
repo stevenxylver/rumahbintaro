@@ -93,7 +93,7 @@ export default function KavlingForm({ kavling, action }: KavlingFormProps) {
         </div>
         <div className="flex items-center gap-3 pt-8">
           <input type="checkbox" name="hot" id="hot" defaultChecked={kavling?.hot} className="w-5 h-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
-          <label htmlFor="hot" className="text-sm font-bold text-gray-700">🔥 Hot / Populer</label>
+          <label htmlFor="hot" className="text-sm font-bold text-gray-700">🏡 Siap Huni</label>
         </div>
       </div>
 

@@ -91,7 +91,7 @@ export default function PropertyForm({ property, action }: PropertyFormProps) {
 
       <div className="flex items-center gap-3">
         <input type="checkbox" name="hot" id="hot" defaultChecked={property?.hot} className="w-5 h-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
-        <label htmlFor="hot" className="text-sm font-bold text-gray-700">🔥 Hot / Populer (Akan muncul di Homepage)</label>
+        <label htmlFor="hot" className="text-sm font-bold text-gray-700">🏡 Siap Huni</label>
       </div>
 
       <div>

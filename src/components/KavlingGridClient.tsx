@@ -49,11 +49,16 @@ export function KavlingGridClient({ kavlings }: { kavlings: Kavling[] }) {
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
 
-                            {kavling.hot && (
-                                <div className="absolute top-4 left-4 px-2 py-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-xs font-bold rounded-full shadow">
-                                    🔥 HOT
+                            <div className="absolute top-4 left-4 z-10 flex flex-col gap-1">
+                                <div className="px-2 py-1 bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-xs font-bold rounded-full shadow whitespace-nowrap w-max">
+                                    ✨ Free PPN
                                 </div>
-                            )}
+                                {kavling.hot && (
+                                    <div className="px-2 py-1 bg-gradient-to-r from-emerald-500 to-green-500 text-white text-xs font-bold rounded-full shadow whitespace-nowrap w-max">
+                                        🏡 Siap Huni
+                                    </div>
+                                )}
+                            </div>
 
                             <div className="absolute top-4 right-4 px-2 py-1 bg-black/50 backdrop-blur-sm text-white text-xs font-medium rounded-full">
                                 📐 {kavling.size}
