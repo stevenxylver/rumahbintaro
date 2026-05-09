@@ -4,8 +4,23 @@ import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { trackWhatsAppClick } from '@/lib/gtag'
 
+const FALLBACK_IMAGE = '/images/areas/dharmawangsa.webp'
+
 export function PromoReadySection() {
+    const [promoImage, setPromoImage] = useState(FALLBACK_IMAGE)
     const [timeLeft, setTimeLeft] = useState(5 * 60 * 60) // 5 hours in seconds
+
+    // Fetch promo image from DB
+    useEffect(() => {
+        fetch('/api/admin/promo-image')
+            .then(res => res.json())
+            .then(data => {
+                if (data?.imageUrl) setPromoImage(data.imageUrl)
+            })
+            .catch(() => {
+                // Keep fallback
+            })
+    }, [])
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -45,7 +60,7 @@ export function PromoReadySection() {
                         {/* Main Image */}
                         <div className="relative w-full aspect-[16/10] rounded-[2rem] overflow-hidden mb-6 border border-gray-100">
                             <Image
-                                src="/images/areas/dharmawangsa.webp"
+                                src={promoImage}
                                 alt="Promo Siap Huni Bintaro Jaya"
                                 fill
                                 className="object-cover"

@@ -3,13 +3,19 @@
 import Image from 'next/image'
 import { useEffect, useState, useRef, useCallback } from 'react'
 
-const banks = [
-    { name: 'Bank BCA', logo: '/images/banks/bca.webp' },
-    { name: 'Bank Mandiri', logo: '/images/banks/mandiri.webp' },
-    { name: 'Bank BNI', logo: '/images/banks/bni.webp' },
-    { name: 'Bank Permata', logo: '/images/banks/permata.webp' },
-    { name: 'Bank BRI', logo: '/images/banks/bri.webp' },
-    { name: 'Bank CIMB', logo: '/images/banks/cimb.webp' },
+interface BankData {
+    id: string
+    name: string
+    logo: string
+}
+
+const FALLBACK_BANKS = [
+    { id: '1', name: 'Bank BCA', logo: '/images/banks/bca.webp' },
+    { id: '2', name: 'Bank Mandiri', logo: '/images/banks/mandiri.webp' },
+    { id: '3', name: 'Bank BNI', logo: '/images/banks/bni.webp' },
+    { id: '4', name: 'Bank Permata', logo: '/images/banks/permata.webp' },
+    { id: '5', name: 'Bank BRI', logo: '/images/banks/bri.webp' },
+    { id: '6', name: 'Bank CIMB', logo: '/images/banks/cimb.webp' },
 ]
 
 const ITEMS_PER_SLIDE_MOBILE = 3
@@ -17,9 +23,24 @@ const ITEMS_PER_SLIDE_DESKTOP = 6
 const AUTO_SLIDE_INTERVAL = 3000
 
 export function PartnerBank() {
+    const [banks, setBanks] = useState<BankData[]>(FALLBACK_BANKS)
     const [currentSlide, setCurrentSlide] = useState(0)
     const [itemsPerSlide, setItemsPerSlide] = useState(ITEMS_PER_SLIDE_DESKTOP)
     const intervalRef = useRef<NodeJS.Timeout | null>(null)
+
+    // Fetch banks from DB
+    useEffect(() => {
+        fetch('/api/admin/banks')
+            .then(res => res.json())
+            .then(data => {
+                if (Array.isArray(data) && data.length > 0) {
+                    setBanks(data)
+                }
+            })
+            .catch(() => {
+                // Keep fallback data
+            })
+    }, [])
 
     const totalSlides = Math.ceil(banks.length / itemsPerSlide)
 
@@ -75,7 +96,7 @@ export function PartnerBank() {
                     <div className="grid grid-cols-3 md:grid-cols-6 gap-4 md:gap-8 transition-opacity duration-500">
                         {currentBanks.map((bank) => (
                             <div
-                                key={bank.name}
+                                key={bank.id}
                                 className="flex items-center justify-center p-4 md:p-8 bg-white rounded-2xl shadow-sm hover:shadow-md hover:scale-105 transition-all duration-300"
                             >
                                 <div className="relative w-full h-12 md:h-16">

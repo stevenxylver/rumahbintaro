@@ -68,6 +68,8 @@ export default function AdminHeroPage() {
                         <Link href="/admin/kavling" className="text-blue-600 font-bold hover:underline">Kavling</Link>
                         <Link href="/admin/facility" className="text-blue-600 font-bold hover:underline">Fasilitas</Link>
                         <Link href="/admin/promo" className="text-blue-600 font-bold hover:underline">Promo</Link>
+                        <Link href="/admin/banks" className="text-blue-600 font-bold hover:underline">Bank Partner</Link>
+                        <Link href="/admin/promo-image" className="text-blue-600 font-bold hover:underline">Gambar Promo</Link>
                     </div>
                 </div>
 
