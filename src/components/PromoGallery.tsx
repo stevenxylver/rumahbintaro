@@ -50,7 +50,7 @@ export function PromoGallery({ promos = [] }: PromoGalleryProps) {
                                     {/* Glassmorphism Badge */}
                                     <div className="absolute top-4 left-4">
                                         <div className="px-3 py-1 bg-white/70 backdrop-blur-md border border-white/50 rounded-full text-[10px] font-bold text-blue-600 shadow-sm">
-                                            LIMITED
+                                            TERBATAS
                                         </div>
                                     </div>
                                 </div>

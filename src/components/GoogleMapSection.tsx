@@ -21,7 +21,7 @@ export function GoogleMapSection() {
                     {/* Full Map Image - 3:2 aspect ratio for 1536x1024 */}
                     <div className="aspect-[3/2] relative">
                         <Image
-                            src="/images/map.png"
+                            src="/images/map.webp"
                             alt="Lokasi Rumah Bintaro"
                             fill
                             className="object-contain"

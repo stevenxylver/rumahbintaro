@@ -45,7 +45,7 @@ export function PromoReadySection() {
                         {/* Main Image */}
                         <div className="relative w-full aspect-[16/10] rounded-[2rem] overflow-hidden mb-6 border border-gray-100">
                             <Image
-                                src="/images/areas/dharmawangsa.png"
+                                src="/images/areas/dharmawangsa.webp"
                                 alt="Promo Siap Huni Bintaro Jaya"
                                 fill
                                 className="object-cover"

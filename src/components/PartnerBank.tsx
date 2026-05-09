@@ -4,12 +4,12 @@ import Image from 'next/image'
 import { useEffect, useState, useRef, useCallback } from 'react'
 
 const banks = [
-    { name: 'Bank BCA', logo: '/images/banks/bca.jpeg' },
-    { name: 'Bank Mandiri', logo: '/images/banks/mandiri.jpeg' },
-    { name: 'Bank BNI', logo: '/images/banks/bni.jpeg' },
-    { name: 'Bank Permata', logo: '/images/banks/permata.jpeg' },
-    { name: 'Bank BRI', logo: '/images/banks/bri.jpeg' },
-    { name: 'Bank CIMB', logo: '/images/banks/cimb.jpeg' },
+    { name: 'Bank BCA', logo: '/images/banks/bca.webp' },
+    { name: 'Bank Mandiri', logo: '/images/banks/mandiri.webp' },
+    { name: 'Bank BNI', logo: '/images/banks/bni.webp' },
+    { name: 'Bank Permata', logo: '/images/banks/permata.webp' },
+    { name: 'Bank BRI', logo: '/images/banks/bri.webp' },
+    { name: 'Bank CIMB', logo: '/images/banks/cimb.webp' },
 ]
 
 const ITEMS_PER_SLIDE_MOBILE = 3

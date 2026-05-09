@@ -12,7 +12,7 @@ export const blogPosts: BlogPost[] = [
         slug: 'tips-memilih-rumah-di-bintaro',
         title: '5 Tips Jitu Memilih Rumah Impian di Kawasan Bintaro',
         date: '2026-04-10',
-        image: '/images/areas/kebayoran-village.png',
+        image: '/images/areas/kebayoran-village.webp',
         excerpt: 'Sedang mencari hunian di Bintaro? Simak 5 tips penting sebelum Anda memutuskan membeli rumah di kawasan premium ini.',
         content: `
             <p>Memilih rumah di kawasan yang sedang berkembang pesat seperti Bintaro Jaya memerlukan ketelitian ekstra. Tidak hanya soal harga, tapi juga aksesibilitas dan fasilitas pendukung lainnya.</p>
@@ -27,7 +27,7 @@ export const blogPosts: BlogPost[] = [
         slug: 'keuntungan-investasi-kavling',
         title: 'Mengapa Investasi Kavling di Bintaro Sangat Menguntungkan?',
         date: '2026-04-15',
-        image: '/images/areas/menteng-bintaro.png',
+        image: '/images/areas/menteng-bintaro.webp',
         excerpt: 'Ketahui alasan mengapa harga tanah kavling di Bintaro terus naik dan menjadi primadona investasi bagi para pakar properti.',
         content: `
             <p>Investasi tanah atau kavling seringkali memberikan return yang lebih tinggi dibandingkan bangunan. Di Bintaro Jaya, permintaan lahan terus meningkat seiring dengan pengembangan infrastruktur baru.</p>
