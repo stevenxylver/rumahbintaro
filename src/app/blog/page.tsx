@@ -8,10 +8,28 @@ export const metadata: Metadata = {
     description: 'Dapatkan informasi terbaru mengenai tren properti, tips hunian, dan berita seputar Bintaro Jaya dari tim ahli kami.',
 }
 
-export default async function BlogPage() {
-    const posts = await db.blogPost.findMany({
-        orderBy: { date: 'desc' }
-    })
+const POSTS_PER_PAGE = 6
+
+export default async function BlogPage({
+    searchParams,
+}: {
+    searchParams: { page?: string }
+}) {
+    // Ensure page is a valid number
+    const currentPage = parseInt(searchParams.page || '1')
+    const skip = (currentPage - 1) * POSTS_PER_PAGE
+
+    // Fetch data and total count
+    const [posts, totalPosts] = await Promise.all([
+        db.blogPost.findMany({
+            orderBy: { date: 'desc' },
+            skip: skip,
+            take: POSTS_PER_PAGE,
+        }),
+        db.blogPost.count()
+    ])
+
+    const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE)
 
     return (
         <div className="bg-white min-h-screen pt-20">
@@ -24,7 +42,7 @@ export default async function BlogPage() {
                         </p>
                     </div>
 
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
                         {posts.map((post) => (
                             <Link 
                                 key={post.slug}
@@ -45,7 +63,7 @@ export default async function BlogPage() {
                                 <div className="p-8 flex flex-col flex-1">
                                     <div className="text-gray-400 text-sm mb-3 flex items-center gap-2">
                                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2-2v10a2 2 0 002 2z" />
                                         </svg>
                                         {post.date.toISOString().split('T')[0]}
                                     </div>
@@ -65,6 +83,51 @@ export default async function BlogPage() {
                             </Link>
                         ))}
                     </div>
+
+                    {/* Pagination UI */}
+                    {totalPages > 1 && (
+                        <div className="flex items-center justify-center gap-2 md:gap-4">
+                            <Link
+                                href={`/blog?page=${Math.max(1, currentPage - 1)}`}
+                                className={`px-4 py-2 md:px-6 md:py-3 rounded-2xl font-bold transition-all border ${
+                                    currentPage === 1 
+                                    ? 'bg-gray-50 text-gray-300 border-gray-100 cursor-not-allowed pointer-events-none' 
+                                    : 'bg-white text-gray-700 border-gray-200 hover:border-blue-500 hover:text-blue-600 shadow-sm'
+                                }`}
+                            >
+                                <span className="hidden md:inline">Previous</span>
+                                <span className="md:hidden">&larr;</span>
+                            </Link>
+                            
+                            <div className="flex gap-1 md:gap-2">
+                                {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                                    <Link
+                                        key={pageNum}
+                                        href={`/blog?page=${pageNum}`}
+                                        className={`w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-2xl font-bold transition-all ${
+                                            currentPage === pageNum
+                                            ? 'bg-blue-600 text-white shadow-lg shadow-blue-200'
+                                            : 'bg-white text-gray-600 border border-gray-200 hover:border-blue-500'
+                                        }`}
+                                    >
+                                        {pageNum}
+                                    </Link>
+                                ))}
+                            </div>
+
+                            <Link
+                                href={`/blog?page=${Math.min(totalPages, currentPage + 1)}`}
+                                className={`px-4 py-2 md:px-6 md:py-3 rounded-2xl font-bold transition-all border ${
+                                    currentPage === totalPages 
+                                    ? 'bg-gray-50 text-gray-300 border-gray-100 cursor-not-allowed pointer-events-none' 
+                                    : 'bg-white text-gray-700 border-gray-200 hover:border-blue-500 hover:text-blue-600 shadow-sm'
+                                }`}
+                            >
+                                <span className="hidden md:inline">Next</span>
+                                <span className="md:hidden">&rarr;</span>
+                            </Link>
+                        </div>
+                    )}
                 </div>
             </section>
         </div>
