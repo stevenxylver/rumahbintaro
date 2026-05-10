@@ -71,6 +71,8 @@ export function PromoGallery({ promos = [] }: PromoGalleryProps) {
         (currentIndex + 1) * itemsPerPage
     )
 
+    console.log('PromoGallery Data:', safePromos);
+
     if (safePromos.length === 0) return null
 
     return (
@@ -124,7 +126,7 @@ export function PromoGallery({ promos = [] }: PromoGalleryProps) {
                                     src={promo.image}
                                     alt={promo.title || `Promo ${i}`}
                                     fill
-                                    className="object-contain p-4 md:p-6 transition-transform duration-700 group-hover:scale-105"
+                                    className="object-cover transition-transform duration-700 group-hover:scale-105"
                                     priority={currentIndex === 0}
                                 />
                                 
