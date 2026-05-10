@@ -13,116 +13,145 @@ interface PromoGalleryProps {
     promos?: PromoData[] | null;
 }
 
-const ITEMS_PER_PAGE = 4
-const AUTO_SLIDE_INTERVAL = 4000
-
 export function PromoGallery({ promos = [] }: PromoGalleryProps) {
     const safePromos = promos || []
-    const needsSlider = safePromos.length > ITEMS_PER_PAGE
-    const totalPages = Math.ceil(safePromos.length / ITEMS_PER_PAGE)
-    const [currentPage, setCurrentPage] = useState(0)
+    const [currentIndex, setCurrentIndex] = useState(0)
+    const [itemsPerPage, setItemsPerPage] = useState(1) // Default mobile
+    const [touchStart, setTouchStart] = useState<number | null>(null)
+    const [touchEnd, setTouchEnd] = useState<number | null>(null)
     const intervalRef = useRef<NodeJS.Timeout | null>(null)
 
-    const nextPage = useCallback(() => {
-        setCurrentPage(prev => (prev + 1) % totalPages)
+    // Detect screen size for items per page
+    useEffect(() => {
+        const updateItems = () => {
+            setItemsPerPage(window.innerWidth < 768 ? 1 : 4)
+        }
+        updateItems()
+        window.addEventListener('resize', updateItems)
+        return () => window.removeEventListener('resize', updateItems)
+    }, [])
+
+    const totalPages = Math.ceil(safePromos.length / itemsPerPage)
+
+    const nextSlide = useCallback(() => {
+        setCurrentIndex(prev => (prev + 1) % totalPages)
     }, [totalPages])
 
-    // Auto-slide for slider mode
+    const prevSlide = () => {
+        setCurrentIndex(prev => (prev - 1 + totalPages) % totalPages)
+    }
+
+    // Auto-slide every 5 seconds
     useEffect(() => {
-        if (!needsSlider || totalPages <= 1) return
-        intervalRef.current = setInterval(nextPage, AUTO_SLIDE_INTERVAL)
+        if (totalPages <= 1) return
+        intervalRef.current = setInterval(nextSlide, 5000)
         return () => {
             if (intervalRef.current) clearInterval(intervalRef.current)
         }
-    }, [needsSlider, nextPage, totalPages])
+    }, [nextSlide, totalPages])
 
-    const visiblePromos = needsSlider
-        ? safePromos.slice(currentPage * ITEMS_PER_PAGE, (currentPage + 1) * ITEMS_PER_PAGE)
-        : safePromos
+    // Touch handlers for mobile swipe
+    const minSwipeDistance = 50
+    const onTouchStart = (e: React.TouchEvent) => {
+        setTouchEnd(null)
+        setTouchStart(e.targetTouches[0].clientX)
+    }
+    const onTouchMove = (e: React.TouchEvent) => setTouchEnd(e.targetTouches[0].clientX)
+    const onTouchEnd = () => {
+        if (!touchStart || !touchEnd) return
+        const distance = touchStart - touchEnd
+        const isLeftSwipe = distance > minSwipeDistance
+        const isRightSwipe = distance < -minSwipeDistance
+        if (isLeftSwipe) nextSlide()
+        if (isRightSwipe) prevSlide()
+    }
+
+    const visiblePromos = safePromos.slice(
+        currentIndex * itemsPerPage,
+        (currentIndex + 1) * itemsPerPage
+    )
+
+    if (safePromos.length === 0) return null
 
     return (
-        <div className="max-w-7xl mx-auto mb-20">
+        <div className="max-w-7xl mx-auto mb-20 px-4 md:px-0">
             {/* Section Title */}
-            <div className="text-center mb-12 md:mb-20">
+            <div className="text-center mb-10 md:mb-16">
                 <h2 className="text-3xl md:text-5xl lg:text-6xl font-black text-gray-900 tracking-tight leading-tight">
                     Promo <span className="text-blue-600">Terupdate</span> <br className="hidden md:block" />
                     <span className="text-gray-900">Bulan Ini</span>
                 </h2>
             </div>
 
-            {/* Gallery */}
-            <div className="relative group/gallery">
-                {/* Navigation Arrows (slider mode only) */}
-                {needsSlider && totalPages > 1 && (
+            <div 
+                className="relative group/gallery"
+                onTouchStart={onTouchStart}
+                onTouchMove={onTouchMove}
+                onTouchEnd={onTouchEnd}
+            >
+                {/* Navigation Arrows (Desktop Only) */}
+                {totalPages > 1 && (
                     <>
                         <button
-                            onClick={() => setCurrentPage(prev => (prev - 1 + totalPages) % totalPages)}
-                            className="absolute -left-2 md:-left-6 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white rounded-full shadow-lg border border-gray-100 flex items-center justify-center text-gray-600 hover:text-blue-600 hover:shadow-xl transition-all opacity-0 group-hover/gallery:opacity-100"
+                            onClick={prevSlide}
+                            className="hidden md:flex absolute -left-6 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white/90 backdrop-blur rounded-full shadow-lg border border-gray-100 items-center justify-center text-gray-600 hover:text-blue-600 transition-all opacity-0 group-hover/gallery:opacity-100"
                         >
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                             </svg>
                         </button>
                         <button
-                            onClick={() => setCurrentPage(prev => (prev + 1) % totalPages)}
-                            className="absolute -right-2 md:-right-6 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white rounded-full shadow-lg border border-gray-100 flex items-center justify-center text-gray-600 hover:text-blue-600 hover:shadow-xl transition-all opacity-0 group-hover/gallery:opacity-100"
+                            onClick={nextSlide}
+                            className="hidden md:flex absolute -right-6 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white/90 backdrop-blur rounded-full shadow-lg border border-gray-100 items-center justify-center text-gray-600 hover:text-blue-600 transition-all opacity-0 group-hover/gallery:opacity-100"
                         >
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                             </svg>
                         </button>
                     </>
                 )}
 
-                {/* Cards Grid */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 px-4 md:px-0 transition-opacity duration-500">
-                    {visiblePromos.length > 0 ? (
-                        visiblePromos.map((promo, i) => (
-                            <div
-                                key={promo.id}
-                                className="group relative"
-                            >
-                                <div className="relative aspect-[4/5] md:aspect-[3/4] rounded-[2rem] overflow-hidden bg-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 transition-all duration-500 group-hover:shadow-[0_20px_50px_rgba(59,130,246,0.1)] group-hover:-translate-y-2">
-                                    <Image
-                                        src={promo.image}
-                                        alt={promo.title || `Promo ${i + 1}`}
-                                        fill
-                                        className="object-contain p-4 md:p-6 transition-transform duration-700 group-hover:scale-105"
-                                    />
-
-                                    {/* Glassmorphism Badge */}
-                                    <div className="absolute top-4 left-4">
-                                        <div className="px-3 py-1 bg-white/70 backdrop-blur-md border border-white/50 rounded-full text-[10px] font-bold text-blue-600 shadow-sm">
-                                            TERBATAS
-                                        </div>
+                {/* Cards Grid - Dynamic Columns */}
+                <div 
+                    className={`grid gap-6 md:gap-8 transition-all duration-700 ease-in-out ${
+                        itemsPerPage === 1 ? 'grid-cols-1' : 'grid-cols-4'
+                    }`}
+                >
+                    {visiblePromos.map((promo, i) => (
+                        <div key={promo.id} className="group relative w-full">
+                            <div className="relative aspect-[4/5] md:aspect-[3/4] rounded-[2.5rem] overflow-hidden bg-white shadow-[0_15px_50px_-15px_rgba(0,0,0,0.1)] border border-gray-100 transition-all duration-500 group-hover:shadow-blue-200 group-hover:-translate-y-2">
+                                <Image
+                                    src={promo.image}
+                                    alt={promo.title || `Promo ${i}`}
+                                    fill
+                                    className="object-contain p-4 md:p-6 transition-transform duration-700 group-hover:scale-105"
+                                    priority={currentIndex === 0}
+                                />
+                                
+                                {/* Status Badge */}
+                                <div className="absolute top-6 left-6">
+                                    <div className="px-4 py-1.5 bg-blue-600/90 backdrop-blur-md text-white rounded-full text-[10px] font-black tracking-widest shadow-lg">
+                                        TERBATAS
                                     </div>
                                 </div>
                             </div>
-                        ))
-                    ) : (
-                        <div className="col-span-4 text-center py-20 bg-gray-50 rounded-3xl border-2 border-dashed border-gray-200">
-                            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <svg className="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 00-2 2z" />
-                                </svg>
-                            </div>
-                            <p className="text-gray-500 font-medium">Belum ada promo aktif saat ini.</p>
-                            <p className="text-gray-400 text-sm mt-1">Nantikan penawaran menarik dari kami segera.</p>
                         </div>
-                    )}
+                    ))}
                 </div>
 
-                {/* Dot Indicators (slider mode only) */}
-                {needsSlider && totalPages > 1 && (
-                    <div className="flex items-center justify-center gap-2 mt-8">
+                {/* Dot Indicators */}
+                {totalPages > 1 && (
+                    <div className="flex items-center justify-center gap-3 mt-10">
                         {Array.from({ length: totalPages }, (_, i) => (
                             <button
                                 key={i}
-                                onClick={() => setCurrentPage(i)}
-                                className={`rounded-full transition-all duration-300 ${currentPage === i
-                                    ? 'w-8 h-3 bg-blue-600'
-                                    : 'w-3 h-3 bg-gray-300 hover:bg-gray-400'
-                                    }`}
+                                onClick={() => setCurrentIndex(i)}
+                                aria-label={`Go to slide ${i + 1}`}
+                                className={`transition-all duration-500 rounded-full ${
+                                    currentIndex === i 
+                                    ? 'w-10 h-2.5 bg-blue-600 shadow-md shadow-blue-200' 
+                                    : 'w-2.5 h-2.5 bg-gray-200 hover:bg-gray-300'
+                                }`}
                             />
                         ))}
                     </div>
