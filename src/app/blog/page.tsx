@@ -13,10 +13,11 @@ const POSTS_PER_PAGE = 6
 export default async function BlogPage({
     searchParams,
 }: {
-    searchParams: { page?: string }
+    searchParams: Promise<{ page?: string }>
 }) {
     // Ensure page is a valid number
-    const currentPage = parseInt(searchParams.page || '1')
+    const { page } = await searchParams
+    const currentPage = parseInt(page || '1')
     const skip = (currentPage - 1) * POSTS_PER_PAGE
 
     // Fetch data and total count
