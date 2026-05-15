@@ -4,9 +4,11 @@ import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import PromoForm from '@/components/admin/PromoForm'
 
-export default async function EditPromoPage({ params }: { params: { id: string } }) {
+export default async function EditPromoPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  
   const promo = await db.promo.findUnique({
-    where: { id: params.id }
+    where: { id }
   })
 
   if (!promo) notFound()
@@ -18,7 +20,7 @@ export default async function EditPromoPage({ params }: { params: { id: string }
 
     if (!image) throw new Error('Image is required')
 
-    await updatePromo(params.id, { title, image })
+    await updatePromo(id, { title, image })
     redirect('/admin/promo')
   }
 
